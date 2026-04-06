@@ -2,9 +2,19 @@
 
 #include "Pawn.h"
 
+#include "Engine/GameFramework/Scene/Camera.h"
+
 //...
 
 namespace Brahmanda
 {
+	void Pawn::Construct()
+	{
+		//PawnCam = std::make_unique<WorldCamera>();
+	}
 
+	void Pawn::Init()
+	{
+
+	}
 }

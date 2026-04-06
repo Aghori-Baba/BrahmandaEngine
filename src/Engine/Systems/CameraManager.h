@@ -2,26 +2,42 @@
 
 #pragma once
 
-#include "Engine/GameFramework/Scene/Camera.h"
+#include <memory>
+
 #include "Engine/Core/Types/CustomTypes.h"
+#include "Engine/GameFramework/Scene/CameraData.h"
 
 //...
 
 namespace Brahmanda
 {
+	class GameCamera;
+	class WorldCamera;
+
 	class CameraManager
 	{
 	public:
 
-		CameraManager();
+		CameraManager(const CameraViewData& InView);
+		CameraManager() = default;
+
 		~CameraManager();
 
-		GameCamera* GetActiveCamera() const;
-		void SetActiveCamera(GameCamera* InCam);
+		void Init();
+		void Cycle();
+		void Shutdown();
+
+		WorldCamera* GetActiveCamera() const;
+		void SetActiveCamera(WorldCamera* InCam);
+
+	protected:
+
+		void CreatePrimaryCamera();
 
 	private:
 
 		CameraViewData CamData{};
-		GameCamera* ActiveCamera = nullptr;
+		WorldCamera* ActiveCamera = nullptr;
+		std::unique_ptr<GameCamera> PrimaryCamera;
 	};
 }

@@ -2,11 +2,13 @@
 
 #include "CameraManager.h"
 
+#include "Engine/GameFramework/Scene/Camera.h"
+
 //...
 
 namespace Brahmanda
 {
-	CameraManager::CameraManager()
+	CameraManager::CameraManager(const CameraViewData& InView)
 	{
 
 	}
@@ -16,12 +18,35 @@ namespace Brahmanda
 
 	}
 
-	GameCamera* CameraManager::GetActiveCamera() const
+	void CameraManager::Init()
+	{
+
+	}
+
+	void CameraManager::Cycle()
+	{
+		if (ActiveCamera)
+		{
+			PrimaryCamera->UpdateView(ActiveCamera->GetViewData());
+		}
+	}
+
+	void CameraManager::Shutdown()
+	{
+
+	}
+
+	void CameraManager::CreatePrimaryCamera()
+	{
+
+	}
+
+	WorldCamera* CameraManager::GetActiveCamera() const
 	{
 		return ActiveCamera;
 	}
 
-	void CameraManager::SetActiveCamera(GameCamera* InCam)
+	void CameraManager::SetActiveCamera(WorldCamera* InCam)
 	{
 		ActiveCamera = InCam;
 	}

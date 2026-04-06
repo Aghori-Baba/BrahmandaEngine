@@ -3,26 +3,13 @@
 #pragma once
 
 #include "Engine/Core/Types/CustomTypes.h"
+#include "CameraData.h"
 #include "raylib.h"
 
 //...
 
 namespace Brahmanda
 {
-	enum class ECameraType
-	{
-		ECT_NONE,
-		ECT_2DCamera,
-		ECT_3DCamera
-	};
-
-	struct CameraViewData
-	{
-		Vector3 ViewTarget = {};
-		float Rotation = 0.f;
-		float Zoom = 0.f;
-	};
-
 	class GameCamera
 	{
 	public:
@@ -38,6 +25,7 @@ namespace Brahmanda
 		~GameCamera() = default;
 
 		virtual void Init() = 0;
+		virtual void UpdateView(const CameraViewData& InView) = 0;
 		virtual void Reset() = 0;
 
 		ECameraType GetCameraType();
@@ -63,6 +51,7 @@ namespace Brahmanda
 		}
 
 		void Init() override;
+		void UpdateView(const CameraViewData& InView) override;
 		void Reset() override;
 
 		Camera2D* Get2DCamera() override;
@@ -82,6 +71,7 @@ namespace Brahmanda
 		}
 
 		void Init() override;
+		void UpdateView(const CameraViewData& InView) override;
 		void Reset() override;
 
 		Camera2D* Get2DCamera() override;
@@ -90,5 +80,27 @@ namespace Brahmanda
 	private:
 
 		Camera3D RayCamera = {};
+	};
+
+	class WorldCamera
+	{
+	public:
+
+		WorldCamera(const CameraViewData& InView, ECameraType InType)
+			: ViewData(InView), CameraType(InType)
+		{
+
+		}
+
+		~WorldCamera() = default;
+
+		ECameraType GetCameraType() const;
+		void UpdateCameraView(const CameraViewData& InView);
+		CameraViewData GetViewData();
+
+	private:
+
+		ECameraType CameraType = ECameraType::ECT_NONE;
+		CameraViewData ViewData = {};
 	};
 }

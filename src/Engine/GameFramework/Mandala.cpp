@@ -29,7 +29,8 @@ namespace Brahmanda
 	{
 		Logger::Info("Mandala - Init - Called from Base class!");
 
-		CameraManagerRef = std::make_unique<CameraManager>();
+		CameraViewData ViewData;
+		CameraManagerRef = std::make_unique<CameraManager>(ViewData);
 
 		OnInit();
 
@@ -83,6 +84,6 @@ namespace Brahmanda
 
 	void Mandala::SetWorldConfig(const WorldConfig& InConfig)
 	{
-		
+
 	}
 }

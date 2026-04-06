@@ -28,6 +28,11 @@ namespace Brahmanda
 
 		ObjectTransform Transform = {};
 
-		uint32_t ID;
+		uint32_t ID = 0;
+	};
+
+	class WorldEntity : public Entity
+	{
+
 	};
 }

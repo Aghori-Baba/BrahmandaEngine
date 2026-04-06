@@ -2,14 +2,28 @@
 
 #pragma once
 
+#include <memory>
+
 #include "Engine/Core/Types/CustomTypes.h"
+#include "Engine/GameFramework/ECS/Entity.h"
 
 //...
 
 namespace Brahmanda
 {
-	class Pawn
-	{
+	class WorldCamera;
 
+	class Pawn : public Entity
+	{
+	public:
+
+		Pawn() = default;
+		~Pawn() = default;
+
+		void Construct();
+		void Init();
+
+		std::unique_ptr<WorldCamera> PawnCam;
+		
 	};
 }

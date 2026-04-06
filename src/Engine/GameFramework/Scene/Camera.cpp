@@ -13,6 +13,11 @@ namespace Brahmanda
 		RayCamera.zoom = ViewData.Zoom;
 	}
 
+	void GameCamera2D::UpdateView(const CameraViewData& InView)
+	{
+		RayCamera.target = { InView.ViewTarget.X,InView.ViewTarget.Y };
+	}
+
 	void GameCamera2D::Reset()
 	{
 
@@ -38,10 +43,16 @@ namespace Brahmanda
 		RayCamera.target = { ViewData.ViewTarget.X, ViewData.ViewTarget.Y, ViewData.ViewTarget.Z };
 	}
 
+	void GameCamera3D::UpdateView(const CameraViewData& InView)
+	{
+		RayCamera.target = { InView.ViewTarget.X,InView.ViewTarget.Y, InView.ViewTarget.Z };
+	}
+
 	void GameCamera3D::Reset()
 	{
 
 	}
+
 	Camera2D* GameCamera3D::Get2DCamera()
 	{
 		return nullptr;
@@ -50,5 +61,20 @@ namespace Brahmanda
 	Camera3D* GameCamera3D::Get3DCamera()
 	{
 		return &RayCamera;
+	}
+
+	ECameraType WorldCamera::GetCameraType() const
+	{
+		return CameraType;
+	}
+
+	void WorldCamera::UpdateCameraView(const CameraViewData& InView)
+	{
+		ViewData = InView;
+	}
+
+	CameraViewData WorldCamera::GetViewData()
+	{
+		return ViewData;
 	}
 }
