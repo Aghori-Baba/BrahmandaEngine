@@ -1,0 +1,63 @@
+# =========================
+# Visual Studio
+# =========================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Build output (root-level)
+# =========================
+/build/
+/out/
+/bin/
+/Debug/
+/Release/
+
+# =========================
+# CMake (future-proofing)
+# =========================
+/CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# =========================
+# Compiled objects & binaries
+# =========================
+*.obj
+*.o
+*.lib
+*.dll
+*.exe
+*.pdb
+*.idb
+
+# =========================
+# Logs & temp
+# =========================
+*.log
+*.tmp
+*.temp
+
+# =========================
+# OS junk
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Third-party cleanup
+# =========================
+/thirdparty/**/.vs/
+/thirdparty/**/build/
+/thirdparty/**/*.sln
+/thirdparty/**/*.vcxproj
+
+# =========================
+# Explicitly KEEP important stuff
+# =========================
+!/resources/
+!/thirdparty/
