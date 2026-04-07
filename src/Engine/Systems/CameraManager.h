@@ -27,7 +27,7 @@ namespace Brahmanda
 		void Cycle();
 		void Shutdown();
 
-		WorldCamera* GetActiveCamera() const;
+		GameCamera* GetActiveCamera() const;
 		void SetActiveCamera(WorldCamera* InCam);
 
 	protected:

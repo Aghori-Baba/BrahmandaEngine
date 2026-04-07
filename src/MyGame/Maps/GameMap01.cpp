@@ -53,7 +53,7 @@ void GameMap01::Create(int InW, int InH)
 		Brahmanda::ObjectTransform Transform;
 		Transform.Pos[0] = 0.f + 101 * (i % 20);
 		Transform.Pos[1] = 0.f + 101 * (i / 20);
-		Transform.Rot[1] = 15.f;
+		Transform.Rot[0] = 15.f;
 
 		It = SpawnEntity<Block>(Transform);
 		It->Tex = _t;

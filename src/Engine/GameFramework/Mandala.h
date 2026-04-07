@@ -21,6 +21,7 @@ namespace Brahmanda
 	class WorldLayer;
 	class AssetManager;
 	class CameraManager;
+	class WorldCamera;
 
 	struct WorldConfig
 	{
@@ -111,5 +112,8 @@ namespace Brahmanda
 		std::unique_ptr<SessionMaster> ActiveSession;
 		std::unique_ptr<CameraManager> CameraManagerRef;
 		uint16_t ActiveWorldLayerCount = 0;
+
+		//TEST CODE:
+		std::unique_ptr<WorldCamera> TEST_Cam = nullptr;
 	};
 }

@@ -44,8 +44,10 @@ namespace Brahmanda
 
 	class GameCamera2D : public GameCamera
 	{
+	public:
+
 		GameCamera2D(const CameraViewData& InView)
-			: GameCamera(ECameraType::ECT_2DCamera, InView)
+			: GameCamera(ORTHOGRAPHIC_CAM, InView)
 		{
 
 		}
@@ -64,8 +66,10 @@ namespace Brahmanda
 
 	class GameCamera3D : public GameCamera
 	{
+	public:
+
 		GameCamera3D(const CameraViewData& InView)
-			: GameCamera(ECameraType::ECT_3DCamera, InView)
+			: GameCamera(PERSPECTIVE_CAM, InView)
 		{
 
 		}

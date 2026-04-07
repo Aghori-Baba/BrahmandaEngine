@@ -15,6 +15,9 @@ namespace Brahmanda
 		ECT_3DCamera
 	};
 
+	inline constexpr auto ORTHOGRAPHIC_CAM = ECameraType::ECT_2DCamera;
+	inline constexpr auto PERSPECTIVE_CAM = ECameraType::ECT_3DCamera;
+
 	struct CameraViewData
 	{
 		Vector3 ViewTarget = {};

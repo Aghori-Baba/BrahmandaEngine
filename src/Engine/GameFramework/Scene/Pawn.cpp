@@ -10,7 +10,8 @@ namespace Brahmanda
 {
 	void Pawn::Construct()
 	{
-		//PawnCam = std::make_unique<WorldCamera>();
+		CameraViewData ViewData = {};
+		PawnCam = std::make_unique<WorldCamera>(ViewData, ORTHOGRAPHIC_CAM);
 	}
 
 	void Pawn::Init()

@@ -24,6 +24,5 @@ namespace Brahmanda
 		void Init();
 
 		std::unique_ptr<WorldCamera> PawnCam;
-		
 	};
 }

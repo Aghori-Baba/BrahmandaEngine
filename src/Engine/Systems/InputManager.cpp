@@ -6,5 +6,38 @@
 
 namespace Brahmanda
 {
+	InputManager::InputManager()
+	{
 
+	}
+
+	InputManager::~InputManager()
+	{
+
+	}
+
+	void InputManager::PossessPawn(Pawn* InTarget)
+	{
+
+	}
+
+	const Pawn* InputManager::GetPossessedPawn() const
+	{
+		return PrimaryPawn;
+	}
+
+	void InputManager::EjectPawn()
+	{
+
+	}
+
+	void InputManager::EnableInput(Entity* InTarget)
+	{
+
+	}
+
+	void InputManager::DisableInput(Entity* InTarget)
+	{
+
+	}
 }

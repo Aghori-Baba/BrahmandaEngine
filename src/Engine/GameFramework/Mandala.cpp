@@ -4,6 +4,7 @@
 #include "Engine/Systems/Logger.h"
 #include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/Systems/CameraManager.h"
+#include "Engine/GameFramework/Scene/Camera.h"
 
 //...
 
@@ -30,7 +31,11 @@ namespace Brahmanda
 		Logger::Info("Mandala - Init - Called from Base class!");
 
 		CameraViewData ViewData;
+		ViewData.ViewTarget = { 0.f, 0.f, 0.f };
 		CameraManagerRef = std::make_unique<CameraManager>(ViewData);
+		CameraManagerRef->Init();
+		TEST_Cam = std::make_unique<WorldCamera>(ViewData, ORTHOGRAPHIC_CAM);
+		CameraManagerRef->SetActiveCamera(TEST_Cam.get());
 
 		OnInit();
 
@@ -55,6 +60,8 @@ namespace Brahmanda
 	void Mandala::Cycle(float DeltaTime, FrameContextData& InContext)
 	{
 		OnCycle(DeltaTime);
+
+ 		InContext.ActiveCamera = CameraManagerRef->GetActiveCamera();
 
 		for (auto& It : Collection.GetLayerList())
 		{

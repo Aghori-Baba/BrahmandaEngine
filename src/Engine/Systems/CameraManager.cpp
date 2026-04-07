@@ -20,7 +20,9 @@ namespace Brahmanda
 
 	void CameraManager::Init()
 	{
-
+		CameraViewData ViewData = {};
+		ViewData.ViewTarget = {0.f, 0.f, 0.f};
+		PrimaryCamera = std::make_unique<GameCamera2D>(ViewData);
 	}
 
 	void CameraManager::Cycle()
@@ -41,9 +43,9 @@ namespace Brahmanda
 
 	}
 
-	WorldCamera* CameraManager::GetActiveCamera() const
+	GameCamera* CameraManager::GetActiveCamera() const
 	{
-		return ActiveCamera;
+		return PrimaryCamera.get();
 	}
 
 	void CameraManager::SetActiveCamera(WorldCamera* InCam)
