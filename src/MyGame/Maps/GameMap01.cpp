@@ -7,7 +7,7 @@
 
 //...
 
-GameMap01::GameMap01(const Brahmanda::LayerInitData& InData)
+GameMap01::GameMap01(const Brahmanda::LayerContextData& InData)
 	: WorldLayer(InData)
 {
 	Logger::Info("GameMap01 Loaded!");

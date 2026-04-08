@@ -11,6 +11,7 @@ namespace Brahmanda
 		RayCamera.target = { ViewData.ViewTarget.X, ViewData.ViewTarget.Y };
 		RayCamera.rotation = ViewData.Rotation;
 		RayCamera.zoom = ViewData.Zoom;
+		RayCamera.offset = { GetScreenWidth() / 2.f, GetScreenHeight() / 2.f };
 	}
 
 	void GameCamera2D::UpdateView(const CameraViewData& InView)
@@ -31,6 +32,11 @@ namespace Brahmanda
 	Camera3D* GameCamera2D::Get3DCamera()
 	{
 		return nullptr;
+	}
+
+	void GameCamera2D::SetOffset(Vector2&& InOffset)
+	{
+		RayCamera.offset = { InOffset.X, InOffset.Y };
 	}
 
 	ECameraType GameCamera::GetCameraType()
@@ -61,6 +67,11 @@ namespace Brahmanda
 	Camera3D* GameCamera3D::Get3DCamera()
 	{
 		return &RayCamera;
+	}
+
+	void GameCamera3D::SetOffset(Vector2&& InOffset)
+	{
+		//TODO: Support 3D Offset
 	}
 
 	ECameraType WorldCamera::GetCameraType() const

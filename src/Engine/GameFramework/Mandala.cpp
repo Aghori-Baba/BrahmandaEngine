@@ -5,6 +5,7 @@
 #include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/Systems/CameraManager.h"
 #include "Engine/GameFramework/Scene/Camera.h"
+#include "Engine/Systems/InputManager.h"
 
 //...
 
@@ -43,6 +44,9 @@ namespace Brahmanda
 		{
 			StartNewSession<SessionMaster>();
 		}
+
+		LayerData.CameraMgr = CameraManagerRef.get();
+		LayerData.CurrentSession = ActiveSession.get();
 
 		PostInit();
 	}

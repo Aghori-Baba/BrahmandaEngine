@@ -33,6 +33,8 @@ namespace Brahmanda
 		virtual Camera2D* Get2DCamera() = 0;
 		virtual Camera3D* Get3DCamera() = 0;
 
+		virtual void SetOffset(Vector2&& InOffset) = 0;
+
 	protected:
 
 		ECameraType CameraType = ECameraType::ECT_NONE;
@@ -59,6 +61,8 @@ namespace Brahmanda
 		Camera2D* Get2DCamera() override;
 		Camera3D* Get3DCamera() override;
 
+		void SetOffset(Vector2&& InOffset) override;
+
 	private:
 
 		Camera2D RayCamera = {};
@@ -80,6 +84,8 @@ namespace Brahmanda
 
 		Camera2D* Get2DCamera() override;
 		Camera3D* Get3DCamera() override;
+
+		void SetOffset(Vector2&& InOffset) override;
 
 	private:
 

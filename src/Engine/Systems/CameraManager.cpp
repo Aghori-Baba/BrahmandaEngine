@@ -27,7 +27,7 @@ namespace Brahmanda
 		PrimaryCamera->Init();
 	}
 
-	void CameraManager::Cycle()
+	void CameraManager::Cycle(float DeltaTime)
 	{
 		if (ActiveCamera)
 		{

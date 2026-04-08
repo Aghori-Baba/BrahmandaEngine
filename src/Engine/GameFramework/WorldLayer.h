@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <cassert>
 
-#include "LayerInitData.h"
+#include "LayerContextData.h"
 #include "Engine/Systems/AssetManager.h"
 
 //...
@@ -23,7 +23,7 @@ namespace Brahmanda
 	{
 	public:
 
-		WorldLayer(const LayerInitData& InData);
+		WorldLayer(const LayerContextData& InData);
 
 		~WorldLayer();
 

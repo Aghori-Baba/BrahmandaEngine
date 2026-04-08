@@ -34,4 +34,9 @@ namespace Brahmanda
 	{
 
 	}
+
+	void SessionMaster::PingSession()
+	{
+
+	}
 }

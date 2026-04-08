@@ -24,7 +24,7 @@ namespace Brahmanda
 		~CameraManager();
 
 		void Init();
-		void Cycle();
+		void Cycle(float DeltaTime);
 		void Shutdown();
 
 		GameCamera* GetActiveCamera() const;

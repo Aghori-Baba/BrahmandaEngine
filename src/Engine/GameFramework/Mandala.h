@@ -10,7 +10,7 @@
 #include "GameConfig.h"
 #include "WorldLayer.h"
 #include "WorldLayerCollection.h"
-#include "LayerInitData.h"
+#include "LayerContextData.h"
 #include "SessionMaster.h"
 
 //...
@@ -22,6 +22,7 @@ namespace Brahmanda
 	class AssetManager;
 	class CameraManager;
 	class WorldCamera;
+	class InputManager;
 
 	struct WorldConfig
 	{
@@ -102,16 +103,18 @@ namespace Brahmanda
 	protected:
 
 		WorldLayerCollection<Config::World::MAX_WORLD_LAYER_COUNT> Collection;
-		LayerInitData LayerData;
+		LayerContextData LayerData;
 
 	private:
 
 		bool bIsSessionCreated = false;
+		uint16_t ActiveWorldLayerCount = 0;
 
 		AssetManager* AssetManager = nullptr;
+
 		std::unique_ptr<SessionMaster> ActiveSession;
 		std::unique_ptr<CameraManager> CameraManagerRef;
-		uint16_t ActiveWorldLayerCount = 0;
+		std::unique_ptr<InputManager> InputManagerRef;
 
 		//TEST CODE:
 		std::unique_ptr<WorldCamera> TEST_Cam = nullptr;

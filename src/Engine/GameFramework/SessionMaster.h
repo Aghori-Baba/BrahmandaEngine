@@ -16,16 +16,6 @@ namespace Brahmanda
 		uint32_t SessionID = 0;
 	};
 
-	class ISessionBridge
-	{
-	public:
-
-		ISessionBridge() = default;
-		virtual ~ISessionBridge() = default;
-
-		//virtual void SendSignal(float InValue) = 0;
-	};
-
 	class SessionMaster : public ISessionBridge
 	{
 	public:
@@ -39,7 +29,7 @@ namespace Brahmanda
 
 		//Interface Implementation
 
-		//void SendFloatSignal(float InValue) override;
+		void PingSession() override;
 
 	private:
 

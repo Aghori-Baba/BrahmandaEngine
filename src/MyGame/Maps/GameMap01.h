@@ -14,7 +14,7 @@ class GameMap01 : public Brahmanda::WorldLayer
 {
 public:
 
-	GameMap01(const Brahmanda::LayerInitData& InData);
+	GameMap01(const Brahmanda::LayerContextData& InData);
 	~GameMap01();
 
 	void OnLoad() override;

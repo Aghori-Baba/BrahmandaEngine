@@ -44,18 +44,10 @@ namespace Brahmanda
 		auto* Cam = InContext.ActiveCamera;
 		bool bIsOrtho = false;
 		bool bHasActiveCam = Cam != nullptr;
-		// TODO: EMERGENCY CLEANUP NEEDED HERE
-		auto* DrawCam = Cam->Get2DCamera();
-
-		DrawCam->offset = { GetScreenWidth() / 2.f, GetScreenHeight() / 2.f };
-
-		if (IsKeyDown(KEY_W)) DrawCam->target.y += 1.f;
-		if (IsKeyDown(KEY_S)) DrawCam->target.y -= 1.f;
-		if (IsKeyDown(KEY_A)) DrawCam->target.x += 1.f;
-		if (IsKeyDown(KEY_D)) DrawCam->target.x -= 1.f;
 
 		if (bHasActiveCam)
 		{
+			Cam->SetOffset({ GetScreenWidth() / 2.f, GetScreenHeight() / 2.f });
 			bIsOrtho = Cam->GetCameraType() == ORTHOGRAPHIC_CAM;
 
 			if (bIsOrtho)

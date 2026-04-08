@@ -14,4 +14,14 @@ namespace Brahmanda
 		T SignalData{};
 		uint32_t SignalID = 0U;
 	};
+
+	class ISessionBridge
+	{
+	public:
+
+		ISessionBridge() = default;
+		~ISessionBridge() = default;
+
+		virtual void PingSession() = 0;
+	};
 }

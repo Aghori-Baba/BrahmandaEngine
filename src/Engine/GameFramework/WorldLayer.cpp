@@ -11,7 +11,7 @@
 
 namespace Brahmanda
 {
-	WorldLayer::WorldLayer(const LayerInitData& InData)
+	WorldLayer::WorldLayer(const LayerContextData& InData)
 	{
 		AssetManagerRef = InData.AssetMgr;
 	}

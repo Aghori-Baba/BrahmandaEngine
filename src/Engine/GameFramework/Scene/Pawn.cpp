@@ -18,4 +18,9 @@ namespace Brahmanda
 	{
 
 	}
+
+	void Pawn::SetupInput(InputManager* InputMgr)
+	{
+
+	}
 }

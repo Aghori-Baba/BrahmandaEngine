@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <cassert>
 
-#include "LayerInitData.h"
+#include "LayerContextData.h"
 
 
 //...
@@ -63,7 +63,7 @@ namespace Brahmanda
 		}
 
 		template<typename T, typename... Args>
-		T* CreateNewMap(LayerInitData& InData, Args... InArgs)
+		T* CreateNewMap(LayerContextData& InData, Args... InArgs)
 		{
 			static_assert(std::is_base_of_v<Brahmanda::WorldLayer, T>, "T must derive from WorldLayer");
 
@@ -81,7 +81,7 @@ namespace Brahmanda
 		}
 
 		template<typename T, typename... Args>
-		T& AddLayerAt(size_t InIndex, LayerInitData& InData, Args... InArgs)
+		T& AddLayerAt(size_t InIndex, LayerContextData& InData, Args... InArgs)
 		{
 			static_assert(std::is_base_of_v<Brahmanda::WorldLayer, T>, "T must derive from WorldLayer");
 			assert(InIndex < MaxSize);
@@ -97,7 +97,7 @@ namespace Brahmanda
 		}
 
 		template<typename T, typename... Args>
-		T& SetLayerAt(size_t InIndex, LayerInitData& InData, Args... InArgs)
+		T& SetLayerAt(size_t InIndex, LayerContextData& InData, Args... InArgs)
 		{
 			static_assert(std::is_base_of_v<Brahmanda::WorldLayer, T>, "T must derive from WorldLayer");
 			assert(InIndex < MaxSize);

@@ -3,7 +3,7 @@
 #include "MyMandala.h"
 #include "Engine/Systems/Logger.h"
 #include "Engine/GameFramework/WorldLayer.h"
-#include "Engine/GameFramework/LayerInitData.h"
+#include "Engine/GameFramework/LayerContextData.h"
 #include "Engine/Core/Types/RenderableTypes.h"
 
 #include "MyGame/Maps/GameMap01.h"

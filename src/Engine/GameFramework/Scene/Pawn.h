@@ -12,6 +12,7 @@
 namespace Brahmanda
 {
 	class WorldCamera;
+	class InputManager;
 
 	class Pawn : public Entity
 	{
@@ -22,6 +23,7 @@ namespace Brahmanda
 
 		void Construct();
 		void Init();
+		void SetupInput(InputManager* InputMgr);
 
 		std::unique_ptr<WorldCamera> PawnCam;
 	};

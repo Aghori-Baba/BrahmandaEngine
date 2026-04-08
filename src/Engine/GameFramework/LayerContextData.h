@@ -7,9 +7,15 @@
 namespace Brahmanda
 {
 	class AssetManager;
+	class InputManager;
+	class CameraManager;
+	class SessionMaster;
 
-	struct LayerInitData
+	struct LayerContextData
 	{
 		AssetManager* AssetMgr = nullptr;
+		InputManager* InputMgr = nullptr;
+		CameraManager* CameraMgr = nullptr;
+		SessionMaster* CurrentSession = nullptr;
 	};
 }
