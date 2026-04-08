@@ -46,16 +46,13 @@ namespace Brahmanda
 		bool bHasActiveCam = Cam != nullptr;
 		// TODO: EMERGENCY CLEANUP NEEDED HERE
 		auto* DrawCam = Cam->Get2DCamera();
-		DrawCam->target = { 0.f ,0.f };
-		DrawCam->rotation = 0.f;
-		DrawCam->zoom = 1.f;
 
 		DrawCam->offset = { GetScreenWidth() / 2.f, GetScreenHeight() / 2.f };
 
-		if (IsKeyDown(KEY_W)) DrawCam->target.x += 100.f;
-		if (IsKeyDown(KEY_S)) DrawCam->target.x -= 100.f;
-		if (IsKeyDown(KEY_D)) DrawCam->target.y += 100.f;
-		if (IsKeyDown(KEY_A)) DrawCam->target.y -= 100.f;
+		if (IsKeyDown(KEY_W)) DrawCam->target.y += 1.f;
+		if (IsKeyDown(KEY_S)) DrawCam->target.y -= 1.f;
+		if (IsKeyDown(KEY_A)) DrawCam->target.x += 1.f;
+		if (IsKeyDown(KEY_D)) DrawCam->target.x -= 1.f;
 
 		if (bHasActiveCam)
 		{

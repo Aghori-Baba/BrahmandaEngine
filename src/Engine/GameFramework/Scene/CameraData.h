@@ -22,6 +22,6 @@ namespace Brahmanda
 	{
 		Vector3 ViewTarget = {};
 		float Rotation = 0.f;
-		float Zoom = 0.f;
+		float Zoom = 1.f;
 	};
 }

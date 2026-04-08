@@ -22,7 +22,9 @@ namespace Brahmanda
 	{
 		CameraViewData ViewData = {};
 		ViewData.ViewTarget = {0.f, 0.f, 0.f};
+		ViewData.Zoom = 1.f;
 		PrimaryCamera = std::make_unique<GameCamera2D>(ViewData);
+		PrimaryCamera->Init();
 	}
 
 	void CameraManager::Cycle()
