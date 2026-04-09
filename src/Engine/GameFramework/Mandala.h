@@ -60,8 +60,10 @@ namespace Brahmanda
 		void Init();
 		virtual void OnInit();
 		virtual void PostInit();
+
 		void Cycle(float DeltaTime, FrameContextData& InContext);
 		virtual void OnCycle(float DeltaTime);
+
 		void Shutdown();
 		virtual void OnShutdown();
 

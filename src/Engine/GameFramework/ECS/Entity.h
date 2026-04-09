@@ -10,12 +10,20 @@
 
 namespace Brahmanda
 {
-	class Entity
+	class WorldLayer;
+
+	struct Entity
 	{
 	public:
 
 		Entity(const ObjectTransform& InTransform)
 			: Transform(InTransform)
+		{
+
+		}
+
+		Entity(uint32_t InID, uint32_t InGen)
+			: ID(InID), Generation(InGen)
 		{
 
 		}
@@ -28,11 +36,24 @@ namespace Brahmanda
 
 		ObjectTransform Transform = {};
 
-		uint32_t ID = 0;
+		uint32_t ID = 0U;
+		uint32_t Generation = 0U;
 	};
 
-	class WorldEntity : public Entity
+	class WorldEntity
 	{
+	public:
+
+		virtual void Init() {};
+		virtual void Cycle(float DeltaTime) {};
+		virtual void Shutdown() {};
+
+	protected:
+
+		WorldLayer* OwningWorld;
+		Entity EntityHandle;
+
+	private:
 
 	};
 }

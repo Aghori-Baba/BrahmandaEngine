@@ -9,6 +9,7 @@
 
 #include "LayerContextData.h"
 #include "Engine/Systems/AssetManager.h"
+#include "Engine/Systems/EntityManager.h"
 
 //...
 
@@ -64,6 +65,7 @@ namespace Brahmanda
 	protected:
 
 		AssetManager* AssetManagerRef = nullptr;
+		EntityManager EntityMgr;
 
 	private:
 

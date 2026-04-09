@@ -2,10 +2,15 @@
 
 #pragma once
 
+#include <vector>
+#include <cstdint>
+
 //...
 
 namespace Brahmanda
 {
+	class Entity;
+
 	class EntityManager
 	{
 	public:
@@ -16,7 +21,13 @@ namespace Brahmanda
 		void Init();
 		void Shutdown();
 
+		Entity CreateNewEntity();
+		void DestroyEntity(Entity InEntity);
+		bool IsEntityAlive(Entity InEntity);
+
 	private:
 
+		std::vector<uint32_t> FreeList;
+		std::vector<uint32_t> Generations;
 	};
 }
