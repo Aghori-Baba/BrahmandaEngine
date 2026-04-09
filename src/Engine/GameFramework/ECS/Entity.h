@@ -36,13 +36,16 @@ namespace Brahmanda
 
 		ObjectTransform Transform = {};
 
-		uint32_t ID = 0U;
-		uint32_t Generation = 0U;
+		uint32_t ID = 0u;
+		uint32_t Generation = 0u;
 	};
 
 	class WorldEntity
 	{
 	public:
+
+		WorldEntity() {}
+		~WorldEntity() {}
 
 		virtual void Init() {};
 		virtual void Cycle(float DeltaTime) {};
@@ -50,8 +53,10 @@ namespace Brahmanda
 
 	protected:
 
-		WorldLayer* OwningWorld;
-		Entity EntityHandle;
+		bool bCanRunCycle = true;
+
+		WorldLayer* OwningWorld = nullptr;
+		Entity EntityHandle = {};
 
 	private:
 

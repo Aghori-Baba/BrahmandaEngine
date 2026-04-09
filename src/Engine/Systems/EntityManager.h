@@ -2,8 +2,13 @@
 
 #pragma once
 
-#include <vector>
 #include <cstdint>
+#include <vector>
+#include <unordered_map>
+#include <memory>
+
+#include "Engine/Core/Types/CustomTypes.h"
+#include "Engine/GameFramework/ECS/Component.h"
 
 //...
 
@@ -25,9 +30,25 @@ namespace Brahmanda
 		void DestroyEntity(Entity InEntity);
 		bool IsEntityAlive(Entity InEntity);
 
+		template<typename T>
+		ComponentRegistry<T>* GetRegistryByType()
+		{
+			TypeID ID = IRegistryBridge::GetTypeID<T>();
+
+			auto _It = RegistryStorage.find(ID);
+			if (_It == RegistryStorage.end())
+			{
+				return nullptr;
+			}
+
+			return static_cast<ComponentRegistry<T>*>(_It->second.get());
+		}
+
 	private:
 
 		std::vector<uint32_t> FreeList;
 		std::vector<uint32_t> Generations;
+
+		std::unordered_map<TypeID, std::unique_ptr<IRegistryBridge>> RegistryStorage;
 	};
 }

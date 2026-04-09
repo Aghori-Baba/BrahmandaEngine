@@ -11,13 +11,13 @@ namespace Brahmanda
 {
 	void EntityManager::Init()
 	{
-		FreeList.reserve(1000);
-		Generations.reserve(1000);
+		FreeList.reserve(1000u);
+		Generations.reserve(1000u);
 	}
 
 	Entity EntityManager::CreateNewEntity()
 	{
-		uint32_t _ID = 0;
+		uint32_t _ID = 0u;
 
 		if (!FreeList.empty())
 		{
@@ -27,7 +27,7 @@ namespace Brahmanda
 		else
 		{
 			_ID = Generations.size();
-			Generations.push_back(0);
+			Generations.push_back(0u);
 		}
 
 		return Entity(_ID, Generations[_ID]);
@@ -46,6 +46,9 @@ namespace Brahmanda
 
 	void EntityManager::Shutdown()
 	{
+		TypeID _ID = IRegistryBridge::GetTypeID<ObjectTransform>();
+		RegistryStorage.emplace(_ID, std::make_unique<ComponentRegistry<ObjectTransform>>());
 
+		ComponentRegistry<ObjectTransform>* TransformList = GetRegistryByType<ObjectTransform>();
 	}
 }
