@@ -39,26 +39,4 @@ namespace Brahmanda
 		uint32_t ID = 0u;
 		uint32_t Generation = 0u;
 	};
-
-	class WorldEntity
-	{
-	public:
-
-		WorldEntity() {}
-		~WorldEntity() {}
-
-		virtual void Init() {};
-		virtual void Cycle(float DeltaTime) {};
-		virtual void Shutdown() {};
-
-	protected:
-
-		bool bCanRunCycle = true;
-
-		WorldLayer* OwningWorld = nullptr;
-		Entity EntityHandle = {};
-
-	private:
-
-	};
 }

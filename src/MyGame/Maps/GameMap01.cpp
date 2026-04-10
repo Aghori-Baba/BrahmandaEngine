@@ -4,6 +4,7 @@
 #include "MyGame/Data/Block.h"
 #include "Engine/Systems/Logger.h"
 #include "Engine/Core/Types/CustomTypes.h"
+#include "MyGame/Data/TestObject01.h"
 
 //...
 
@@ -27,6 +28,8 @@ void GameMap01::OnLoad()
 	GetBlockUnsafe(3, 3).Type = Block::dirt;
 	GetBlockUnsafe(4, 4).Type = Block::dirt;
 	GetBlockUnsafe(5, 5).Tex.ReleaseHandle();
+
+	//TestObject01 NewObject;
 }
 
 void GameMap01::OnUnload()

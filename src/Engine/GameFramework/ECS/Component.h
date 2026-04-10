@@ -4,14 +4,13 @@
 
 #include <vector>
 #include "Entity.h"
+#include "TypeID.h"
 
 //...
 
 namespace Brahmanda
 {
 	struct Entity;
-
-	using TypeID = uint32_t;
 
 	class Component
 	{
@@ -21,7 +20,7 @@ namespace Brahmanda
 		~Component() = default;
 	};
 
-	class IRegistryBridge
+	class IContainerBridge
 	{
 	public:
 
@@ -42,23 +41,51 @@ namespace Brahmanda
 	};
 
 	template<typename T>
-	class ComponentRegistry : public IRegistryBridge
+	class ComponentContainer : public IContainerBridge
 	{
 	public:
 
 		void AddComponent(Entity InEntity, T InComp)
 		{
+			if (HasComponent(InEntity))
+			{
+				return;
+			}
+
 			uint32_t _i = InEntity.ID;
 
 			if (_i >= Sparse.size())
 			{
-				Sparse.resize(_i + 1, UINT32_MAX);
+				Sparse.resize(_i + 1, INVALID_INDEX);
 			}
 
 			uint32_t _di = Dense.size();
 			Dense.push_back(InComp);
 			Entities.push_back(_i);
 			Sparse[_i] = _di;
+		}
+
+		template<typename... Args>
+		T& CreateNewComponent(Entity InEntity, Args&&... InArgs)
+		{
+			uint32_t _id = InEntity.ID;
+			
+			if (HasComponent(InEntity))
+			{
+				return Dense[Sparse[_id]];
+			}
+
+			if (_id >= Sparse.size())
+			{
+				Sparse.resize(_id + 1, INVALID_INDEX);
+			}
+
+			uint32_t _i = static_cast<uint32_t>(Dense.size());
+			Dense.emplace_back(std::forward<Args>(InArgs)...);
+			Entities.emplace_back(_id);
+			Sparse[_id] = _i;
+
+			return Dense[_i];
 		}
 
 		T& GetComponent(Entity InEntity)
@@ -68,32 +95,38 @@ namespace Brahmanda
 
 		bool HasComponent(Entity InEntity)
 		{
-			return InEntity.ID < Sparse.size && Sparse[InEntity.ID] != UINT32_MAX;
+			uint32_t _id = InEntity.ID;
+			return _id < Sparse.size() && Sparse[_id] != INVALID_INDEX;
 		}
 
 		void DeleteComponent(Entity InEntity)
 		{
 			uint32_t _i = InEntity.ID;
-			uint32_t _dense = Sparse[_i];
+			if (_i >= Sparse.size())
+			{
+				return;
+			}
 
-			if (_dense == UINT32_MAX)
+			uint32_t _dense = Sparse[_i];
+			if (_dense == INVALID_INDEX)
 			{
 				return;
 			}
 			
-			uint32_t _last = Dense.size() - 1;
+			uint32_t _last = static_cast<uint32_t>(Dense.size() - 1);
 			uint32_t _back = Entities[_last];
+
 			std::swap(Dense[_dense], Dense[_last]);
 			std::swap(Entities[_dense], Entities[_last]);
 
-			Sparse[Entities[_dense]] = _dense;
+			Sparse[_back] = _dense;
 
 			Dense.pop_back();
 			Entities.pop_back();
-			Sparse[_i] = UINT32_MAX;
+			Sparse[_i] = INVALID_INDEX;
 		}
 
-		std::vector<T>& GetAllComponents() const
+		const std::vector<T>& GetAllComponents() const
 		{
 			return Dense;
 		}

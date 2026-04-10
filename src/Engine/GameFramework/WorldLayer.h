@@ -17,7 +17,7 @@ namespace Brahmanda
 {
 	class RenderQueue;
 	class AssetManager;
-	class Entity;
+	struct Entity;
 	struct RenderData;
 
 	class WorldLayer

@@ -13,30 +13,36 @@ namespace Brahmanda
 	{
 		FreeList.reserve(1000u);
 		Generations.reserve(1000u);
+
+		TypeID _id = IContainerBridge::GetTypeID<ObjectTransform>();
+		ContainerList.emplace(_id, std::make_unique<ComponentContainer<ObjectTransform>>());
+
+		ComponentContainer<ObjectTransform>* TransformList = GetContainerByType<ObjectTransform>();
 	}
 
 	Entity EntityManager::CreateNewEntity()
 	{
-		uint32_t _ID = 0u;
+		uint32_t _id = 0u;
 
 		if (!FreeList.empty())
 		{
-			_ID = FreeList.back();
+			_id = FreeList.back();
 			FreeList.pop_back();
 		}
 		else
 		{
-			_ID = Generations.size();
+			_id = Generations.size();
 			Generations.push_back(0u);
 		}
 
-		return Entity(_ID, Generations[_ID]);
+		return Entity(_id, Generations[_id]);
 	}
 
 	void EntityManager::DestroyEntity(Entity InEntity)
 	{
-		Generations[InEntity.ID]++;
-		FreeList.push_back(InEntity.ID);
+		uint32_t _id = InEntity.ID;
+		Generations[_id]++;
+		FreeList.push_back(_id);
 	}
 
 	bool EntityManager::IsEntityAlive(Entity InEntity)
@@ -46,9 +52,9 @@ namespace Brahmanda
 
 	void EntityManager::Shutdown()
 	{
-		TypeID _ID = IRegistryBridge::GetTypeID<ObjectTransform>();
-		RegistryStorage.emplace(_ID, std::make_unique<ComponentRegistry<ObjectTransform>>());
+		TypeID _id = IContainerBridge::GetTypeID<ObjectTransform>();
+		ContainerList.emplace(_id, std::make_unique<ComponentContainer<ObjectTransform>>());
 
-		ComponentRegistry<ObjectTransform>* TransformList = GetRegistryByType<ObjectTransform>();
+		ComponentContainer<ObjectTransform>* TransformList = GetContainerByType<ObjectTransform>();
 	}
 }

@@ -8,13 +8,14 @@
 #include <memory>
 
 #include "Engine/Core/Types/CustomTypes.h"
+#include "GameFramework/ECS/TypeID.h"
 #include "Engine/GameFramework/ECS/Component.h"
 
 //...
 
 namespace Brahmanda
 {
-	class Entity;
+	struct Entity;
 
 	class EntityManager
 	{
@@ -31,17 +32,21 @@ namespace Brahmanda
 		bool IsEntityAlive(Entity InEntity);
 
 		template<typename T>
-		ComponentRegistry<T>* GetRegistryByType()
+		ComponentContainer<T>* GetContainerByType()
 		{
-			TypeID ID = IRegistryBridge::GetTypeID<T>();
+  			TypeID ID = IContainerBridge::GetTypeID<T>();
 
-			auto _It = RegistryStorage.find(ID);
-			if (_It == RegistryStorage.end())
+			auto _It = ContainerList.find(ID);
+			if (_It == ContainerList.end())
 			{
-				return nullptr;
+				//TODO: Refactor into modern CPP standards
+				std::unique_ptr<ComponentContainer<T>> _Container = std::make_unique<ComponentContainer<T>>();
+				ComponentContainer<T>* _p = _Container.get();
+				ContainerList.emplace(ID, std::move(_Container));
+				return _p;
 			}
 
-			return static_cast<ComponentRegistry<T>*>(_It->second.get());
+			return static_cast<ComponentContainer<T>*>(_It->second.get());
 		}
 
 	private:
@@ -49,6 +54,6 @@ namespace Brahmanda
 		std::vector<uint32_t> FreeList;
 		std::vector<uint32_t> Generations;
 
-		std::unordered_map<TypeID, std::unique_ptr<IRegistryBridge>> RegistryStorage;
+		std::unordered_map<TypeID, std::unique_ptr<IContainerBridge>> ContainerList;
 	};
 }

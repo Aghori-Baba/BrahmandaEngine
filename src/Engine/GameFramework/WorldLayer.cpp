@@ -27,8 +27,11 @@ namespace Brahmanda
 		Entities.reserve(5000);
 
 		OnLoad();
+	}
 
-		//RegisterRenderables();
+	void WorldLayer::OnLoad()
+	{
+
 	}
 
 	void WorldLayer::Unload()
@@ -36,11 +39,6 @@ namespace Brahmanda
 		OnUnload();
 
 		bIsLoaded = false;
-	}
-
-	void WorldLayer::OnLoad()
-	{
-
 	}
 
 	void WorldLayer::OnUnload()
