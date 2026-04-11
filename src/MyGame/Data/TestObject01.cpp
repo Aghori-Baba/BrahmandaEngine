@@ -3,17 +3,15 @@
 #include "TestObject01.h"
 #include "Core/Types/CustomTypes.h"
 #include "Systems/Logger.h"
+#include "GameFramework/ECS/ComponentHandle.h"
 
 //...
 
-TestObject01::TestObject01()
-{
-	Construct();
-}
+namespace bm = Brahmanda;
 
 void TestObject01::Construct()
 {
-	auto* Comp = CreateSubobject<Brahmanda::ObjectTransform>();
+	bm::ComponentHandle<bm::ObjectTransform> Comp = CreateSubobject<Brahmanda::ObjectTransform>();
 	Comp->Rot[1] = 45.f;
 	Logger::Info("TEST INFO: {}, {}, {}", Comp->Pos[0], Comp->Rot[1], Comp->Scale[2]);
 }

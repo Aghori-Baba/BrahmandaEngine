@@ -10,7 +10,6 @@ class TestObject01 : public Brahmanda::WorldEntity
 {
 public:
 
-	TestObject01();
 	~TestObject01();
 
 	void Construct() override;

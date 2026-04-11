@@ -28,8 +28,6 @@ void GameMap01::OnLoad()
 	GetBlockUnsafe(3, 3).Type = Block::dirt;
 	GetBlockUnsafe(4, 4).Type = Block::dirt;
 	GetBlockUnsafe(5, 5).Tex.ReleaseHandle();
-
-	//TestObject01 NewObject;
 }
 
 void GameMap01::OnUnload()
@@ -56,7 +54,7 @@ void GameMap01::Create(int InW, int InH)
 		Brahmanda::ObjectTransform Transform;
 		Transform.Pos[0] = 0.f + 101 * (i % 20);
 		Transform.Pos[1] = 0.f + 101 * (i / 20);
-		Transform.Rot[0] = 15.f;
+		Transform.Rot[0] = 0.f;
 
 		It = SpawnEntity<Block>(Transform);
 		It->Tex = _t;

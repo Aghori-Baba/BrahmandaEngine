@@ -7,11 +7,6 @@
 
 namespace Brahmanda
 {
-	WorldEntity::WorldEntity()
-	{
-		Construct();
-	}
-
 	void WorldEntity::Construct()
 	{
 
@@ -30,6 +25,11 @@ namespace Brahmanda
 	void WorldEntity::Shutdown()
 	{
 
+	}
+
+	const Entity WorldEntity::GetEntityHandle() const
+	{
+		return EntityHandle;
 	}
 
 	WorldEntity::~WorldEntity()
