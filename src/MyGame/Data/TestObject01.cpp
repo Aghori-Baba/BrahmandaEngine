@@ -7,11 +7,12 @@
 
 //...
 
-namespace bm = Brahmanda;
 
-void TestObject01::Construct()
+void TestObject01::Construct(const brm::ObjectTransform& InTransform)
 {
-	bm::ComponentHandle<bm::ObjectTransform> Comp = CreateSubobject<Brahmanda::ObjectTransform>();
+	PARENT::Construct(InTransform);
+
+	brm::ComponentHandle<brm::ObjectTransform> Comp = CreateSubobject<Brahmanda::ObjectTransform>();
 	Comp->Rot[1] = 45.f;
 	Logger::Info("TEST INFO: {}, {}, {}", Comp->Pos[0], Comp->Rot[1], Comp->Scale[2]);
 }

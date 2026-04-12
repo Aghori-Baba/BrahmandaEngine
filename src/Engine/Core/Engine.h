@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreIncludes.h"
-#include "Engine/EngineConfig.h"
+#include "Engine/Brahmanda/EngineConfig.h"
 
 //...
 

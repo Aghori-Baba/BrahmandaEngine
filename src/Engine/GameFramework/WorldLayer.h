@@ -10,6 +10,7 @@
 #include "LayerContextData.h"
 #include "Engine/Systems/AssetManager.h"
 #include "Engine/Systems/EntityManager.h"
+#include "Engine/GameFramework/Scene/WorldEntityInitializer.h"
 
 //...
 
@@ -17,8 +18,9 @@ namespace Brahmanda
 {
 	class RenderQueue;
 	class AssetManager;
-	struct Entity;
+	struct WorldEntity;
 	struct RenderData;
+	struct EntityInitializer;
 
 	class WorldLayer
 	{
@@ -34,6 +36,9 @@ namespace Brahmanda
 		WorldLayer(WorldLayer&&) = delete;
 		WorldLayer& operator=(WorldLayer&&) = delete;
 
+		void Construct();
+		virtual void OnConstruct();
+
 		void Load();
 		void Unload();
 
@@ -41,38 +46,45 @@ namespace Brahmanda
 		virtual void OnUnload();
 
 		template<typename T, typename ...Args>
-		inline T* SpawnEntity(Args && ...InArgs)
+		inline T* SpawnEntity(const ObjectTransform& InTransform, Args && ...InArgs)
 		{
-			static_assert(std::is_base_of_v<Entity, T>, "T must be derived from Entity");
+			static_assert(std::is_base_of_v<WorldEntity, T>, "T must be derived from Entity");
 
-			std::unique_ptr<T> NewEntity = std::make_unique<T>(std::forward<Args>(InArgs)...);
+			Entity _e = EntityMgr.CreateNewEntity();
+			EntityInitData.EntityHandle = _e;
+			Entities.push_back(_e);
+
+			std::unique_ptr<T> NewEntity = std::make_unique<T>(EntityInitData, std::forward<Args>(InArgs)...);
 			T* EntityPtr = NewEntity.get();
-			Entities.emplace_back(std::move(NewEntity));
+			EntityPtr->Construct(InTransform);
+			WorldEntities.emplace_back(std::move(NewEntity));
 
 			return EntityPtr;
 		}
 
 		void RegisterRenderables();
-		void RegisterEntity(Entity& InEntity);
+		void RegisterEntity(WorldEntity& InEntity);
 		void SubmitForRender(RenderQueue& InQueue);
 
 		bool GetIsLoaded() const;
 		bool GetIsVisible() const;
 
 		void SetAssetManager(AssetManager* InRef);
-		//std::vector<Entity> Entities;
 
 	protected:
 
 		AssetManager* AssetManagerRef = nullptr;
 		EntityManager EntityMgr;
+		EntityInitializer EntityInitData;
 
 	private:
 
 		bool bIsLoaded = false;
 		bool bIsVisible = false;
+		uint32_t EntityCount = 0;
 
-		std::vector<std::unique_ptr<Entity>> Entities;
+		std::vector<std::unique_ptr<WorldEntity>> WorldEntities;
+		std::vector<Entity> Entities;
 		std::vector<RenderData> Renderables;
 	};
 }

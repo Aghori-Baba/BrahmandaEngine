@@ -64,8 +64,8 @@ namespace Brahmanda
 		for (const auto& Item : InContext.PrimaryQueue.GetRenderItems())
 		{
  			Texture& Tex = AssetManagerRef->GetTexture(Item.Tex);
-			ObjectTransform* Transform = Item.Transform;
-			DrawTexturePro(Tex, { 0, 0, (float)Tex.width, (float)Tex.height }, { Transform->Pos[0], Transform->Pos[1], 100, 100 }, {0, 0}, Transform->Rot[0], WHITE);
+			ObjectTransform Transform = Item.Transform;
+			DrawTexturePro(Tex, { 0, 0, (float)Tex.width, (float)Tex.height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, {0, 0}, Transform.Rot[0], WHITE);
 		}
 
 		if (bHasActiveCam)

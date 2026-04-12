@@ -7,8 +7,10 @@
 
 namespace Brahmanda
 {
-	void WorldEntity::Construct()
+	void WorldEntity::Construct(const ObjectTransform& InTransform)
 	{
+		TransformComp = CreateSubobject<ObjectTransform>();
+		TransformComp.Get() = InTransform;
 
 	}
 

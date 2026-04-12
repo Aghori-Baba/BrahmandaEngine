@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <assert.h>
 #include "Component.h"
 
 //...
@@ -24,7 +25,11 @@ namespace Brahmanda
 
 		}
 
-		ComponentHandle() = delete;
+		ComponentHandle() = default;
+		ComponentHandle(const ComponentHandle& Other) = default;
+		ComponentHandle& operator=(const ComponentHandle& Other) = default;
+		ComponentHandle(ComponentHandle&& Other) = default;
+		ComponentHandle& operator=(ComponentHandle&& Other) = default;
 
 		bool IsValid() const
 		{
@@ -33,11 +38,13 @@ namespace Brahmanda
 
 		T& Get()
 		{
+			assert(Container->HasComponent(Owner) && "Owner does not have requested Component");
 			return Container->GetComponent(Owner);
 		}
 
 		const T& Get() const
 		{
+			assert(Container->HasComponent(Owner) && "Owner does not have requested Component");
 			return Container->GetComponent(Owner);
 		}
 
@@ -57,6 +64,16 @@ namespace Brahmanda
 			Owner = {};
 			Container = nullptr;
 			OwningWorld = nullptr;
+		}
+
+		void RegisterHandle()
+		{
+
+		}
+
+		void UnregisterHandle()
+		{
+
 		}
 
 	private:

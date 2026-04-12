@@ -5,7 +5,7 @@
 #include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/Core/Types/HandleTypes.h"
 #include "Engine/Core/Types/CustomTypes.h"
-#include "Engine/GameFramework/ECS/Entity.h"
+#include "Engine/GameFramework/Scene/WorldEntity.h"
 
 //...
 
@@ -17,6 +17,17 @@ namespace Brahmanda
 	}
 
 	WorldLayer::~WorldLayer()
+	{
+
+	}
+
+	void WorldLayer::Construct()
+	{
+		EntityInitData.EntityMgr = &EntityMgr;
+		EntityInitData.OwningWorld = this;
+	}
+
+	void WorldLayer::OnConstruct()
 	{
 
 	}
@@ -48,21 +59,27 @@ namespace Brahmanda
 
 	void WorldLayer::RegisterRenderables()
 	{
-		for (auto& _e : Entities)
+		Renderables.clear();
+
+		auto* _texCont = EntityMgr.GetContainerByType<TextureHandle>();
+		auto* _transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
+
+		auto& _texDense = _texCont->GetAllComponents();
+		auto& _texEntities = _texCont->GetAllEntities();
+
+		for (uint32_t i = 0; i < _texDense.size(); i++)
 		{
-			if (_e->Tex.GetIsVisible())
-			{
-				Renderables.emplace_back(_e->Tex, &_e->Transform);
-			}
+			Entity _e = _texEntities[i];
+
+			auto& _tex = _texDense[i];
+			auto& _transform = _transformCont->GetComponent(_e);
+			Renderables.emplace_back(_tex, _transform);
 		}
 	}
 
-	void WorldLayer::RegisterEntity(Entity& InEntity)
+	void WorldLayer::RegisterEntity(WorldEntity& InEntity)
 	{
-		if (InEntity.Tex.GetIsVisible())
-		{
-			Renderables.emplace_back(InEntity.Tex, &(InEntity.Transform));
-		}
+
 	}
 
 	void WorldLayer::SubmitForRender(RenderQueue& InQueue)
@@ -71,23 +88,6 @@ namespace Brahmanda
 		{
 			InQueue.Submit(It);
 		}
-
-		//for (auto& It : Entities)
-		//{
-		//	if (It)
-		//	{
-		//		TextureHandle& t = It->Tex;
-		//		if (!t.GetIsVisible())
-		//		{
-		//			continue;
-		//		}
-
-		//		RenderData Data;
-		//		Data.Tex = t;
-		//		Data.Transform = &It->Transform;
-		//		InQueue.Submit(std::move(Data));
-		//	}
-		//}
 	}
 
 	bool WorldLayer::GetIsLoaded() const

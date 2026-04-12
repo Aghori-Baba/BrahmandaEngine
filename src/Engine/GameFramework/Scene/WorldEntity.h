@@ -5,22 +5,18 @@
 #include "Engine/GameFramework/ECS/Entity.h"
 #include "Engine/GameFramework/ECS/Component.h"
 #include "Engine/GameFramework/ECS/ComponentHandle.h"
+#include "Engine/GameFramework/Scene/WorldEntityInitializer.h"
 #include "Engine/Systems/EntityManager.h"
 
 //...
 
 namespace Brahmanda
 {
-	struct EntityInitializer
-	{
-		Entity EntityHandle = {};
-		WorldLayer* OwningWorld = nullptr;
-		EntityManager* EntityMgr = nullptr;
-	};
-
 	class WorldEntity
 	{
 	public:
+
+		using PARENT = WorldEntity;
 
 		WorldEntity() = delete;
 
@@ -32,7 +28,7 @@ namespace Brahmanda
 
 		~WorldEntity();
 
-		virtual void Construct();
+		virtual void Construct(const ObjectTransform& InTransform);
 		virtual void Init();
 		virtual void Cycle(float DeltaTime);
 		virtual void Shutdown();
@@ -52,6 +48,8 @@ namespace Brahmanda
 	protected:
 
 		bool bCanRunCycle = true;
+
+		ComponentHandle<ObjectTransform> TransformComp;
 
 		Entity EntityHandle = {};
 		WorldLayer* OwningWorld = nullptr;

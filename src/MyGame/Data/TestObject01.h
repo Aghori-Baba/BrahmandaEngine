@@ -2,17 +2,21 @@
 
 #pragma once
 
+#include "Engine/Brahmanda/Brahmanda.h"
 #include "GameFramework/Scene/WorldEntity.h"
 
 //...
 
-class TestObject01 : public Brahmanda::WorldEntity
+class TestObject01 : public brm::WorldEntity
 {
 public:
 
+	TestObject01(brm::EntityInitializer InInitializer)
+		: PARENT(InInitializer) {}
+
 	~TestObject01();
 
-	void Construct() override;
+	void Construct(const brm::ObjectTransform& InTransform) override;
 
 private:
 

@@ -3,13 +3,17 @@
 #pragma once
 
 #include <cstdint>
-#include "Engine/GameFramework/ECS/Entity.h"
+#include "Engine/Brahmanda/Brahmanda.h"
+#include "Engine/GameFramework/Scene/WorldEntity.h"
 
 //...
 
-class Block : public Brahmanda::Entity
+class Block : public brm::WorldEntity
 {
 public:
+
+	Block(brm::EntityInitializer InInitializer)
+		: brm::WorldEntity(InInitializer) {}
 
 	enum
 	{
@@ -19,15 +23,13 @@ public:
 		BLOCKS_COUNT
 	};
 
-	Block(const Brahmanda::ObjectTransform& InTransform)
-		: Entity(InTransform)
-	{
-
-	}
-
 	~Block();
+
+	void Construct(const brm::ObjectTransform& InTransform) override;
 
 	void InitBlock();
 
 	uint16_t Type = 0;
+
+	brm::ComponentHandle<brm::TextureHandle> TextureComp;
 };

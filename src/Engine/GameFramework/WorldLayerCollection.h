@@ -74,10 +74,11 @@ namespace Brahmanda
 				return nullptr;
 			}
 
-			std::uint32_t Index = ActiveSize++;
-			WorldLayerList[Index] = std::make_unique<T>(InData, std::forward<Args>(InArgs)...);
+			std::uint32_t _index = ActiveSize++;
+			WorldLayerList[_index] = std::make_unique<T>(InData, std::forward<Args>(InArgs)...);
+			_ptr->Construct();
 
-			return Ptr.get();
+			return WorldLayerList[_index].get();
 		}
 
 		template<typename T, typename... Args>
@@ -87,13 +88,15 @@ namespace Brahmanda
 			assert(InIndex < MaxSize);
 			assert(!WorldLayerList[InIndex] && "Layer already exists at Index");
 
-			std::unique_ptr<T> Ptr = std::make_unique<T>(InData, std::forward<Args>(InArgs)...);
-			T& Ref = *Ptr;
+			std::unique_ptr<T> _ptr = std::make_unique<T>(InData, std::forward<Args>(InArgs)...);
+			_ptr->Construct();
+			T& _ref = *_ptr;
 
-			WorldLayerList[InIndex] = std::move(Ptr);
+			LoadedLayerList[InIndex] = _ptr.get();
+			WorldLayerList[InIndex] = std::move(_ptr);
 			ActiveSize++;
 
-			return Ref;
+			return _ref;
 		}
 
 		template<typename T, typename... Args>
@@ -102,11 +105,13 @@ namespace Brahmanda
 			static_assert(std::is_base_of_v<Brahmanda::WorldLayer, T>, "T must derive from WorldLayer");
 			assert(InIndex < MaxSize);
 
-			std::unique_ptr<T> Ptr = std::make_unique<T>(InData, std::forward<Args>(InArgs)...);
-			T& Ref = *Ptr;
-			WorldLayerList[InIndex] = std::move(Ptr);
+			std::unique_ptr<T> _ptr = std::make_unique<T>(InData, std::forward<Args>(InArgs)...);
+			_ptr->Construct();
+			T& _ref = *_ptr;
+			LoadedLayerList[InIndex] = _ptr.get();
+			WorldLayerList[InIndex] = std::move(_ptr);
 
-			return Ref;
+			return _ref;
 		}
 
 		void RemoveLayerAt(size_t InIndex)
@@ -115,6 +120,7 @@ namespace Brahmanda
 
 			if (WorldLayerList[InIndex])
 			{
+				WorldLayerList[InIndex]->Unload();
 				WorldLayerList[InIndex].reset();
 				ActiveSize--;
 			}
@@ -133,7 +139,7 @@ namespace Brahmanda
 	private:
 
 		size_t MaxSize = N;
-		size_t ActiveSize = 0U;
+		size_t ActiveSize = 0u;
 
 		std::array<std::int32_t, N> UsedIndices;
 		std::array<std::unique_ptr<WorldLayer>, N> WorldLayerList;

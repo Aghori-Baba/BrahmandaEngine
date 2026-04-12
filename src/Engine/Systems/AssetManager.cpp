@@ -34,17 +34,17 @@ namespace Brahmanda
 			return TextureHandle(It->second, this);
 		}
 
-		uint32_t TexID = ++LastTexID;
-		LoadedTextureIDs[InPath] = TexID;
+		uint32_t _id = ++LastTexID;
+		LoadedTextureIDs[InPath] = _id;
 
 		TextureEntry NewEntry;
 		NewEntry.Data = std::make_unique<Texture>(LoadTexture(InPath.c_str()));
 		NewEntry.RefCount += 1;
 		NewEntry.PathToAsset = InPath;
-		LoadedTextureList[TexID] = std::move(NewEntry);
-		//Logger::Info("New texture loaded.TexID: {}, Ref count: {}", TexID, LoadedTextureList[TexID].RefCount);
+		LoadedTextureList[_id] = std::move(NewEntry);
+		//Logger::Info("New texture loaded.TexID: {}, Ref count: {}", _id, LoadedTextureList[TexID].RefCount);
 
-		return TextureHandle(TexID, this);
+		return TextureHandle(_id, this);
 	}
 
 	void AssetManager::AddTextureRef(uint32_t InID)
@@ -70,9 +70,9 @@ namespace Brahmanda
 			return;
 		}
 
-		uint32_t ID = InHandle.GetID();
+		uint32_t _id = InHandle.GetID();
 
-		auto It = LoadedTextureList.find(ID);
+		auto It = LoadedTextureList.find(_id);
 		if (It == LoadedTextureList.end())
 		{
 			return;
@@ -91,13 +91,13 @@ namespace Brahmanda
 
 		if (It->second.RefCount == 0)
 		{
-			auto Path = It->second.PathToAsset;
-			Texture* Tex = It->second.Data.get();
+			std::string& _path = It->second.PathToAsset;
+			Texture* _tex = It->second.Data.get();
 
 			//Logger::Info("Unloaded Texture. TexId: {}, Ref count: {}", ID, It->second.RefCount);
 
-			UnloadTexture(*Tex);
-			LoadedTextureIDs.erase(Path);
+			UnloadTexture(*_tex);
+			LoadedTextureIDs.erase(_path);
 			LoadedTextureList.erase(It);
 		}
 	}
@@ -123,13 +123,13 @@ namespace Brahmanda
 
 		if (It->second.RefCount == 0)
 		{
-			auto Path = It->second.PathToAsset;
-			Texture* Tex = It->second.Data.get();
+			auto _path = It->second.PathToAsset;
+			Texture* _tex = It->second.Data.get();
 
 			//Logger::Info("Unloaded a Texture. TexId: {}, Ref count: {}", InID, It->second.RefCount);
 
-			UnloadTexture(*Tex);
-			LoadedTextureIDs.erase(Path);
+			UnloadTexture(*_tex);
+			LoadedTextureIDs.erase(_path);
 			LoadedTextureList.erase(It);
 		}
 	}
@@ -160,10 +160,10 @@ namespace Brahmanda
 		auto It = LoadedTextureList.find(InHandle.GetID());
 		if (It != LoadedTextureList.end())
 		{
-			Texture* t = It->second.Data.get();
-			if (t)
+			Texture* _tex = It->second.Data.get();
+			if (_tex)
 			{
-				return *t;
+				return *_tex;
 			}
 		}
 

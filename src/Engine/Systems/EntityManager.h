@@ -27,7 +27,7 @@ namespace Brahmanda
 		void Init();
 		void Shutdown();
 
-		Entity CreateNewEntity();
+		[[nodiscard]] Entity CreateNewEntity();
 		void DestroyEntity(Entity InEntity);
 		bool IsEntityAlive(Entity InEntity);
 

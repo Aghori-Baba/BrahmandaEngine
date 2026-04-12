@@ -10,8 +10,6 @@
 
 namespace Brahmanda
 {
-	struct Entity;
-
 	class Component
 	{
 	public:
@@ -61,7 +59,7 @@ namespace Brahmanda
 
 			uint32_t _di = Dense.size();
 			Dense.push_back(InComp);
-			Entities.push_back(_i);
+			Entities.push_back(InEntity);
 			Sparse[_i] = _di;
 		}
 
@@ -82,7 +80,7 @@ namespace Brahmanda
 
 			uint32_t _i = static_cast<uint32_t>(Dense.size());
 			Dense.emplace_back(std::forward<Args>(InArgs)...);
-			Entities.emplace_back(_id);
+			Entities.emplace_back(InEntity);
 			Sparse[_id] = _i;
 
 			return Dense[_i];
@@ -114,12 +112,12 @@ namespace Brahmanda
 			}
 			
 			uint32_t _last = static_cast<uint32_t>(Dense.size() - 1);
-			uint32_t _back = Entities[_last];
+			Entity _back = Entities[_last];
 
 			std::swap(Dense[_dense], Dense[_last]);
 			std::swap(Entities[_dense], Entities[_last]);
 
-			Sparse[_back] = _dense;
+			Sparse[_back.ID] = _dense;
 
 			Dense.pop_back();
 			Entities.pop_back();
@@ -131,12 +129,17 @@ namespace Brahmanda
 			return Dense;
 		}
 
+		const std::vector<Entity>& GetAllEntities() const
+		{
+			return Entities;
+		}
+
 		void Interface() override {}
 
 	private:
 
 		std::vector<T> Dense;
-		std::vector<uint32_t> Entities;
+		std::vector<Entity> Entities;
 		std::vector<uint32_t> Sparse;
 	};
 }
