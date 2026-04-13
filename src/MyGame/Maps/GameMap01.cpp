@@ -21,7 +21,7 @@ GameMap01::~GameMap01()
 
 void GameMap01::OnLoad()
 {
-	Create(30, 10);
+	Create(80, 80);
 	GetBlockUnsafe(0, 0).Type = Block::dirt;
 	GetBlockUnsafe(1, 1).Type = Block::dirt;
 	GetBlockUnsafe(2, 2).Type = Block::dirt;
@@ -42,28 +42,42 @@ void GameMap01::Create(int InW, int InH)
 	h = InH;
 
 	Brahmanda::TextureHandle _t;
+	Brahmanda::TextureHandle _t1;
+	Brahmanda::TextureHandle _t2;
 	if (!AssetManagerRef->GetIsShuttingDown())
 	{
 		_t = AssetManagerRef->ReqLoadTexture(RESOURCE_DIR "dirt.png");
+		_t1 = AssetManagerRef->ReqLoadTexture(RESOURCE_DIR "frame.png");
+		_t2 = AssetManagerRef->ReqLoadTexture(RESOURCE_DIR "t_error.png");
 	}
 
-	int i = 0;
+	int _i = 0;
 	for (Block*& It : MapData)
 	{
 		Brahmanda::ObjectTransform Transform;
-		Transform.Pos[0] = 0.f + 101 * (i % 20);
-		Transform.Pos[1] = 0.f + 101 * (i / 20);
+		Transform.Pos[0] = 0.f + 101 * (_i % 20);
+		Transform.Pos[1] = 0.f + 101 * (_i / 20);
 		Transform.Rot[0] = 0.f;
 
  		It = SpawnEntity<Block>(Transform);
-		It->TextureComp.Get() = _t;
-		if (i % 2 == 0)
+		if (_i % 2 == 0)
 		{
+			if (_i % 3 == 0)
+			{
+				It->TextureComp.Get() = _t;
+			}
+			else
+			{
+				It->TextureComp.Get() = _t1;
+			}
 
 		}
-		//RegisterEntity(*It);
+		else
+		{
+			It->TextureComp.Get() = _t2;
+		}
 
-		i++;
+		_i++;
 	}
 
 	RegisterRenderables();

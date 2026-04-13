@@ -53,7 +53,7 @@ namespace Brahmanda
 			AssetType = Other.AssetType;
 			ManagerRef = Other.ManagerRef;
 
-			Other.AssetID = 0U;
+			Other.AssetID = 0u;
 			Other.bIsVisible = false;
 			Other.AssetType = EAssetType::EAT_NONE;
 			Other.ManagerRef = nullptr;
@@ -87,7 +87,7 @@ namespace Brahmanda
 		{
 			Release();
 
-			AssetID = 0U;
+			AssetID = 0u;
 			bIsVisible = false;
 			AssetType = EAssetType::EAT_NONE;
 			ManagerRef = nullptr;
@@ -100,7 +100,7 @@ namespace Brahmanda
 
 		uint32_t GetIsValid() const
 		{
-			return AssetID != 0 && ManagerRef != nullptr;
+			return AssetID != 0u && ManagerRef != nullptr;
 		}
 
 		bool GetIsVisible() const
@@ -133,15 +133,15 @@ namespace Brahmanda
 				}
 			}
 
-			AssetID = 0U;
+			AssetID = 0u;
 			bIsVisible = false;
 			AssetType = EAssetType::EAT_NONE;
 			ManagerRef = nullptr;
 		}
-		
+
 	private:
 
-		uint32_t AssetID = 0U;
+		uint32_t AssetID = 0u;
 		bool bIsVisible = true;
 		EAssetType AssetType = EAssetType::EAT_NONE;
 		IAssetBridge* ManagerRef = nullptr;

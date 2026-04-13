@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <cassert>
 #include "EntityManager.h"
 #include "Engine/GameFramework/ECS/Entity.h"
 
@@ -23,6 +24,12 @@ namespace Brahmanda
 	Entity EntityManager::CreateNewEntity()
 	{
 		uint32_t _id = 0u;
+
+		if (Generations.size() >= INVALID_ID)
+		{
+			assert(false && "Max Entity reached");
+			return Entity::InvalidEntity();
+		}
 
 		if (!FreeList.empty())
 		{

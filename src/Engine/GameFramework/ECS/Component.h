@@ -3,6 +3,8 @@
 #pragma once
 
 #include <vector>
+#include <cassert>
+
 #include "Entity.h"
 #include "TypeID.h"
 
@@ -67,7 +69,9 @@ namespace Brahmanda
 		T& CreateNewComponent(Entity InEntity, Args&&... InArgs)
 		{
 			uint32_t _id = InEntity.ID;
-			
+
+			assert(_id != INVALID_ID && "Invalid Entity ID");
+
 			if (HasComponent(InEntity))
 			{
 				return Dense[Sparse[_id]];
@@ -88,13 +92,14 @@ namespace Brahmanda
 
 		T& GetComponent(Entity InEntity)
 		{
+			assert(InEntity.ID != INVALID_ID && "Invalid Entity ID");
 			return Dense[Sparse[InEntity.ID]];
 		}
 
 		bool HasComponent(Entity InEntity)
 		{
 			uint32_t _id = InEntity.ID;
-			return _id < Sparse.size() && Sparse[_id] != INVALID_INDEX;
+			return _id < INVALID_ID && _id < Sparse.size() && Sparse[_id] != INVALID_INDEX;
 		}
 
 		void DeleteComponent(Entity InEntity)

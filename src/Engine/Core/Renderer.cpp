@@ -1,6 +1,9 @@
 // Copyright (c) 2026-Present Jogeshwar Digital Pvt. Ltd. | Brahmanda Engine. All rights reserved.
 
 #include "Renderer.h"
+
+#include <algorithm>
+
 #include "ModuleIncludes.h"
 #include "Engine/Systems/Logger.h"
 #include "Engine/Systems/AssetManager.h"
@@ -61,12 +64,28 @@ namespace Brahmanda
 			}
 		}
 
-		for (const auto& Item : InContext.PrimaryQueue.GetRenderItems())
+		auto& _items = InContext.PrimaryQueue.GetRenderItems();
+		std::sort(_items.begin(), _items.end(), [](const RenderData& a, const RenderData& b) { return a.Tex.GetID() < b.Tex.GetID(); });
+		TextureHandle _current = {};
+		Texture& _t = AssetManagerRef->GetTexture(_current);
+		for (auto& It : _items)
 		{
- 			Texture& Tex = AssetManagerRef->GetTexture(Item.Tex);
-			ObjectTransform Transform = Item.Transform;
-			DrawTexturePro(Tex, { 0, 0, (float)Tex.width, (float)Tex.height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, {0, 0}, Transform.Rot[0], WHITE);
+			if (_current.GetID() != It.Tex.GetID())
+			{
+				_current = It.Tex;
+				_t = AssetManagerRef->GetTexture(It.Tex);
+			}
+			const ObjectTransform& Transform = It.Transform;
+			DrawTexturePro(_t, { 0, 0, (float)_t.width, (float)_t.height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, {0, 0}, Transform.Rot[0], WHITE);
 		}
+
+		//for (const auto& Item : InContext.PrimaryQueue.GetRenderItems())
+		//{
+ 	//		Texture& _t = AssetManagerRef->GetTexture(Item.Tex);
+		//	const ObjectTransform& Transform = Item.Transform;
+		//	DrawTexture(_t, Transform.Pos[0], Transform.Pos[1], WHITE);
+		//	DrawTexturePro(_t, { 0, 0, (float)_t.width, (float)_t.height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, {0, 0}, Transform.Rot[0], WHITE);
+		//}
 
 		if (bHasActiveCam)
 		{

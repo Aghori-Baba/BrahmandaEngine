@@ -8,6 +8,8 @@
 
 namespace Brahmanda
 {
+	constexpr uint32_t INVALID_ID = UINT32_MAX;
+
 	struct Entity
 	{
 	public:
@@ -18,10 +20,15 @@ namespace Brahmanda
 
 		}
 
+		static Entity InvalidEntity()
+		{
+			return Entity(INVALID_ID, INVALID_ID);
+		}
+
 		Entity() = default;
 		~Entity() = default;
 
-		uint32_t ID = 0u;
-		uint32_t Generation = 0u;
+		uint32_t ID = INVALID_ID;
+		uint32_t Generation = INVALID_ID;
 	};
 }

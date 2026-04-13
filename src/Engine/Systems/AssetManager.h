@@ -46,22 +46,22 @@ namespace Brahmanda
 
 	private:
 
-		uint32_t LastTexID = 0U;
-		uint32_t LastGeoID = 0U;
+		uint32_t LastTexID = 0u;
+		uint32_t LastGeoID = 0u;
 		bool bIsShuttingDown = false;
 		std::unique_ptr<Texture> ErrorTexture;
 
 		struct TextureEntry
 		{
 			std::unique_ptr<Texture> Data;
-			uint32_t RefCount = 0U;
+			uint32_t RefCount = 0u;
 			std::string PathToAsset = "";
 		};
 
 		struct GeometryEntry
 		{
 			//std::unique_ptr<Geometry> Data;
-			uint32_t RefCount = 0U;
+			uint32_t RefCount = 0u;
 			std::string PathToAsset = "";
 		};
 

@@ -17,7 +17,6 @@ void Block::Construct(const brm::ObjectTransform& InTransform)
 
 	TextureComp = CreateSubobject<brm::TextureHandle>();
 
-	TransformComp->Rot[0] = 45.f;
 	Logger::Info("TEST INFO: {}, {}, {}", TransformComp->Pos[0], TransformComp->Rot[1], TransformComp->Scale[2]);
 }
 

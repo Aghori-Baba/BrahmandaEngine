@@ -52,7 +52,7 @@ namespace Brahmanda
 			RenderItems.emplace_back(InData);
 		}
 
-		const std::vector<RenderData>& GetRenderItems() const
+		std::vector<RenderData>& GetRenderItems()
 		{
 			return RenderItems;
 		}

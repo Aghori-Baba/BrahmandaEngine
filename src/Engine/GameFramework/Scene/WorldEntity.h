@@ -35,6 +35,19 @@ namespace Brahmanda
 
 		const Entity GetEntityHandle() const;
 
+		template<typename T>
+		ComponentHandle<T> GetComponentHandleByClass() const
+		{
+			auto* _container = EntityMgr->GetContainerByType<T>();
+			if (_container->HasComponent(EntityHandle))
+			{
+				T& _comp = _container->GetComponent(EntityHandle);
+				return ComponentHandle<T>(EntityHandle, _container, OwningWorld);
+			}
+
+			return ComponentHandle<T>(Entity(), nullptr, nullptr);
+		}
+
 	protected:
 
 		template<typename T, typename... Args>
