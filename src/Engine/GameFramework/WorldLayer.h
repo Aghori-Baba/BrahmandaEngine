@@ -74,6 +74,7 @@ namespace Brahmanda
 	protected:
 
 		AssetManager* AssetManagerRef = nullptr;
+		InputManager* InputMgr = nullptr;
 		EntityManager EntityMgr;
 		EntityInitializer EntityInitData;
 

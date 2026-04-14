@@ -1,10 +1,14 @@
 // Copyright (c) 2026-Present Jogeshwar Digital Pvt. Ltd. | Brahmanda Engine. All rights reserved.
 
 #include "GameMap01.h"
-#include "MyGame/Data/Block.h"
+
 #include "Engine/Systems/Logger.h"
 #include "Engine/Core/Types/CustomTypes.h"
+#include "Engine/Systems/InputManager.h"
+
+#include "MyGame/Data/Block.h"
 #include "MyGame/Data/TestObject01.h"
+#include "MyGame/GameScene/MyPlayer.h"
 
 //...
 
@@ -27,6 +31,11 @@ void GameMap01::OnLoad()
 	GetBlockUnsafe(2, 2).Type = Block::dirt;
 	GetBlockUnsafe(3, 3).Type = Block::dirt;
 	GetBlockUnsafe(4, 4).Type = Block::dirt;
+
+	Brahmanda::ObjectTransform Transform;
+	MyPlayer* Player = SpawnEntity<MyPlayer>(Transform);
+
+	InputMgr->PossessPawn(Player);
 }
 
 void GameMap01::OnUnload()

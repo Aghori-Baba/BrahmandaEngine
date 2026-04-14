@@ -86,6 +86,8 @@ namespace Brahmanda
 				ActiveSession->EnterSession();
 				bIsSessionCreated = true;
 
+				LayerData.CurrentSession = ActiveSession.get();
+
 				return true;
 			}
 
@@ -93,13 +95,14 @@ namespace Brahmanda
 		}
 
 		template<typename T>
-		T* CreateInputManager()
+		void CreateInputManager()
 		{
 			static_assert(std::is_base_of_v<InputManager, T>, "T must derive from InputManager");
 
 			bIsInputManagerCreated = true;
 			InputManagerRef = std::make_unique<T>();
-			return InputManagerRef.get();
+
+			LayerData.InputMgr = InputManagerRef.get();
 		}
 
 	private:

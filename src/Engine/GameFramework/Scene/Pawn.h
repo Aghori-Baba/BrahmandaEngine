@@ -19,12 +19,12 @@ namespace Brahmanda
 	{
 	public:
 
-		Pawn() = default;
-		~Pawn() = default;
+		Pawn(EntityInitializer InInitializer)
+			: WorldEntity(InInitializer) {}
 
-		void Construct();
-		void Init();
-		void SetupInput(InputManager* InputMgr);
+		void Construct(const ObjectTransform& InTransform) override;
+		void Init() override;
+		virtual void SetupInput(InputManager* InputMgr);
 
 	protected:
 

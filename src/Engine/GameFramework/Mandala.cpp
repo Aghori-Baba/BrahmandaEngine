@@ -48,7 +48,6 @@ namespace Brahmanda
 		}
 
 		LayerData.CameraMgr = CameraManagerRef.get();
-		LayerData.CurrentSession = ActiveSession.get();
 
 		PostInit();
 	}

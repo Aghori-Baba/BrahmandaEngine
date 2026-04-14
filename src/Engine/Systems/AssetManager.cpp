@@ -22,6 +22,7 @@ namespace Brahmanda
 	void AssetManager::Init()
 	{
 		ErrorTexture = std::make_unique<Texture>(LoadTexture(RESOURCE_DIR "t_error.png"));
+		LoadedTextureData.emplace_back(*ErrorTexture);
 	}
 
 	TextureHandle AssetManager::RequestLoadTexture(const std::string& InPath)
@@ -41,6 +42,7 @@ namespace Brahmanda
 		NewEntry.Data = std::make_unique<Texture>(LoadTexture(InPath.c_str()));
 		NewEntry.RefCount += 1;
 		NewEntry.PathToAsset = InPath;
+		LoadedTextureData.emplace_back(*NewEntry.Data);
 		LoadedTextureList[_id] = std::move(NewEntry);
 		//Logger::Info("New texture loaded.TexID: {}, Ref count: {}", _id, LoadedTextureList[TexID].RefCount);
 
@@ -148,6 +150,11 @@ namespace Brahmanda
 	void AssetManager::UnloadUnused()
 	{
 
+	}
+
+	std::vector<Texture>& AssetManager::GetLoadedTextureList()
+	{
+		return LoadedTextureData;
 	}
 
 	Texture& AssetManager::GetTexture(const TextureHandle& InHandle)

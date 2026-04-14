@@ -10,6 +10,7 @@
 namespace Brahmanda
 {
 	class WorldEntity;
+	class CameraManager;
 	class Pawn;
 
 	class InputManager
@@ -18,6 +19,9 @@ namespace Brahmanda
 
 		InputManager();
 		~InputManager();
+
+		void Construct();
+		virtual void HandleInput();
 
 		void PossessPawn(Pawn* InTarget);
 		const Pawn* GetPossessedPawn() const;
@@ -31,5 +35,7 @@ namespace Brahmanda
 		Pawn* PrimaryPawn = nullptr;
 		Pawn* DefaultPawn = nullptr;
 		std::vector<WorldEntity*> ControlledEntities;
+
+		CameraManager* CamMgr = nullptr;
 	};
 }

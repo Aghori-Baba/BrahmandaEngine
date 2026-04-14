@@ -1,6 +1,7 @@
 // Copyright (c) 2026-Present Jogeshwar Digital Pvt. Ltd. | Brahmanda Engine. All rights reserved.
 
 #include "InputManager.h"
+#include "GameFramework/Scene/Pawn.h"
 
 //...
 
@@ -16,9 +17,18 @@ namespace Brahmanda
 
 	}
 
-	void InputManager::PossessPawn(Pawn* InTarget)
+	void InputManager::HandleInput()
 	{
 
+	}
+
+	void InputManager::PossessPawn(Pawn* InTarget)
+	{
+		if (InTarget)
+		{
+			PrimaryPawn = InTarget;
+			PrimaryPawn->SetupInput(this);
+		}
 	}
 
 	const Pawn* InputManager::GetPossessedPawn() const

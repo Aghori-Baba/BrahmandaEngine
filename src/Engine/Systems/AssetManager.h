@@ -36,6 +36,7 @@ namespace Brahmanda
 
 		void UnloadUnused();
 
+		std::vector<Texture>& GetLoadedTextureList();
 		Texture& GetTexture(const TextureHandle& InHandle);
 		Model* GetGeometry(const GeometryHandle& InHandle);
 
@@ -67,6 +68,9 @@ namespace Brahmanda
 
 		std::unordered_map<uint32_t, TextureEntry> LoadedTextureList;
 		std::unordered_map<std::string, uint32_t> LoadedTextureIDs;
+		//HACK: Dangerous array. Not pretected against deletion
+		//TODO: Replace with Sparse Set
+		std::vector<Texture> LoadedTextureData;
 
 		std::unordered_map<uint32_t, GeometryEntry> LoadedGeometryList;
 		std::unordered_map<std::string, uint32_t> LoadedGeometryIDs;

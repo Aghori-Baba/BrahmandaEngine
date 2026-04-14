@@ -65,19 +65,34 @@ namespace Brahmanda
 		}
 
 		auto& _items = InContext.PrimaryQueue.GetRenderItems();
-		std::sort(_items.begin(), _items.end(), [](const RenderData& a, const RenderData& b) { return a.Tex.GetID() < b.Tex.GetID(); });
+		auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
 		TextureHandle _current = {};
-		Texture& _t = AssetManagerRef->GetTexture(_current);
+		Texture* _t = &_texList[0];
 		for (auto& It : _items)
 		{
 			if (_current.GetID() != It.Tex.GetID())
 			{
 				_current = It.Tex;
-				_t = AssetManagerRef->GetTexture(It.Tex);
+				_t = &_texList[It.Tex.GetID()];
 			}
 			const ObjectTransform& Transform = It.Transform;
-			DrawTexturePro(_t, { 0, 0, (float)_t.width, (float)_t.height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, {0, 0}, Transform.Rot[0], WHITE);
+			DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, { 0, 0 }, Transform.Rot[0], WHITE);
 		}
+
+		//auto& _items = InContext.PrimaryQueue.GetRenderItems();
+		//std::sort(_items.begin(), _items.end(), [](const RenderData& a, const RenderData& b) { return a.Tex.GetID() < b.Tex.GetID(); });
+		//TextureHandle _current = {};
+		//Texture& _t = AssetManagerRef->GetTexture(_current);
+		//for (auto& It : _items)
+		//{
+		//	if (_current.GetID() != It.Tex.GetID())
+		//	{
+		//		_current = It.Tex;
+		//		_t = AssetManagerRef->GetTexture(It.Tex);
+		//	}
+		//	const ObjectTransform& Transform = It.Transform;
+		//	DrawTexturePro(_t, { 0, 0, (float)_t.width, (float)_t.height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, {0, 0}, Transform.Rot[0], WHITE);
+		//}
 
 		//for (const auto& Item : InContext.PrimaryQueue.GetRenderItems())
 		//{

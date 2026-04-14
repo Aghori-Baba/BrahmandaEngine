@@ -59,9 +59,6 @@ namespace Brahmanda
 
 	void EntityManager::Shutdown()
 	{
-		TypeID _id = IContainerBridge::GetTypeID<ObjectTransform>();
-		ContainerList.emplace(_id, std::make_unique<ComponentContainer<ObjectTransform>>());
 
-		ComponentContainer<ObjectTransform>* TransformList = GetContainerByType<ObjectTransform>();
 	}
 }
