@@ -12,6 +12,8 @@
 
 namespace Brahmanda
 {
+	class WorldCamera;
+
 	class WorldEntity
 	{
 	public:
@@ -45,7 +47,7 @@ namespace Brahmanda
 				return ComponentHandle<T>(EntityHandle, _container, OwningWorld);
 			}
 
-			return ComponentHandle<T>(Entity(), nullptr, nullptr);
+			return ComponentHandle<T>(Entity::InvalidEntity(), nullptr, nullptr);
 		}
 
 	protected:

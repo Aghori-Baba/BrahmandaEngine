@@ -5,7 +5,8 @@
 #include <memory>
 
 #include "Engine/Core/Types/CustomTypes.h"
-#include "Engine/GameFramework/ECS/Entity.h"
+#include "Engine/GameFramework/Scene/WorldEntity.h"
+#include "GameFramework/ECS/ComponentHandle.h"
 
 //...
 
@@ -14,7 +15,7 @@ namespace Brahmanda
 	class WorldCamera;
 	class InputManager;
 
-	class Pawn : public Entity
+	class Pawn : public WorldEntity
 	{
 	public:
 
@@ -25,6 +26,8 @@ namespace Brahmanda
 		void Init();
 		void SetupInput(InputManager* InputMgr);
 
-		std::unique_ptr<WorldCamera> PawnCam;
+	protected:
+
+		ComponentHandle<WorldCamera> PawnCamera;
 	};
 }

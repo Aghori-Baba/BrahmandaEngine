@@ -46,9 +46,9 @@ void GameMap01::Create(int InW, int InH)
 	Brahmanda::TextureHandle _t2;
 	if (!AssetManagerRef->GetIsShuttingDown())
 	{
-		_t = AssetManagerRef->ReqLoadTexture(RESOURCE_DIR "dirt.png");
-		_t1 = AssetManagerRef->ReqLoadTexture(RESOURCE_DIR "frame.png");
-		_t2 = AssetManagerRef->ReqLoadTexture(RESOURCE_DIR "t_error.png");
+		_t = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
+		_t1 = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "frame.png");
+		_t2 = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "t_error.png");
 	}
 
 	int _i = 0;

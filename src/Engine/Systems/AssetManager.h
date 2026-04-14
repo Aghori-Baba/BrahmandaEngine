@@ -25,13 +25,13 @@ namespace Brahmanda
 		void Init();
 		void Shutdown();
 
-		TextureHandle ReqLoadTexture(const std::string& InPath);
+		TextureHandle RequestLoadTexture(const std::string& InPath);
 		void AddTextureRef(uint32_t InID);
 		void ReqUnloadTexture(const TextureHandle& InHandle);
 		void ReleaseTexture(uint32_t InID);
 
-		GeometryHandle ReqLoadGeometry(const std::string& InPath);
-		void ReqUnloadGeometry(const GeometryHandle& InHandle);
+		GeometryHandle RequestLoadGeometry(const std::string& InPath);
+		void RequestUnloadGeometry(const GeometryHandle& InHandle);
 		//void AssignTextureToGeo(const GeometryHandl& InHandle, const TextureHandle& InHandle); 
 
 		void UnloadUnused();
@@ -41,7 +41,7 @@ namespace Brahmanda
 
 		//Interface Implementation
 		void AddAssetRef(uint32_t InID, EAssetType InType) override;
-		void ReqUnloadAsset(uint32_t InID, EAssetType InType) override;
+		void RequestUnloadAsset(uint32_t InID, EAssetType InType) override;
 		bool GetIsShuttingDown() const override;
 
 	private:

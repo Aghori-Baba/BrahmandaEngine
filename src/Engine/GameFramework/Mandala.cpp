@@ -35,11 +35,13 @@ namespace Brahmanda
 		ViewData.ViewTarget = { 0.f, 0.f, 0.f };
 		CameraManagerRef = std::make_unique<CameraManager>(ViewData);
 		CameraManagerRef->Init();
-		TEST_Cam = std::make_unique<WorldCamera>(ViewData, ORTHOGRAPHIC_CAM);
-		CameraManagerRef->SetActiveCamera(TEST_Cam.get());
 
 		OnInit();
 
+		if (!bIsInputManagerCreated)
+		{
+			CreateInputManager<InputManager>();
+		}
 		if (!bIsSessionCreated)
 		{
 			StartNewSession<SessionMaster>();

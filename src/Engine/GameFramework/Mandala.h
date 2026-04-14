@@ -92,6 +92,16 @@ namespace Brahmanda
 			return false;
 		}
 
+		template<typename T>
+		T* CreateInputManager()
+		{
+			static_assert(std::is_base_of_v<InputManager, T>, "T must derive from InputManager");
+
+			bIsInputManagerCreated = true;
+			InputManagerRef = std::make_unique<T>();
+			return InputManagerRef.get();
+		}
+
 	private:
 
 		template<typename T>
@@ -110,6 +120,7 @@ namespace Brahmanda
 	private:
 
 		bool bIsSessionCreated = false;
+		bool bIsInputManagerCreated = false;
 		uint16_t ActiveWorldLayerCount = 0;
 
 		AssetManager* AssetManager = nullptr;
@@ -119,6 +130,6 @@ namespace Brahmanda
 		std::unique_ptr<InputManager> InputManagerRef;
 
 		//TEST CODE:
-		std::unique_ptr<WorldCamera> TEST_Cam = nullptr;
+		//std::unique_ptr<WorldCamera> TEST_Cam = nullptr;
 	};
 }

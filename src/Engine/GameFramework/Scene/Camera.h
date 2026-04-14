@@ -106,7 +106,7 @@ namespace Brahmanda
 
 		ECameraType GetCameraType() const;
 		void UpdateCameraView(const CameraViewData& InView);
-		CameraViewData GetViewData();
+		const CameraViewData& GetViewData();
 
 	private:
 

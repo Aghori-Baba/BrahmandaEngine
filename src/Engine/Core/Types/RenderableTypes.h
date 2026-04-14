@@ -22,9 +22,7 @@ namespace Brahmanda
 
 		}
 
-		GeometryHandle Geo;
 		TextureHandle Tex;
-
 		ObjectTransform Transform;
 
 		//To be extended further as per requirement

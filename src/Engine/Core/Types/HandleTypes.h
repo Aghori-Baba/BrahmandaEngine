@@ -22,7 +22,7 @@ namespace Brahmanda
 		virtual ~IAssetBridge() {};
 
 		virtual void AddAssetRef(uint32_t InID, EAssetType InType) = 0;
-		virtual void ReqUnloadAsset(uint32_t InID, EAssetType InType) = 0;
+		virtual void RequestUnloadAsset(uint32_t InID, EAssetType InType) = 0;
 		virtual bool GetIsShuttingDown() const = 0;
 	};
 
@@ -129,7 +129,7 @@ namespace Brahmanda
 			{
 				if (!ManagerRef->GetIsShuttingDown())
 				{
-					ManagerRef->ReqUnloadAsset(AssetID, AssetType);
+					ManagerRef->RequestUnloadAsset(AssetID, AssetType);
 				}
 			}
 

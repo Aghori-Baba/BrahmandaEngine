@@ -84,7 +84,7 @@ namespace Brahmanda
 		ViewData = InView;
 	}
 
-	CameraViewData WorldCamera::GetViewData()
+	const CameraViewData& WorldCamera::GetViewData()
 	{
 		return ViewData;
 	}

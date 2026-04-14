@@ -9,7 +9,7 @@
 
 namespace Brahmanda
 {
-	class Entity;
+	class WorldEntity;
 	class Pawn;
 
 	class InputManager
@@ -23,13 +23,13 @@ namespace Brahmanda
 		const Pawn* GetPossessedPawn() const;
 		void EjectPawn();
 
-		void EnableInput(Entity* InTarget);
-		void DisableInput(Entity* InTarget);
+		void EnableInput(WorldEntity* InTarget);
+		void DisableInput(WorldEntity* InTarget);
 
 	private:
 
 		Pawn* PrimaryPawn = nullptr;
 		Pawn* DefaultPawn = nullptr;
-		std::vector<Entity*> ControlledEntities;
+		std::vector<WorldEntity*> ControlledEntities;
 	};
 }

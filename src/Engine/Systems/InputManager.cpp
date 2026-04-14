@@ -31,12 +31,12 @@ namespace Brahmanda
 
 	}
 
-	void InputManager::EnableInput(Entity* InTarget)
+	void InputManager::EnableInput(WorldEntity* InTarget)
 	{
 
 	}
 
-	void InputManager::DisableInput(Entity* InTarget)
+	void InputManager::DisableInput(WorldEntity* InTarget)
 	{
 
 	}
