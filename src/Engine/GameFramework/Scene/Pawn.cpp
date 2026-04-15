@@ -10,17 +10,44 @@ namespace Brahmanda
 {
 	void Pawn::Construct(const ObjectTransform& InTransform)
 	{
+		WorldEntity::Construct(InTransform);
+
 		CameraViewData ViewData = {};
 		PawnCamera = CreateSubobject<WorldCamera>(ViewData, ORTHOGRAPHIC_CAM);
 	}
 
 	void Pawn::Init()
 	{
+		WorldEntity::Init();
 
+
+	}
+
+	void Pawn::Cycle(float DeltaTime)
+	{
+		CameraViewData _view;
+		_view.ViewTarget.X = TransformComp.Get().Pos[0];
+		_view.ViewTarget.Y = TransformComp.Get().Pos[1];
+
+		PawnCamera->UpdateCameraView(_view);
 	}
 
 	void Pawn::SetupInput(InputManager* InputMgr)
 	{
 
+	}
+
+	void Pawn::AddMovement(const Vector3& InValue)
+	{
+		TransformComp.Get().Pos[0] = InValue.X;
+		TransformComp.Get().Pos[1] = InValue.Y;
+		TransformComp.Get().Pos[2] = InValue.Z;
+	}
+
+	void Pawn::AddMovement(const Vector3&& InValue)
+	{
+		TransformComp.Get().Pos[0] = InValue.X;
+		TransformComp.Get().Pos[1] = InValue.Y;
+		TransformComp.Get().Pos[2] = InValue.Z;
 	}
 }

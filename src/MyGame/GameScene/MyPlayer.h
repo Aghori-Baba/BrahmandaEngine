@@ -21,5 +21,10 @@ public:
 
 	~MyPlayer();
 
+	void Construct(const brm::ObjectTransform& InTransform) override;
 	void SetupInput(brm::InputManager* InputMgr) override;
+
+protected:
+
+	brm::ComponentHandle<brm::TextureHandle> SpriteTex;
 };

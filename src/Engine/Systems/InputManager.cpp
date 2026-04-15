@@ -23,9 +23,42 @@ namespace Brahmanda
 		CamMgr = InCamMgr;
 	}
 
-	void InputManager::HandleInput()
+	void InputManager::HandleInput(float DeltaTime)
 	{
+		static float PosX = 100.f;
+		static float PosY = 100.f;
+		static float Mul = 500.f;
 
+		if (IsKeyDown(KEY_LEFT_SHIFT))
+		{
+			Mul = 800.f;
+		}
+		if (IsKeyReleased(KEY_LEFT_SHIFT))
+		{
+			Mul = 500.f;
+		}
+
+		if (IsKeyDown(KEY_W))
+		{
+			PosY += -1.f * Mul * DeltaTime;
+		}
+		if (IsKeyDown(KEY_S))
+		{
+			PosY += 1.f * Mul * DeltaTime;
+		}
+		if (IsKeyDown(KEY_D))
+		{
+			PosX += 1.f * Mul * DeltaTime;
+		}
+		if (IsKeyDown(KEY_A))
+		{
+			PosX += -1.f * Mul *DeltaTime;
+		}
+
+		if (PrimaryPawn)
+		{
+			PrimaryPawn->AddMovement(Vector3(PosX, PosY, 0.f));
+		}
 	}
 
 	void InputManager::PossessPawn(Pawn* InTarget)

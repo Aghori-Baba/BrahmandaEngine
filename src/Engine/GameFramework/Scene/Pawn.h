@@ -19,12 +19,18 @@ namespace Brahmanda
 	{
 	public:
 
+		using PARENT = Pawn;
+
 		Pawn(EntityInitializer InInitializer)
 			: WorldEntity(InInitializer) {}
 
 		void Construct(const ObjectTransform& InTransform) override;
 		void Init() override;
+		void Cycle(float DeltaTime) override;
 		virtual void SetupInput(InputManager* InputMgr);
+
+		void AddMovement(const Vector3& InValue);
+		void AddMovement(const Vector3&& InValue);
 
 	protected:
 

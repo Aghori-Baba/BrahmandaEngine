@@ -11,6 +11,13 @@ MyPlayer::~MyPlayer()
 
 }
 
+void MyPlayer::Construct(const brm::ObjectTransform& InTransform)
+{
+	PARENT::Construct(InTransform);
+
+	SpriteTex = CreateSubobject<brm::TextureHandle>();
+}
+
 void MyPlayer::SetupInput(brm::InputManager* InputMgr)
 {
 	Logger::Info("Possessed MyPlayer!");

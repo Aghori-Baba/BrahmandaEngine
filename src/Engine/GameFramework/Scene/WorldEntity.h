@@ -34,7 +34,10 @@ namespace Brahmanda
 		virtual void Init();
 		virtual void Cycle(float DeltaTime);
 		virtual void Shutdown();
+		
+		void RegisterForCycle();
 
+		const bool GetCanCycle() const;
 		const Entity GetEntityHandle() const;
 
 		template<typename T>

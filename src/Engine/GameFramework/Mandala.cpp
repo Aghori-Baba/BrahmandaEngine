@@ -6,6 +6,7 @@
 #include "Engine/Systems/CameraManager.h"
 #include "Engine/GameFramework/Scene/Camera.h"
 #include "Engine/Systems/InputManager.h"
+#include "Engine/GameFramework/Scene/WorldEntity.h"
 
 //...
 
@@ -66,12 +67,21 @@ namespace Brahmanda
 	{
 		OnCycle(DeltaTime);
 
+		InputManagerRef->HandleInput(DeltaTime);
+		CameraManagerRef->Cycle(DeltaTime);
+
  		InContext.ActiveCamera = CameraManagerRef->GetActiveCamera();
 
 		for (auto& It : Collection.GetLayerList())
 		{
 			if (It && It->GetIsLoaded())
 			{
+				auto& _entities = It->GetCycleEnabledEntities();
+				for (auto& _e : _entities)
+				{
+					_e->Cycle(DeltaTime);
+				}
+
 				It->SubmitForRender(InContext.PrimaryQueue);
 			}
 		}

@@ -64,6 +64,8 @@ namespace Brahmanda
 
 		void RegisterRenderables();
 		void RegisterEntity(WorldEntity& InEntity);
+		void RegisterForCycle(WorldEntity* InEntity);
+		std::vector<WorldEntity*>& GetCycleEnabledEntities();
 		void SubmitForRender(RenderQueue& InQueue);
 
 		bool GetIsLoaded() const;
@@ -85,6 +87,7 @@ namespace Brahmanda
 		uint32_t EntityCount = 0;
 
 		std::vector<std::unique_ptr<WorldEntity>> WorldEntities;
+		std::vector<WorldEntity*> CycleEnabledEntities;
 		std::vector<Entity> Entities;
 		std::vector<RenderData> Renderables;
 	};

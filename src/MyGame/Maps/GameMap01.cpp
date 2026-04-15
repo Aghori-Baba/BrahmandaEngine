@@ -25,16 +25,17 @@ GameMap01::~GameMap01()
 
 void GameMap01::OnLoad()
 {
-	Create(80, 80);
-	GetBlockUnsafe(0, 0).Type = Block::dirt;
-	GetBlockUnsafe(1, 1).Type = Block::dirt;
-	GetBlockUnsafe(2, 2).Type = Block::dirt;
-	GetBlockUnsafe(3, 3).Type = Block::dirt;
-	GetBlockUnsafe(4, 4).Type = Block::dirt;
+	Create(70, 70);
 
 	Brahmanda::ObjectTransform Transform;
+	Transform.Pos[0] = -100.f;
+	Transform.Pos[1] = -100.f;
 	MyPlayer* Player = SpawnEntity<MyPlayer>(Transform);
+	Player->GetComponentHandleByClass<brm::TextureHandle>().Get() = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
+	RegisterForCycle(Player);
 	InputMgr->PossessPawn(Player);
+
+	RegisterRenderables();
 }
 
 void GameMap01::OnUnload()
@@ -88,7 +89,7 @@ void GameMap01::Create(int InW, int InH)
 		_i++;
 	}
 
-	RegisterRenderables();
+	//RegisterRenderables();
 
 	Logger::Info("GameMap01 - MapData Loaded!");
 }

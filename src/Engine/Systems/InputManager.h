@@ -21,7 +21,7 @@ namespace Brahmanda
 		~InputManager();
 
 		void Construct(CameraManager* InCamMgr);
-		virtual void HandleInput();
+		virtual void HandleInput(float DeltaTime);
 
 		void PossessPawn(Pawn* InTarget);
 		const Pawn* GetPossessedPawn() const;

@@ -27,30 +27,6 @@ void MyGame::OnInit()
 
 void MyGame::OnCycle(float DeltaTime)
 {
-	static float PosX = 500.f;
-	static float PosY = 500.f;
-
-	if (IsKeyDown(KEY_W))
-	{
-		PosY += -1 * 100 * DeltaTime;
-	}
-	if (IsKeyDown(KEY_S))
-	{
-		PosY += 1 * 100 * DeltaTime;
-	}
-	if (IsKeyDown(KEY_D))
-	{
-		PosX += 1 * 100 * DeltaTime;
-	}
-	if (IsKeyDown(KEY_A))
-	{
-		PosX += -1 * 100 * DeltaTime;
-	}
-
-	DrawRectangle(PosX, PosY, 120, 120, DARKBLUE);
-	DrawRectangle(500, 500, 120, 120, DARKPURPLE);
-	DrawText("This is the Beginning of Brahmanda Engine!", 190, 200, 20, DARKBLUE);
-
 #pragma region ImGui
 
 	//Enabling docking with main window

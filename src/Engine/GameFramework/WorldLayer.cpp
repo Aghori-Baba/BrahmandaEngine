@@ -83,11 +83,32 @@ namespace Brahmanda
 
 	}
 
+	void WorldLayer::RegisterForCycle(WorldEntity* InEntity)
+	{
+		CycleEnabledEntities.push_back(InEntity);
+	}
+
+	std::vector<WorldEntity*>& WorldLayer::GetCycleEnabledEntities()
+	{
+		return CycleEnabledEntities;
+	}
+
 	void WorldLayer::SubmitForRender(RenderQueue& InQueue)
 	{
-		for (auto It : Renderables)
+		ComponentContainer<TextureHandle>* _texCont = EntityMgr.GetContainerByType<TextureHandle>();
+		ComponentContainer<ObjectTransform>* _transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
+
+		auto& _texDense = _texCont->GetAllComponents();
+		auto& _texEntities = _texCont->GetAllEntities();
+
+		for (uint32_t i = 0; i < _texDense.size(); i++)
 		{
-			InQueue.Submit(It);
+			Entity _e = _texEntities[i];
+
+			auto& _tex = _texDense[i];
+			auto& _transform = _transformCont->GetComponent(_e);
+			RenderData NewData(_tex, _transform);
+			InQueue.Submit(NewData);
 		}
 	}
 
