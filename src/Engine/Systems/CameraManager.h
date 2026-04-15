@@ -5,7 +5,9 @@
 #include <memory>
 
 #include "Engine/Core/Types/CustomTypes.h"
+#include "Engine/GameFramework/ECS/ComponentHandle.h"
 #include "Engine/GameFramework/Scene/CameraData.h"
+#include "Engine/GameFramework/Scene/Camera.h"
 
 //...
 
@@ -28,7 +30,7 @@ namespace Brahmanda
 		void Shutdown();
 
 		GameCamera* GetActiveCamera() const;
-		void SetActiveCamera(WorldCamera* InCam);
+		void SetActiveCamera(const ComponentHandle<WorldCamera>& InCam);
 
 	protected:
 
@@ -37,7 +39,7 @@ namespace Brahmanda
 	private:
 
 		CameraViewData CamData{};
-		WorldCamera* ActiveCamera = nullptr;
+		ComponentHandle<WorldCamera> ActiveCamera = {};
 		std::unique_ptr<GameCamera> PrimaryCamera;
 	};
 }

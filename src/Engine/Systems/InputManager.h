@@ -20,7 +20,7 @@ namespace Brahmanda
 		InputManager();
 		~InputManager();
 
-		void Construct();
+		void Construct(CameraManager* InCamMgr);
 		virtual void HandleInput();
 
 		void PossessPawn(Pawn* InTarget);

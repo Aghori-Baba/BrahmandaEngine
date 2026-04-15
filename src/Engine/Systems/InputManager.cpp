@@ -2,6 +2,7 @@
 
 #include "InputManager.h"
 #include "GameFramework/Scene/Pawn.h"
+#include "Systems/CameraManager.h"
 
 //...
 
@@ -17,6 +18,11 @@ namespace Brahmanda
 
 	}
 
+	void InputManager::Construct(CameraManager* InCamMgr)
+	{
+		CamMgr = InCamMgr;
+	}
+
 	void InputManager::HandleInput()
 	{
 
@@ -28,6 +34,8 @@ namespace Brahmanda
 		{
 			PrimaryPawn = InTarget;
 			PrimaryPawn->SetupInput(this);
+
+			CamMgr->SetActiveCamera(PrimaryPawn->GetComponentHandleByClass<WorldCamera>());
 		}
 	}
 

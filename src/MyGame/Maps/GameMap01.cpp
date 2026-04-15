@@ -34,7 +34,6 @@ void GameMap01::OnLoad()
 
 	Brahmanda::ObjectTransform Transform;
 	MyPlayer* Player = SpawnEntity<MyPlayer>(Transform);
-
 	InputMgr->PossessPawn(Player);
 }
 

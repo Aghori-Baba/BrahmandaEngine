@@ -2,7 +2,6 @@
 
 #include "CameraManager.h"
 
-#include "Engine/GameFramework/Scene/Camera.h"
 
 //...
 
@@ -29,7 +28,7 @@ namespace Brahmanda
 
 	void CameraManager::Cycle(float DeltaTime)
 	{
-		if (ActiveCamera)
+		if (ActiveCamera.IsValid())
 		{
 			PrimaryCamera->UpdateView(ActiveCamera->GetViewData());
 		}
@@ -50,7 +49,7 @@ namespace Brahmanda
 		return PrimaryCamera.get();
 	}
 
-	void CameraManager::SetActiveCamera(WorldCamera* InCam)
+	void CameraManager::SetActiveCamera(const ComponentHandle<WorldCamera>& InCam)
 	{
 		ActiveCamera = InCam;
 	}

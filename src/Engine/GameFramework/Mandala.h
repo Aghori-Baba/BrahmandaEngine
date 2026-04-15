@@ -101,6 +101,7 @@ namespace Brahmanda
 
 			bIsInputManagerCreated = true;
 			InputManagerRef = std::make_unique<T>();
+			InputManagerRef->Construct(CameraManagerRef.get());
 
 			LayerData.InputMgr = InputManagerRef.get();
 		}

@@ -65,6 +65,7 @@ namespace Brahmanda
 		}
 
 		auto& _items = InContext.PrimaryQueue.GetRenderItems();
+		std::sort(_items.begin(), _items.end(), [](const RenderData& a, const RenderData& b) {return a.Tex.GetID() < b.Tex.GetID(); });
 		auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
 		TextureHandle _current = {};
 		Texture* _t = &_texList[0];
