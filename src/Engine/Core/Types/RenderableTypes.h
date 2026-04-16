@@ -16,14 +16,14 @@ namespace Brahmanda
 	{
 		RenderData() = default;
 
-		RenderData(const TextureHandle& InTex, const ObjectTransform& InTransform)
+		RenderData(const TextureHandle& InTex, ObjectTransform* InTransform)
 			: Tex(InTex), Transform(InTransform)
 		{
 
 		}
 
 		TextureHandle Tex;
-		ObjectTransform Transform;
+		ObjectTransform* Transform;
 		Vector2 UV;
 
 		//To be extended further as per requirement
@@ -36,7 +36,7 @@ namespace Brahmanda
 		RenderQueue() {};
 		~RenderQueue() {};
 
-		void ReserveSize(size_t InCount = 1000)
+		void ReserveSize(size_t InCount = 1000u)
 		{
 			RenderItems.reserve(InCount);
 		}

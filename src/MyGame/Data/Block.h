@@ -83,5 +83,5 @@ public:
 
 	uint16_t Type = 0;
 
-	brm::ComponentHandle<brm::TextureHandle> TextureComp;
+	brm::ComponentHandle<brm::Sprite2D> TextureComp;
 };

@@ -44,8 +44,6 @@ void MyGame::OnCycle(float DeltaTime)
 		spdlog::info("Interaction Success!");
 	}
 
-	ImGui::ShowDemoWindow();
-
 	ImGui::End();
 
 	ImGui::Begin("Brahmanda Options");

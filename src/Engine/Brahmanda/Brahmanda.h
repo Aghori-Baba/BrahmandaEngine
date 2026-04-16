@@ -7,6 +7,7 @@
 //Core Includes
 #include "Engine/Core/Types/CustomTypes.h"
 #include "Engine/Core/Types/HandleTypes.h"
+#include "Engine/Core/Types/AssetTypes.h"
 
 
 

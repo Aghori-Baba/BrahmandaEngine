@@ -2,9 +2,12 @@
 
 #include "WorldLayer.h"
 
+#include <algorithm>
+
 #include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/Core/Types/HandleTypes.h"
 #include "Engine/Core/Types/CustomTypes.h"
+#include "Engine/Core/Types/AssetTypes.h"
 #include "Engine/GameFramework/Scene/WorldEntity.h"
 
 //...
@@ -38,6 +41,9 @@ namespace Brahmanda
 		bIsLoaded = true;
 		Entities.reserve(5000);
 
+		ComponentContainer<Sprite2D>* _texCont = EntityMgr.GetContainerByType<Sprite2D>();
+		ComponentContainer<ObjectTransform>* _transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
+
 		OnLoad();
 	}
 
@@ -62,23 +68,33 @@ namespace Brahmanda
 	{
 		Renderables.clear();
 
-		auto* _texCont = EntityMgr.GetContainerByType<TextureHandle>();
-		auto* _transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
+		_texCont = EntityMgr.GetContainerByType<Sprite2D>();
+		_transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
 
-		auto& _texDense = _texCont->GetAllComponents();
-		auto& _texEntities = _texCont->GetAllEntities();
-
-		for (uint32_t i = 0; i < _texDense.size(); i++)
+		if (_texCont && _transformCont)
 		{
-			Entity _e = _texEntities[i];
+			auto& _texDense = _texCont->GetAllComponents();
+			auto& _texEntities = _texCont->GetAllEntities();
 
-			auto& _tex = _texDense[i];
-			auto& _transform = _transformCont->GetComponent(_e);
-			Renderables.emplace_back(_tex, _transform);
+			for (uint32_t i = 0; i < _texDense.size(); i++)
+			{
+				Entity _e = _texEntities[i];
+
+				auto& _tex = _texDense[i].SpriteTex;
+				auto& _transform = _transformCont->GetComponent(_e);
+				Renderables.emplace_back(_tex, &_transform);
+			}
+
+			std::sort(Renderables.begin(), Renderables.end(), [](const RenderData& a, const RenderData& b) { return a.Tex.GetID() < b.Tex.GetID(); });
 		}
 	}
 
 	void WorldLayer::RegisterEntity(WorldEntity& InEntity)
+	{
+
+	}
+
+	void WorldLayer::UpdateEntityCache()
 	{
 
 	}
@@ -95,20 +111,25 @@ namespace Brahmanda
 
 	void WorldLayer::SubmitForRender(RenderQueue& InQueue)
 	{
-		ComponentContainer<TextureHandle>* _texCont = EntityMgr.GetContainerByType<TextureHandle>();
-		ComponentContainer<ObjectTransform>* _transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
-
-		auto& _texDense = _texCont->GetAllComponents();
-		auto& _texEntities = _texCont->GetAllEntities();
-
-		for (uint32_t i = 0; i < _texDense.size(); i++)
+		for (auto& It : Renderables)
 		{
-			Entity _e = _texEntities[i];
-
-			auto& _tex = _texDense[i];
-			auto& _transform = _transformCont->GetComponent(_e);
-			InQueue.Submit(RenderData(_tex, _transform));
+			InQueue.Submit(It);
 		}
+
+		//if (_texCont && _transformCont)
+		//{
+		//	auto& _texDense = _texCont->GetAllComponents();
+		//	auto& _texEntities = _texCont->GetAllEntities();
+
+		//	for (uint32_t i = 0; i < _texDense.size(); i++)
+		//	{
+		//		Entity _e = _texEntities[i];
+
+		//		auto& _tex = _texDense[i].SpriteTex;
+		//		auto& _transform = _transformCont->GetComponent(_e);
+		//		InQueue.Submit(RenderData(_tex, &_transform));
+		//	}
+		//}
 	}
 
 	bool WorldLayer::GetIsLoaded() const

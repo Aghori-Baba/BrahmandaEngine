@@ -21,6 +21,10 @@ namespace Brahmanda
 	struct WorldEntity;
 	struct RenderData;
 	struct EntityInitializer;
+	struct Sprite2D;
+
+	template<typename T>
+	class ComponentContainer;
 
 	class WorldLayer
 	{
@@ -64,6 +68,7 @@ namespace Brahmanda
 
 		void RegisterRenderables();
 		void RegisterEntity(WorldEntity& InEntity);
+		void UpdateEntityCache();
 		void RegisterForCycle(WorldEntity* InEntity);
 		std::vector<WorldEntity*>& GetCycleEnabledEntities();
 		void SubmitForRender(RenderQueue& InQueue);
@@ -90,5 +95,8 @@ namespace Brahmanda
 		std::vector<WorldEntity*> CycleEnabledEntities;
 		std::vector<Entity> Entities;
 		std::vector<RenderData> Renderables;
+
+		ComponentContainer<Sprite2D>* _texCont = nullptr;
+		ComponentContainer<ObjectTransform>* _transformCont = nullptr;
 	};
 }

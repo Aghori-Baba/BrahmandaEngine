@@ -25,13 +25,13 @@ GameMap01::~GameMap01()
 
 void GameMap01::OnLoad()
 {
-	Create(70, 70);
+	Create(100, 100);
 
 	Brahmanda::ObjectTransform Transform;
 	Transform.Pos[0] = 0.f;
 	Transform.Pos[1] = 0.f;
 	MyPlayer* Player = SpawnEntity<MyPlayer>(Transform);
-	Player->GetComponentHandleByClass<brm::TextureHandle>().Get() = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
+	Player->GetComponentHandleByClass<brm::Sprite2D>().Get().SpriteTex = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
 	RegisterForCycle(Player);
 	InputMgr->PossessPawn(Player);
 
@@ -64,8 +64,8 @@ void GameMap01::Create(int InW, int InH)
 	for (Block*& It : MapData)
 	{
 		Brahmanda::ObjectTransform Transform;
-		Transform.Pos[0] = 0.f + 1.f * (_i % 20);
-		Transform.Pos[1] = 0.f + 1.f * (_i / 20);
+		Transform.Pos[0] = 0.f + 1.f * (_i % InW);
+		Transform.Pos[1] = 0.f + 1.f * (_i / InH);
 		Transform.Rot[0] = 0.f;
 
  		It = SpawnEntity<Block>(Transform);
@@ -73,16 +73,16 @@ void GameMap01::Create(int InW, int InH)
 		{
 			if (_i % 3 == 0)
 			{
-				It->TextureComp.Get() = _t;
+				It->TextureComp.Get().SpriteTex = _t;
 			}
 			else
 			{
-				It->TextureComp.Get() = _t1;
+				It->TextureComp.Get().SpriteTex = _t1;
 			}
 		}
 		else
 		{
-			It->TextureComp.Get() = _t2;
+			It->TextureComp.Get().SpriteTex = _t2;
 		}
 
 		_i++;

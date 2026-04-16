@@ -15,7 +15,7 @@ void Block::Construct(const brm::ObjectTransform& InTransform)
 {
 	PARENT::Construct(InTransform);
 
-	TextureComp = CreateSubobject<brm::TextureHandle>();
+	TextureComp = CreateSubobject<brm::Sprite2D>();
 
 	Logger::Info("TEST INFO: {}, {}, {}", TransformComp->Pos[0], TransformComp->Rot[1], TransformComp->Scale[2]);
 }

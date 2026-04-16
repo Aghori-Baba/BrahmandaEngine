@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "ModuleIncludes.h"
+#include "Engine/Core/Types/AssetTypes.h"
 #include "Engine/Systems/Logger.h"
 #include "Engine/Systems/AssetManager.h"
 #include "Engine/GameFramework/Scene/Camera.h"
@@ -64,8 +65,25 @@ namespace Brahmanda
 			}
 		}
 
+		//auto& _items = InContext.PrimaryQueue.GetRenderItems();
+		//auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
+		//TextureHandle _current = {};
+		//uint32_t _cid = _current.GetID();
+		//Texture* _t = &_texList[0];
+		//for (auto& It : _items)
+		//{
+		//	uint32_t _id = It.Tex.GetID();
+		//	if (_cid != _id)
+		//	{
+		//		_current = It.Tex;
+		//		_cid = _id;
+		//		_t = &_texList[_id];
+		//	}
+		//	const ObjectTransform& Transform = *It.Transform;
+		//	DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, { 0, 0 }, Transform.Rot[0], WHITE);
+		//}
+
 		auto& _items = InContext.PrimaryQueue.GetRenderItems();
-		std::sort(_items.begin(), _items.end(), [](const RenderData& a, const RenderData& b) { return a.Tex.GetID() < b.Tex.GetID(); });
 		auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
 		TextureHandle _current = {};
 		Texture* _t = &_texList[0];
@@ -76,7 +94,7 @@ namespace Brahmanda
 				_current = It.Tex;
 				_t = &_texList[It.Tex.GetID()];
 			}
-			const ObjectTransform& Transform = It.Transform;
+			const ObjectTransform& Transform = *It.Transform;
 			DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
 		}
 

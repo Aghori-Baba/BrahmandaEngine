@@ -16,7 +16,7 @@ void MyPlayer::Construct(const brm::ObjectTransform& InTransform)
 {
 	PARENT::Construct(InTransform);
 
-	SpriteTex = CreateSubobject<brm::TextureHandle>();
+	SpriteTex = CreateSubobject<brm::Sprite2D>();
 	PawnCamera.Get().SetCameraZoom(100.f);
 }
 

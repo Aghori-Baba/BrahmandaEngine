@@ -26,5 +26,5 @@ public:
 
 protected:
 
-	brm::ComponentHandle<brm::TextureHandle> SpriteTex;
+	brm::ComponentHandle<brm::Sprite2D> SpriteTex;
 };
