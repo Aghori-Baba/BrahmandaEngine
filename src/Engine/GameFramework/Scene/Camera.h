@@ -106,6 +106,8 @@ namespace Brahmanda
 
 		ECameraType GetCameraType() const;
 		void UpdateCameraView(const CameraViewData& InView);
+		void UpdateCameraLocation(const Vector3& InLoc);
+		void SetCameraZoom(float InVal);
 		const CameraViewData& GetViewData();
 
 	private:

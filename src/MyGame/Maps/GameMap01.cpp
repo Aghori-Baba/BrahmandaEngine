@@ -28,8 +28,8 @@ void GameMap01::OnLoad()
 	Create(70, 70);
 
 	Brahmanda::ObjectTransform Transform;
-	Transform.Pos[0] = -100.f;
-	Transform.Pos[1] = -100.f;
+	Transform.Pos[0] = 0.f;
+	Transform.Pos[1] = 0.f;
 	MyPlayer* Player = SpawnEntity<MyPlayer>(Transform);
 	Player->GetComponentHandleByClass<brm::TextureHandle>().Get() = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
 	RegisterForCycle(Player);
@@ -64,8 +64,8 @@ void GameMap01::Create(int InW, int InH)
 	for (Block*& It : MapData)
 	{
 		Brahmanda::ObjectTransform Transform;
-		Transform.Pos[0] = 0.f + 101 * (_i % 20);
-		Transform.Pos[1] = 0.f + 101 * (_i / 20);
+		Transform.Pos[0] = 0.f + 1.f * (_i % 20);
+		Transform.Pos[1] = 0.f + 1.f * (_i / 20);
 		Transform.Rot[0] = 0.f;
 
  		It = SpawnEntity<Block>(Transform);
@@ -79,7 +79,6 @@ void GameMap01::Create(int InW, int InH)
 			{
 				It->TextureComp.Get() = _t1;
 			}
-
 		}
 		else
 		{
@@ -88,8 +87,6 @@ void GameMap01::Create(int InW, int InH)
 
 		_i++;
 	}
-
-	//RegisterRenderables();
 
 	Logger::Info("GameMap01 - MapData Loaded!");
 }

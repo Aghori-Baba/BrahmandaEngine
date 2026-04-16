@@ -24,6 +24,7 @@ namespace Brahmanda
 
 		TextureHandle Tex;
 		ObjectTransform Transform;
+		Vector2 UV;
 
 		//To be extended further as per requirement
 	};
@@ -46,6 +47,11 @@ namespace Brahmanda
 		}
 
 		void Submit(const RenderData& InData)
+		{
+			RenderItems.emplace_back(InData);
+		}
+
+		void Submit(const RenderData&& InData)
 		{
 			RenderItems.emplace_back(InData);
 		}

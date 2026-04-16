@@ -65,7 +65,7 @@ namespace Brahmanda
 		}
 
 		auto& _items = InContext.PrimaryQueue.GetRenderItems();
-		std::sort(_items.begin(), _items.end(), [](const RenderData& a, const RenderData& b) {return a.Tex.GetID() < b.Tex.GetID(); });
+		std::sort(_items.begin(), _items.end(), [](const RenderData& a, const RenderData& b) { return a.Tex.GetID() < b.Tex.GetID(); });
 		auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
 		TextureHandle _current = {};
 		Texture* _t = &_texList[0];
@@ -77,7 +77,7 @@ namespace Brahmanda
 				_t = &_texList[It.Tex.GetID()];
 			}
 			const ObjectTransform& Transform = It.Transform;
-			DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, { 0, 0 }, Transform.Rot[0], WHITE);
+			DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
 		}
 
 		if (bHasActiveCam)

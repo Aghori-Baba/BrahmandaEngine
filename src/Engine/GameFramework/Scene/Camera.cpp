@@ -17,6 +17,8 @@ namespace Brahmanda
 	void GameCamera2D::UpdateView(const CameraViewData& InView)
 	{
 		RayCamera.target = { InView.ViewTarget.X,InView.ViewTarget.Y };
+		RayCamera.rotation = InView.Rotation;
+		RayCamera.zoom = InView.Zoom;
 	}
 
 	void GameCamera2D::Reset()
@@ -82,6 +84,16 @@ namespace Brahmanda
 	void WorldCamera::UpdateCameraView(const CameraViewData& InView)
 	{
 		ViewData = InView;
+	}
+
+	void WorldCamera::UpdateCameraLocation(const Vector3& InLoc)
+	{
+		ViewData.ViewTarget = InLoc;
+	}
+
+	void WorldCamera::SetCameraZoom(float InVal)
+	{
+		ViewData.Zoom = InVal;
 	}
 
 	const CameraViewData& WorldCamera::GetViewData()

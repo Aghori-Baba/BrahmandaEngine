@@ -107,8 +107,7 @@ namespace Brahmanda
 
 			auto& _tex = _texDense[i];
 			auto& _transform = _transformCont->GetComponent(_e);
-			RenderData NewData(_tex, _transform);
-			InQueue.Submit(NewData);
+			InQueue.Submit(RenderData(_tex, _transform));
 		}
 	}
 

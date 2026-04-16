@@ -25,11 +25,11 @@ namespace Brahmanda
 
 	void Pawn::Cycle(float DeltaTime)
 	{
-		CameraViewData _view;
-		_view.ViewTarget.X = TransformComp.Get().Pos[0];
-		_view.ViewTarget.Y = TransformComp.Get().Pos[1];
+		Vector3 _loc;
+		_loc.X = TransformComp.Get().Pos[0];
+		_loc.Y = TransformComp.Get().Pos[1];
 
-		PawnCamera->UpdateCameraView(_view);
+		PawnCamera->UpdateCameraLocation(_loc);
 	}
 
 	void Pawn::SetupInput(InputManager* InputMgr)

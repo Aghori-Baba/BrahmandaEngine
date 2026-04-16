@@ -25,17 +25,17 @@ namespace Brahmanda
 
 	void InputManager::HandleInput(float DeltaTime)
 	{
-		static float PosX = 100.f;
-		static float PosY = 100.f;
-		static float Mul = 500.f;
+		static float PosX = 0.f;
+		static float PosY = 0.f;
+		static float Mul = 5.f;
 
 		if (IsKeyDown(KEY_LEFT_SHIFT))
 		{
-			Mul = 800.f;
+			Mul = 8.f;
 		}
 		if (IsKeyReleased(KEY_LEFT_SHIFT))
 		{
-			Mul = 500.f;
+			Mul = 5.f;
 		}
 
 		if (IsKeyDown(KEY_W))
