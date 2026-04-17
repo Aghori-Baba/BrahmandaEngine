@@ -6,12 +6,12 @@
 
 namespace Brahmanda
 {
-	struct Vector2;
+	struct Vector4;
 	struct TextureHandle;
 
 	struct Sprite2D
 	{
 		TextureHandle SpriteTex;
-		Vector2 UV;
+		Vector4 UV;
 	};
 }

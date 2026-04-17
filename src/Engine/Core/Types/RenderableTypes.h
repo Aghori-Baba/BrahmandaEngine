@@ -16,15 +16,15 @@ namespace Brahmanda
 	{
 		RenderData() = default;
 
-		RenderData(const TextureHandle& InTex, ObjectTransform* InTransform)
-			: Tex(InTex), Transform(InTransform)
+		RenderData(ObjectTransform* InTransform, const TextureHandle& InTex, const Vector4 InUV)
+			: Transform(InTransform), Tex(InTex), UV(InUV)
 		{
 
 		}
 
 		TextureHandle Tex;
 		ObjectTransform* Transform;
-		Vector2 UV;
+		Vector4 UV;
 
 		//To be extended further as per requirement
 	};
@@ -36,7 +36,7 @@ namespace Brahmanda
 		RenderQueue() {};
 		~RenderQueue() {};
 
-		void ReserveSize(size_t InCount = 1000u)
+		void ReserveSize(size_t InCount = 20000u)
 		{
 			RenderItems.reserve(InCount);
 		}
@@ -51,9 +51,10 @@ namespace Brahmanda
 			RenderItems.emplace_back(InData);
 		}
 
-		void Submit(const RenderData&& InData)
+		template<typename... Args>
+		void Submit(Args&&... args)
 		{
-			RenderItems.emplace_back(InData);
+			RenderItems.emplace_back(std::forward<Args>(args)...);
 		}
 
 		std::vector<RenderData>& GetRenderItems()
@@ -81,5 +82,33 @@ namespace Brahmanda
 		GameCamera* ActiveCamera = nullptr;
 
 		//To be expanded further as per requirement
+	};
+
+	struct Proxy2D
+	{
+		TextureHandle Tex;
+		Vector4 UV;
+	};
+
+	struct RenderItem2D
+	{
+		RenderItem2D(ObjectTransform* InTransform, TextureHandle InTex, Vector4 InUV)
+			: Transform(InTransform), Proxy{InTex, InUV}
+		{
+
+		}
+
+		ObjectTransform* Transform;
+		Proxy2D Proxy;
+	};
+
+	struct RenderGroup2D
+	{
+		void Add(ObjectTransform* InTransform, TextureHandle InTex, Vector4 InUV)
+		{
+			Items.emplace_back( InTransform, InTex, InUV );
+		}
+
+		std::vector<RenderItem2D> Items;
 	};
 }

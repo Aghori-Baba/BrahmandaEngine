@@ -35,6 +35,22 @@ namespace Brahmanda
 		float Z = 0.f;
 	};
 
+	struct Vector4
+	{
+		constexpr Vector4() = default;
+
+		constexpr Vector4(float x, float y, float z, float w)
+			: X(x), Y(y), Z(z), W(w)
+		{
+
+		}
+
+		float X = 0.f;
+		float Y = 0.f;
+		float Z = 0.f;
+		float W = 0.f;
+	};
+
 	struct ObjectTransform
 	{
 		//Custom wrapper to support other data formats in future.

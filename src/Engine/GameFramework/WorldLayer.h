@@ -8,6 +8,7 @@
 #include <cassert>
 
 #include "LayerContextData.h"
+#include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/Systems/AssetManager.h"
 #include "Engine/Systems/EntityManager.h"
 #include "Engine/GameFramework/Scene/WorldEntityInitializer.h"
@@ -66,6 +67,7 @@ namespace Brahmanda
 			return EntityPtr;
 		}
 
+		void ReserveWorldSize(size_t InSize);
 		void RegisterRenderables();
 		void RegisterEntity(WorldEntity& InEntity);
 		void UpdateEntityCache();
@@ -94,9 +96,9 @@ namespace Brahmanda
 		std::vector<std::unique_ptr<WorldEntity>> WorldEntities;
 		std::vector<WorldEntity*> CycleEnabledEntities;
 		std::vector<Entity> Entities;
-		std::vector<RenderData> Renderables;
+		RenderGroup2D Renderables;
 
-		ComponentContainer<Sprite2D>* _texCont = nullptr;
-		ComponentContainer<ObjectTransform>* _transformCont = nullptr;
+		ComponentContainer<Sprite2D>* TextureContainer = nullptr;
+		ComponentContainer<ObjectTransform>* TransformContainer = nullptr;
 	};
 }

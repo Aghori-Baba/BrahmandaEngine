@@ -26,7 +26,7 @@ namespace Brahmanda
 
 		static TypeID GetNextID()
 		{
-			static TypeID CurrentID = 0;
+			static TypeID CurrentID = 0u;
 			return CurrentID++;
 		}
 
@@ -37,7 +37,7 @@ namespace Brahmanda
 			return ID;
 		}
 
-		virtual void Interface() = 0;
+		virtual void Interface() = 0u;
 	};
 
 	template<typename T>
@@ -137,6 +137,11 @@ namespace Brahmanda
 		const std::vector<Entity>& GetAllEntities() const
 		{
 			return Entities;
+		}
+
+		void ReserveSize(size_t InSize)
+		{
+			Dense.reserve(InSize);
 		}
 
 		void Interface() override {}

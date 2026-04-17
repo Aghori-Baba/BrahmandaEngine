@@ -7,12 +7,15 @@ cmake_minimum_required(VERSION "3.31.0")
 project("BrahmandaEngine")
 set(CMAKE_CXX_STANDARD 17)
 
-set(PRODUCTION_BUILD OFF CACHE BOOL "Make this a production build" FORCE)
-set(ENABLE_LOGGER ON CACHE BOOL "Enable logging" FORCE)
+set(PRODUCTION_BUILD ON CACHE BOOL "Make this a production build" FORCE)
+set(ENABLE_LOGGER OFF CACHE BOOL "Enable logging" FORCE)
 
-if (MSVC)
-	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+if (MSVC AND NOT PRODUCTION_BUILD)
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
+if (MSVC AND PRODUCTION_BUILD)
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 endif()
 
 if(PRODUCTION_BUILD)

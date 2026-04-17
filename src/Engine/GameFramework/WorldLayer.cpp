@@ -4,7 +4,6 @@
 
 #include <algorithm>
 
-#include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/Core/Types/HandleTypes.h"
 #include "Engine/Core/Types/CustomTypes.h"
 #include "Engine/Core/Types/AssetTypes.h"
@@ -41,8 +40,8 @@ namespace Brahmanda
 		bIsLoaded = true;
 		Entities.reserve(5000);
 
-		ComponentContainer<Sprite2D>* _texCont = EntityMgr.GetContainerByType<Sprite2D>();
-		ComponentContainer<ObjectTransform>* _transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
+		ComponentContainer<Sprite2D>* TextureContainer = EntityMgr.GetContainerByType<Sprite2D>();
+		ComponentContainer<ObjectTransform>* TransformContainer = EntityMgr.GetContainerByType<ObjectTransform>();
 
 		OnLoad();
 	}
@@ -64,28 +63,37 @@ namespace Brahmanda
 
 	}
 
+	void WorldLayer::ReserveWorldSize(size_t InSize)
+	{
+		TransformContainer->ReserveSize(InSize);
+	}
+
 	void WorldLayer::RegisterRenderables()
 	{
-		Renderables.clear();
+		Renderables.Items.clear();
 
-		_texCont = EntityMgr.GetContainerByType<Sprite2D>();
-		_transformCont = EntityMgr.GetContainerByType<ObjectTransform>();
+		TextureContainer = EntityMgr.GetContainerByType<Sprite2D>();
+		TransformContainer = EntityMgr.GetContainerByType<ObjectTransform>();
 
-		if (_texCont && _transformCont)
+		if (TextureContainer && TransformContainer)
 		{
-			auto& _texDense = _texCont->GetAllComponents();
-			auto& _texEntities = _texCont->GetAllEntities();
+			auto& _texDense = TextureContainer->GetAllComponents();
+			auto& _texEntities = TextureContainer->GetAllEntities();
 
 			for (uint32_t i = 0; i < _texDense.size(); i++)
 			{
 				Entity _e = _texEntities[i];
 
-				auto& _tex = _texDense[i].SpriteTex;
-				auto& _transform = _transformCont->GetComponent(_e);
-				Renderables.emplace_back(_tex, &_transform);
+				auto& _sprite = _texDense[i];
+				auto& _transform = TransformContainer->GetComponent(_e);
+				Renderables.Add(&_transform, _sprite.SpriteTex, _sprite.UV);
 			}
 
-			std::sort(Renderables.begin(), Renderables.end(), [](const RenderData& a, const RenderData& b) { return a.Tex.GetID() < b.Tex.GetID(); });
+			std::sort(Renderables.Items.begin(), Renderables.Items.end(), 
+				[](const RenderItem2D& a, const RenderItem2D& b) 
+				{ 
+					return a.Proxy.Tex.GetID() < b.Proxy.Tex.GetID(); 
+				});
 		}
 	}
 
@@ -111,22 +119,22 @@ namespace Brahmanda
 
 	void WorldLayer::SubmitForRender(RenderQueue& InQueue)
 	{
-		for (auto& It : Renderables)
+		for (auto& It : Renderables.Items)
 		{
-			InQueue.Submit(It);
+			InQueue.Submit(RenderData(It.Transform, It.Proxy.Tex, It.Proxy.UV));
 		}
 
-		//if (_texCont && _transformCont)
+		//if (TextureContainer && TransformContainer)
 		//{
-		//	auto& _texDense = _texCont->GetAllComponents();
-		//	auto& _texEntities = _texCont->GetAllEntities();
+		//	auto& _texDense = TextureContainer->GetAllComponents();
+		//	auto& _texEntities = TextureContainer->GetAllEntities();
 
 		//	for (uint32_t i = 0; i < _texDense.size(); i++)
 		//	{
 		//		Entity _e = _texEntities[i];
 
 		//		auto& _tex = _texDense[i].SpriteTex;
-		//		auto& _transform = _transformCont->GetComponent(_e);
+		//		auto& _transform = TransformContainer->GetComponent(_e);
 		//		InQueue.Submit(RenderData(_tex, &_transform));
 		//	}
 		//}

@@ -65,34 +65,17 @@ namespace Brahmanda
 			}
 		}
 
-		//auto& _items = InContext.PrimaryQueue.GetRenderItems();
-		//auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
-		//TextureHandle _current = {};
-		//uint32_t _cid = _current.GetID();
-		//Texture* _t = &_texList[0];
-		//for (auto& It : _items)
-		//{
-		//	uint32_t _id = It.Tex.GetID();
-		//	if (_cid != _id)
-		//	{
-		//		_current = It.Tex;
-		//		_cid = _id;
-		//		_t = &_texList[_id];
-		//	}
-		//	const ObjectTransform& Transform = *It.Transform;
-		//	DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, { 0, 0 }, Transform.Rot[0], WHITE);
-		//}
-
 		auto& _items = InContext.PrimaryQueue.GetRenderItems();
 		auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
 		TextureHandle _current = {};
 		Texture* _t = &_texList[0];
 		for (auto& It : _items)
 		{
-			if (_current.GetID() != It.Tex.GetID())
+			uint32_t _id = It.Tex.GetID();
+			if (_current.GetID() != _id)
 			{
 				_current = It.Tex;
-				_t = &_texList[It.Tex.GetID()];
+				_t = &_texList[_id];
 			}
 			const ObjectTransform& Transform = *It.Transform;
 			DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
@@ -158,3 +141,50 @@ namespace Brahmanda
 //	DrawTexture(_t, Transform.Pos[0], Transform.Pos[1], WHITE);
 //	DrawTexturePro(_t, { 0, 0, (float)_t.width, (float)_t.height }, { Transform.Pos[0], Transform.Pos[1], 100, 100 }, {0, 0}, Transform.Rot[0], WHITE);
 //}
+
+		//auto& items = InContext.PrimaryQueue.GetRenderItems();
+		//auto& texList = AssetManagerRef->GetLoadedTextureList();
+
+		//uint32_t currentID = UINT32_MAX;
+		//Texture* t = &texList[0];
+		//Rectangle src;
+
+		//for (auto& It : items)
+		//{
+		//	uint32_t texID = It.Tex.GetID();
+
+		//	if (currentID != texID)
+		//	{
+		//		currentID = texID;
+		//		t = &texList[texID];
+		//		src = { 0, 0, (float)t->width, (float)t->height };
+		//	}
+
+		//	const ObjectTransform& tr = *It.Transform;
+
+		//	Rectangle dest;
+		//	dest.x = tr.Pos[0];
+		//	dest.y = tr.Pos[1];
+		//	dest.width = tr.Scale[0];
+		//	dest.height = tr.Scale[1];
+
+		//	DrawTexturePro(*t, src, dest, { 0, 0 }, tr.Rot[0], WHITE);
+		//}
+
+		//auto& _items = InContext.PrimaryQueue.GetRenderItems();
+		//auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
+		//TextureHandle _current = {};
+		//uint32_t _cid = _current.GetID();
+		//Texture* _t = &_texList[0];
+		//for (auto& It : _items)
+		//{
+		//	uint32_t _id = It.Tex.GetID();
+		//	if (_cid != _id)
+		//	{
+		//		_current = It.Tex;
+		//		_cid = _id;
+		//		_t = &_texList[_id];
+		//	}
+		//	const ObjectTransform& Transform = *It.Transform;
+		//	DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, { 0, 0 }, Transform.Rot[0], WHITE);
+		//}

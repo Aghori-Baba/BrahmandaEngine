@@ -27,6 +27,8 @@ void GameMap01::OnLoad()
 {
 	Create(100, 100);
 
+	EntityMgr.GetContainerByType<brm::ObjectTransform>()->ReserveSize(100000u);
+
 	Brahmanda::ObjectTransform Transform;
 	Transform.Pos[0] = 0.f;
 	Transform.Pos[1] = 0.f;
@@ -53,11 +55,13 @@ void GameMap01::Create(int InW, int InH)
 	Brahmanda::TextureHandle _t;
 	Brahmanda::TextureHandle _t1;
 	Brahmanda::TextureHandle _t2;
+	Brahmanda::TextureHandle _ts;
 	if (!AssetManagerRef->GetIsShuttingDown())
 	{
 		_t = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
 		_t1 = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "frame.png");
 		_t2 = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "t_error.png");
+		_ts = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "textures.png");
 	}
 
 	int _i = 0;
@@ -73,16 +77,17 @@ void GameMap01::Create(int InW, int InH)
 		{
 			if (_i % 3 == 0)
 			{
-				It->TextureComp.Get().SpriteTex = _t;
+				It->SpriteComp.Get().SpriteTex = _t;
+				//It->SpriteComp.Get().UV = ;
 			}
 			else
 			{
-				It->TextureComp.Get().SpriteTex = _t1;
+				It->SpriteComp.Get().SpriteTex = _t1;
 			}
 		}
 		else
 		{
-			It->TextureComp.Get().SpriteTex = _t2;
+			It->SpriteComp.Get().SpriteTex = _t2;
 		}
 
 		_i++;
