@@ -38,7 +38,7 @@ namespace Brahmanda
 	void Brahmanda::Renderer::BeginRenderFrame()
 	{
 		BeginDrawing();
-		ClearBackground(RAYWHITE);
+		ClearBackground({ 80, 180, 255, 255 });
 
 		rlImGuiBegin();
 	}
@@ -69,6 +69,7 @@ namespace Brahmanda
 		auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
 		TextureHandle _current = {};
 		Texture* _t = &_texList[0];
+		Vector4 _uv = {};
 		for (auto& It : _items)
 		{
 			uint32_t _id = It.Tex.GetID();
@@ -77,8 +78,9 @@ namespace Brahmanda
 				_current = It.Tex;
 				_t = &_texList[_id];
 			}
+			_uv = It.UV;
 			const ObjectTransform& Transform = *It.Transform;
-			DrawTexturePro(*_t, { 0, 0, (float)_t->width, (float)_t->height }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
+			DrawTexturePro(*_t, { _uv.X, _uv.Y, _uv.Z, _uv.W }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
 		}
 
 		if (bHasActiveCam)

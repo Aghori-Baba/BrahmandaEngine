@@ -33,7 +33,12 @@ void GameMap01::OnLoad()
 	Transform.Pos[0] = 0.f;
 	Transform.Pos[1] = 0.f;
 	MyPlayer* Player = SpawnEntity<MyPlayer>(Transform);
-	Player->GetComponentHandleByClass<brm::Sprite2D>().Get().SpriteTex = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
+	auto& _playerSprite = Player->GetComponentHandleByClass<brm::Sprite2D>();
+	if (_playerSprite.IsValid())
+	{
+		_playerSprite.Get().SpriteTex = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "textures.png");
+		_playerSprite.Get().UV = {32.f * 28.f, 0.f, 32.f, 32.f};
+	}
 	RegisterForCycle(Player);
 	InputMgr->PossessPawn(Player);
 
@@ -56,15 +61,17 @@ void GameMap01::Create(int InW, int InH)
 	Brahmanda::TextureHandle _t1;
 	Brahmanda::TextureHandle _t2;
 	Brahmanda::TextureHandle _ts;
+
 	if (!AssetManagerRef->GetIsShuttingDown())
 	{
-		_t = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "dirt.png");
-		_t1 = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "frame.png");
-		_t2 = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "t_error.png");
-		_ts = AssetManagerRef->RequestLoadTexture(RESOURCE_DIR "textures.png");
+		_t = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "dirt.png");
+		_t1 = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "frame.png");
+		_t2 = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "t_error.png");
+		_ts = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "textures.png");
 	}
 
 	int _i = 0;
+	const float _cellSize = 32.f;
 	for (Block*& It : MapData)
 	{
 		Brahmanda::ObjectTransform Transform;
@@ -73,21 +80,27 @@ void GameMap01::Create(int InW, int InH)
 		Transform.Rot[0] = 0.f;
 
  		It = SpawnEntity<Block>(Transform);
+		It->Type = Block::air;
 		if (_i % 2 == 0)
 		{
 			if (_i % 3 == 0)
 			{
-				It->SpriteComp.Get().SpriteTex = _t;
-				//It->SpriteComp.Get().UV = ;
+				It->Type = Block::ice;
+				It->SpriteComp.Get().SpriteTex = _ts;
+				It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 			}
 			else
 			{
-				It->SpriteComp.Get().SpriteTex = _t1;
+				It->Type = Block::glass;
+				It->SpriteComp.Get().SpriteTex = _ts;
+				It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 			}
 		}
 		else
 		{
-			It->SpriteComp.Get().SpriteTex = _t2;
+			It->Type = Block::sand;
+			It->SpriteComp.Get().SpriteTex = _ts;
+			It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 		}
 
 		_i++;

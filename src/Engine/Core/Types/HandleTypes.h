@@ -23,6 +23,7 @@ namespace Brahmanda
 
 		virtual void AddAssetRef(uint32_t InID, EAssetType InType) = 0;
 		virtual void RequestUnloadAsset(uint32_t InID, EAssetType InType) = 0;
+		virtual uint32_t GetGenerationFromID(uint32_t InID, EAssetType InType) const = 0;
 		virtual bool GetIsShuttingDown() const = 0;
 	};
 
@@ -30,8 +31,8 @@ namespace Brahmanda
 	{
 		AssetHandle() = default;
 
-		AssetHandle(uint32_t InID, EAssetType InType, IAssetBridge* InMgrRef)
-			: AssetID(InID), bIsVisible(true), AssetType(InType), ManagerRef(InMgrRef)
+		AssetHandle(uint32_t InID, uint32_t InGen, EAssetType InType, IAssetBridge* InMgrRef)
+			: AssetID(InID), Generation(InGen), bIsVisible(true), AssetType(InType), ManagerRef(InMgrRef)
 		{
 
 		}
@@ -39,6 +40,7 @@ namespace Brahmanda
 		AssetHandle(const AssetHandle& Other)
 		{
 			AssetID = Other.AssetID;
+			Generation = Other.Generation;
 			bIsVisible = Other.bIsVisible;
 			AssetType = Other.AssetType;
 			ManagerRef = Other.ManagerRef;
@@ -49,11 +51,13 @@ namespace Brahmanda
 		AssetHandle(AssetHandle&& Other) noexcept
 		{
 			AssetID = Other.AssetID;
+			Generation = Other.Generation;
 			bIsVisible = Other.bIsVisible;
 			AssetType = Other.AssetType;
 			ManagerRef = Other.ManagerRef;
 
-			Other.AssetID = 0u;
+			Other.AssetID = UINT32_MAX;
+			Other.Generation = UINT32_MAX;
 			Other.bIsVisible = false;
 			Other.AssetType = EAssetType::EAT_NONE;
 			Other.ManagerRef = nullptr;
@@ -74,6 +78,7 @@ namespace Brahmanda
 			Release();
 
 			AssetID = Other.AssetID;
+			Generation = Other.Generation;
 			bIsVisible = Other.bIsVisible;
 			AssetType = Other.AssetType;
 			ManagerRef = Other.ManagerRef;
@@ -87,7 +92,8 @@ namespace Brahmanda
 		{
 			Release();
 
-			AssetID = 0u;
+			AssetID = UINT32_MAX;
+			Generation = UINT32_MAX;
 			bIsVisible = false;
 			AssetType = EAssetType::EAT_NONE;
 			ManagerRef = nullptr;
@@ -98,9 +104,11 @@ namespace Brahmanda
 			return AssetID;
 		}
 
-		uint32_t GetIsValid() const
+		uint32_t IsValid() const
 		{
-			return AssetID != 0u && ManagerRef != nullptr;
+			return AssetID != UINT32_MAX && 
+				ManagerRef != nullptr && 
+				ManagerRef->GetGenerationFromID(AssetID, AssetType) == Generation;
 		}
 
 		bool GetIsVisible() const
@@ -133,7 +141,8 @@ namespace Brahmanda
 				}
 			}
 
-			AssetID = 0u;
+			AssetID = UINT32_MAX;
+			Generation = UINT32_MAX;
 			bIsVisible = false;
 			AssetType = EAssetType::EAT_NONE;
 			ManagerRef = nullptr;
@@ -141,7 +150,8 @@ namespace Brahmanda
 
 	private:
 
-		uint32_t AssetID = 0u;
+		uint32_t AssetID = UINT32_MAX;
+		uint32_t Generation = UINT32_MAX;
 		bool bIsVisible = true;
 		EAssetType AssetType = EAssetType::EAT_NONE;
 		IAssetBridge* ManagerRef = nullptr;
@@ -155,8 +165,8 @@ namespace Brahmanda
 
 		}
 
-		TextureHandle(uint32_t InID, IAssetBridge* InMgrRef)
-			: AssetHandle(InID, EAssetType::EAT_Texture, InMgrRef)
+		TextureHandle(uint32_t InID, uint32_t InGen, IAssetBridge* InMgrRef)
+			: AssetHandle(InID, InGen, EAssetType::EAT_Texture, InMgrRef)
 		{
 
 		}
@@ -173,8 +183,8 @@ namespace Brahmanda
 
 		}
 
-		GeometryHandle(uint32_t InID, IAssetBridge* InMgrRef)
-			: AssetHandle(InID, EAssetType::EAT_Geometry, InMgrRef)
+		GeometryHandle(uint32_t InID, uint32_t InGen, IAssetBridge* InMgrRef)
+			: AssetHandle(InID, InGen, EAssetType::EAT_Geometry, InMgrRef)
 		{
 
 		}

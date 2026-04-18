@@ -25,7 +25,7 @@ namespace Brahmanda
 		void Init();
 		void Shutdown();
 
-		TextureHandle RequestLoadTexture(const std::string& InPath);
+		TextureHandle GetOrLoadTexture(const std::string& InPath);
 		void AddTextureRef(uint32_t InID);
 		void ReqUnloadTexture(const TextureHandle& InHandle);
 		void ReleaseTexture(uint32_t InID);
@@ -43,6 +43,7 @@ namespace Brahmanda
 		//Interface Implementation
 		void AddAssetRef(uint32_t InID, EAssetType InType) override;
 		void RequestUnloadAsset(uint32_t InID, EAssetType InType) override;
+		uint32_t GetGenerationFromID(uint32_t InID, EAssetType InType) const override;
 		bool GetIsShuttingDown() const override;
 
 	private:
@@ -68,9 +69,9 @@ namespace Brahmanda
 
 		std::unordered_map<uint32_t, TextureEntry> LoadedTextureList;
 		std::unordered_map<std::string, uint32_t> LoadedTextureIDs;
-		//HACK: Dangerous array. Not pretected against deletion
-		//TODO: Replace with Sparse Set
 		std::vector<Texture> LoadedTextureData;
+		std::vector<uint32_t> TextureFreelist;
+		std::vector<uint32_t> TextureGenerations;
 
 		std::unordered_map<uint32_t, GeometryEntry> LoadedGeometryList;
 		std::unordered_map<std::string, uint32_t> LoadedGeometryIDs;
