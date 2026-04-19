@@ -36,8 +36,10 @@ void GameMap01::OnLoad()
 	auto& _playerSprite = Player->GetComponentHandleByClass<brm::Sprite2D>();
 	if (_playerSprite.IsValid())
 	{
-		_playerSprite.Get().SpriteTex = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "textures.png");
+		brm::TextureHandle _t = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "textures.png");
+		_playerSprite.Get().SpriteTex = _t;
 		_playerSprite.Get().UV = {32.f * 28.f, 0.f, 32.f, 32.f};
+		_playerSprite.Get().SetSortKey(0u, 1u, _t.GetID(), Player->GetEntityHandle().ID);
 	}
 	RegisterForCycle(Player);
 	InputMgr->PossessPawn(Player);
@@ -85,7 +87,7 @@ void GameMap01::Create(int InW, int InH)
 		{
 			if (_i % 3 == 0)
 			{
-				It->Type = Block::ice;
+				It->Type = Block::leaves;
 				It->SpriteComp.Get().SpriteTex = _ts;
 				It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 			}
@@ -98,10 +100,12 @@ void GameMap01::Create(int InW, int InH)
 		}
 		else
 		{
-			It->Type = Block::sand;
+			It->Type = Block::bricks;
 			It->SpriteComp.Get().SpriteTex = _ts;
 			It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 		}
+
+		It->SpriteComp.Get().SetSortKey(2u, 1u, _ts.GetID(), It->GetEntityHandle().ID);
 
 		_i++;
 	}

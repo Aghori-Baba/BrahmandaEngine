@@ -39,6 +39,9 @@ namespace Brahmanda
 	{
 		bIsLoaded = true;
 		Entities.reserve(5000);
+		SortedItems.reserve(5000);
+		RenderCommands.clear();
+		RenderCommands.reserve(Renderables.Items.size());
 
 		ComponentContainer<Sprite2D>* TextureContainer = EntityMgr.GetContainerByType<Sprite2D>();
 		ComponentContainer<ObjectTransform>* TransformContainer = EntityMgr.GetContainerByType<ObjectTransform>();
@@ -86,14 +89,14 @@ namespace Brahmanda
 
 				auto& _sprite = _texDense[i];
 				auto& _transform = TransformContainer->GetComponent(_e);
-				Renderables.Add(&_transform, _sprite.SpriteTex, _sprite.UV);
+				Renderables.Add(&_transform, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
 			}
 
-			std::sort(Renderables.Items.begin(), Renderables.Items.end(), 
-				[](const RenderItem2D& a, const RenderItem2D& b) 
-				{ 
-					return a.Proxy.Tex.GetID() < b.Proxy.Tex.GetID(); 
-				});
+			//std::sort(Renderables.Items.begin(), Renderables.Items.end(), 
+			//	[](const RenderItem2D& a, const RenderItem2D& b) 
+			//	{ 
+			//		return a.Proxy.Tex.GetID() < b.Proxy.Tex.GetID(); 
+			//	});
 		}
 	}
 
@@ -119,9 +122,22 @@ namespace Brahmanda
 
 	void WorldLayer::SubmitForRender(RenderQueue& InQueue)
 	{
-		for (auto& It : Renderables.Items)
+		SortedItems.clear();
+
+		for(auto& It : Renderables.Items)
 		{
-			InQueue.Submit(RenderData(It.Transform, It.Proxy.Tex, It.Proxy.UV));
+			SortedItems.push_back(&It);
+		}
+
+		std::sort(SortedItems.begin(), SortedItems.end(),
+			[](const RenderItem2D* a, const RenderItem2D* b)
+			{
+				return a->SortKey < b->SortKey;
+			});
+
+		for (auto& It : SortedItems)
+		{
+			InQueue.Submit(RenderData(It->Transform, It->Proxy.Tex, It->Proxy.UV));
 		}
 
 		//if (TextureContainer && TransformContainer)

@@ -97,6 +97,8 @@ namespace Brahmanda
 		std::vector<WorldEntity*> CycleEnabledEntities;
 		std::vector<Entity> Entities;
 		RenderGroup2D Renderables;
+		std::vector<RenderItem2D*> SortedItems;
+		std::vector<RenderCommand2D> RenderCommands;
 
 		ComponentContainer<Sprite2D>* TextureContainer = nullptr;
 		ComponentContainer<ObjectTransform>* TransformContainer = nullptr;

@@ -92,23 +92,34 @@ namespace Brahmanda
 
 	struct RenderItem2D
 	{
-		RenderItem2D(ObjectTransform* InTransform, TextureHandle InTex, Vector4 InUV)
-			: Transform(InTransform), Proxy{InTex, InUV}
+		RenderItem2D(ObjectTransform* InTransform, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey)
+			: Transform(InTransform), Proxy{InTex, InUV}, SortKey(InSortKey)
 		{
 
 		}
 
 		ObjectTransform* Transform;
 		Proxy2D Proxy;
+		uint64_t SortKey = 0u;
+	};
+
+	struct RenderCommand2D
+	{
+		float x, y;
+		float sx, sy;
+		TextureHandle tex;
+		Vector4 uv;
+		uint64_t sortKey;
 	};
 
 	struct RenderGroup2D
 	{
-		void Add(ObjectTransform* InTransform, TextureHandle InTex, Vector4 InUV)
+		void Add(ObjectTransform* InTransform, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey)
 		{
-			Items.emplace_back( InTransform, InTex, InUV );
+			Items.emplace_back( InTransform, InTex, InUV, InSortKey);
 		}
 
 		std::vector<RenderItem2D> Items;
+		std::vector<RenderItem2D*> SortedItems;
 	};
 }
