@@ -35,5 +35,8 @@ namespace Brahmanda
 	protected:
 
 		ComponentHandle<WorldCamera> PawnCamera;
+
+	private:
+
 	};
 }

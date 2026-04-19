@@ -1,6 +1,9 @@
 // Copyright (c) 2026-Present Jogeshwar Digital Pvt. Ltd. | Brahmanda Engine. All rights reserved.
 
 #include "Mandala.h"
+
+#include <algorithm>
+
 #include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/GameFramework/Scene/Camera.h"
 #include "Engine/GameFramework/Scene/WorldEntity.h"
@@ -37,6 +40,8 @@ namespace Brahmanda
 		CameraManagerRef = std::make_unique<CameraManager>(ViewData);
 		CameraManagerRef->Init();
 
+		GlobalData.reserve(15000u);
+
 		OnInit();
 
 		if (!bIsInputManagerCreated)
@@ -67,10 +72,12 @@ namespace Brahmanda
 	{
 		OnCycle(DeltaTime);
 
+		GlobalData.clear();
+
 		InputManagerRef->HandleInput(DeltaTime);
 		CameraManagerRef->Cycle(DeltaTime);
 
- 		InContext.ActiveCamera = CameraManagerRef->GetActiveCamera();
+ 		InContext.ActiveCamera = CameraManagerRef->GetPrimaryCamera();
 
 		for (auto& It : Collection.GetLayerList())
 		{
@@ -82,8 +89,23 @@ namespace Brahmanda
 					_e->Cycle(DeltaTime);
 				}
 
-				It->SubmitForRender(InContext.PrimaryQueue);
+				for (auto& _renderIt : It->GetRenderables())
+				{
+					GlobalData.push_back(&_renderIt);
+					//GlobalRenderable2DList.Add(_renderIt.Transform, _renderIt.Proxy.Tex, _renderIt.Proxy.UV, _renderIt.SortKey);
+				}
 			}
+		}
+
+		std::sort(GlobalData.begin(), GlobalData.end(),
+		[](const RenderItem2D* a, const RenderItem2D* b)
+		{
+			return a->SortKey > b->SortKey;
+		});
+
+		for (auto& It : GlobalData)
+		{
+			InContext.PrimaryQueue.Submit(It->Transform, It->Proxy.Tex, It->Proxy.UV);
 		}
 	}
 

@@ -12,10 +12,12 @@ set(ENABLE_LOGGER ON CACHE BOOL "Enable logging" FORCE)
 
 if (MSVC AND NOT PRODUCTION_BUILD)
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	add_compile_options(/arch:AVX2)
 endif()
 
 if (MSVC AND PRODUCTION_BUILD)
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+	add_compile_options(/arch:AVX2)
 endif()
 
 if(PRODUCTION_BUILD)

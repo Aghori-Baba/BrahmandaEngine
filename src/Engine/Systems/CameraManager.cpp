@@ -44,7 +44,7 @@ namespace Brahmanda
 
 	}
 
-	GameCamera* CameraManager::GetActiveCamera() const
+	GameCamera* CameraManager::GetPrimaryCamera() const
 	{
 		return PrimaryCamera.get();
 	}

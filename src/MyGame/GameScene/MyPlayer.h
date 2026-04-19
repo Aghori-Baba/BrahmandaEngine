@@ -10,7 +10,10 @@
 namespace Brahmanda
 {
 	class InputManager;
+	class GameCamera;
 }
+
+class Highlighter;
 
 class MyPlayer : public brm::Pawn
 {
@@ -22,9 +25,16 @@ public:
 	~MyPlayer();
 
 	void Construct(const brm::ObjectTransform& InTransform) override;
+	void Cycle(float DeltaTime) override;
 	void SetupInput(brm::InputManager* InputMgr) override;
+
+public:
+
+	Highlighter* HighlighterRef = nullptr;
 
 protected:
 
 	brm::ComponentHandle<brm::Sprite2D> SpriteTex;
+	brm::GameCamera* GameCam = nullptr;
+
 };

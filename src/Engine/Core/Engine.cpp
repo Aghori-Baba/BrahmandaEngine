@@ -51,6 +51,7 @@ namespace Brahmanda
 	void Engine::CycleEngine(float DeltaTime)
 	{
 		RenderQueue& Queue = *RenderQueueRef;
+		Queue.ReserveSize();
 		Queue.Clear();
 
 		RendererRef->BeginRenderFrame();

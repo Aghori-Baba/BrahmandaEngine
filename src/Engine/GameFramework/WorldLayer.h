@@ -3,6 +3,7 @@
 #pragma once
 
 #include <vector>
+#include <array>
 #include <memory>
 #include <type_traits>
 #include <cassert>
@@ -30,6 +31,16 @@ namespace Brahmanda
 	class WorldLayer
 	{
 	public:
+
+		enum class RenderGroup
+		{
+			Screen = 0,
+			UI,
+			Foreground,
+			Midground,
+			Background,
+			COUNT
+		};
 
 		WorldLayer(const LayerContextData& InData);
 
@@ -75,20 +86,24 @@ namespace Brahmanda
 		std::vector<WorldEntity*>& GetCycleEnabledEntities();
 		void SubmitForRender(RenderQueue& InQueue);
 
+		std::vector<RenderItem2D>& GetRenderables();
+
 		bool GetIsLoaded() const;
 		bool GetIsVisible() const;
 
 		void SetAssetManager(AssetManager* InRef);
+		CameraManager* GetCameraManager() const;
 
 	protected:
 
 		AssetManager* AssetManagerRef = nullptr;
 		InputManager* InputMgr = nullptr;
+		CameraManager* CameraMgr = nullptr;
 		EntityManager EntityMgr;
 		EntityInitializer EntityInitData;
 
 	private:
-
+		const size_t BUCKET_COUNT = static_cast<size_t>(RenderGroup::COUNT);
 		bool bIsLoaded = false;
 		bool bIsVisible = false;
 		uint32_t EntityCount = 0;
@@ -99,6 +114,7 @@ namespace Brahmanda
 		RenderGroup2D Renderables;
 		std::vector<RenderItem2D*> SortedItems;
 		std::vector<RenderCommand2D> RenderCommands;
+		std::array<std::vector<RenderItem2D>, static_cast<size_t>(WorldLayer::RenderGroup::COUNT)> RenderBucket;
 
 		ComponentContainer<Sprite2D>* TextureContainer = nullptr;
 		ComponentContainer<ObjectTransform>* TransformContainer = nullptr;

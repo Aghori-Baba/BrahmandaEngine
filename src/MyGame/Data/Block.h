@@ -13,7 +13,7 @@ class Block : public brm::WorldEntity
 public:
 
 	Block(brm::EntityInitializer InInitializer)
-		: brm::WorldEntity(InInitializer) {}
+		: PARENT(InInitializer) {}
 
 	enum
 	{

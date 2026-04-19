@@ -133,6 +133,9 @@ namespace Brahmanda
 		std::unique_ptr<CameraManager> CameraManagerRef;
 		std::unique_ptr<InputManager> InputManagerRef;
 
+		RenderGroup2D GlobalRenderable2DList;
+		std::vector<RenderItem2D*> GlobalData;
+
 		//TEST CODE:
 		//std::unique_ptr<WorldCamera> TEST_Cam = nullptr;
 	};

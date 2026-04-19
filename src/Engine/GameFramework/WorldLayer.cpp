@@ -17,6 +17,7 @@ namespace Brahmanda
 	{
 		AssetManagerRef = InData.AssetMgr;
 		InputMgr = InData.InputMgr;
+		CameraMgr = InData.CameraMgr;
 	}
 
 	WorldLayer::~WorldLayer()
@@ -39,7 +40,7 @@ namespace Brahmanda
 	{
 		bIsLoaded = true;
 		Entities.reserve(5000);
-		SortedItems.reserve(5000);
+		SortedItems.reserve(10000u);
 		RenderCommands.clear();
 		RenderCommands.reserve(Renderables.Items.size());
 
@@ -122,23 +123,23 @@ namespace Brahmanda
 
 	void WorldLayer::SubmitForRender(RenderQueue& InQueue)
 	{
-		SortedItems.clear();
+		//SortedItems.clear();
 
-		for(auto& It : Renderables.Items)
-		{
-			SortedItems.push_back(&It);
-		}
+		//for(auto& It : Renderables.Items)
+		//{
+		//	SortedItems.emplace_back(&It);
+		//}
 
-		std::sort(SortedItems.begin(), SortedItems.end(),
-			[](const RenderItem2D* a, const RenderItem2D* b)
-			{
-				return a->SortKey < b->SortKey;
-			});
+		//std::sort(SortedItems.begin(), SortedItems.end(),
+		//	[&](const RenderItem2D* a, const RenderItem2D* b)
+		//	{
+		//		return a->SortKey > b->SortKey;
+		//	});
 
-		for (auto& It : SortedItems)
-		{
-			InQueue.Submit(RenderData(It->Transform, It->Proxy.Tex, It->Proxy.UV));
-		}
+		//for (auto& It : SortedItems)
+		//{
+		//	InQueue.Submit(RenderData(It->Transform, It->Proxy.Tex, It->Proxy.UV));
+		//}
 
 		//if (TextureContainer && TransformContainer)
 		//{
@@ -156,6 +157,11 @@ namespace Brahmanda
 		//}
 	}
 
+	std::vector<RenderItem2D>& WorldLayer::GetRenderables()
+	{
+		return Renderables.Items;
+	}
+
 	bool WorldLayer::GetIsLoaded() const
 	{
 		return bIsLoaded;
@@ -169,5 +175,10 @@ namespace Brahmanda
 	void WorldLayer::SetAssetManager(AssetManager* InRef)
 	{
 		AssetManagerRef = InRef;
+	}
+
+	CameraManager* WorldLayer::GetCameraManager() const
+	{
+		return CameraMgr;
 	}
 }

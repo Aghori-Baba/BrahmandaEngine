@@ -35,24 +35,33 @@ void MyGame::OnCycle(float DeltaTime)
 	ImGui::DockSpaceOverViewport(0U, ImGui::GetMainViewport());
 	ImGui::PopStyleColor(2);
 
-	ImGui::Begin("Brahmanda Test");
+	//ImGui::Begin("Brahmanda Test");
 
-	ImGui::Text("Hello from ImGui Brahmanda");
+	//ImGui::Text("Hello from ImGui Brahmanda");
 
-	if (ImGui::Button("Interact"))
-	{
-		spdlog::info("Interaction Success!");
-	}
+	//if (ImGui::Button("Interact"))
+	//{
+	//	spdlog::info("Interaction Success!");
+	//}
 
-	ImGui::End();
+	//ImGui::End();
+
+	//int fps = 
+
+	//DrawText(
+	//	TextFormat("FPS: %d", fps),
+	//	10, 10,
+	//	30,                 // Font size
+	//	YELLOW                 // Colour
+	//);
 
 	ImGui::Begin("Brahmanda Options");
 
 	ImGui::Text("This is options window");
 	ImGui::Separator();
 	ImGui::NewLine();
-	float FPS = 1.f / DeltaTime;
-	ImGui::Text("FPS: %.2f s (%.2f ms)", FPS, DeltaTime * 1000.f);
+	int FPS = GetFPS();
+	ImGui::Text("FPS: %i (%.2f ms)", FPS, DeltaTime * 1000.f);
 
 	ImGui::End();
 

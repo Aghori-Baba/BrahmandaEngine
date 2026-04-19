@@ -17,7 +17,7 @@ void Block::Construct(const brm::ObjectTransform& InTransform)
 
 	SpriteComp = CreateSubobject<brm::Sprite2D>();
 
-	Logger::Info("TEST INFO: {}, {}, {}", TransformComp->Pos[0], TransformComp->Rot[1], TransformComp->Scale[2]);
+	//Logger::Info("TEST INFO: {}, {}, {}", TransformComp->Pos[0], TransformComp->Rot[1], TransformComp->Scale[2]);
 }
 
 void Block::InitBlock()

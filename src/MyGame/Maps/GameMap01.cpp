@@ -9,6 +9,7 @@
 #include "MyGame/Data/Block.h"
 #include "MyGame/Data/TestObject01.h"
 #include "MyGame/GameScene/MyPlayer.h"
+#include "MyGame/GameScene/Highlighter.h"
 
 //...
 
@@ -27,7 +28,7 @@ void GameMap01::OnLoad()
 {
 	Create(100, 100);
 
-	EntityMgr.GetContainerByType<brm::ObjectTransform>()->ReserveSize(100000u);
+	EntityMgr.GetContainerByType<brm::ObjectTransform>()->ReserveSize(10000u);
 
 	Brahmanda::ObjectTransform Transform;
 	Transform.Pos[0] = 0.f;
@@ -39,10 +40,16 @@ void GameMap01::OnLoad()
 		brm::TextureHandle _t = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "textures.png");
 		_playerSprite.Get().SpriteTex = _t;
 		_playerSprite.Get().UV = {32.f * 28.f, 0.f, 32.f, 32.f};
-		_playerSprite.Get().SetSortKey(0u, 1u, _t.GetID(), Player->GetEntityHandle().ID);
+		_playerSprite.Get().SetSortKey(static_cast<uint32_t>(RenderGroup::Midground), 1u, _t.GetID(), Player->GetEntityHandle().ID);
 	}
 	RegisterForCycle(Player);
 	InputMgr->PossessPawn(Player);
+
+	auto* _e = SpawnEntity<Highlighter>(Transform);
+	_e->SpriteComp.Get().SpriteTex = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "frame.png");
+	_e->SpriteComp.Get().UV = { 32.f, 0.f, 32.f, 32.f };
+
+	Player->HighlighterRef = _e;
 
 	RegisterRenderables();
 }
@@ -105,7 +112,7 @@ void GameMap01::Create(int InW, int InH)
 			It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 		}
 
-		It->SpriteComp.Get().SetSortKey(2u, 1u, _ts.GetID(), It->GetEntityHandle().ID);
+		It->SpriteComp.Get().SetSortKey(static_cast<uint32_t>(RenderGroup::Foreground), 1u, _ts.GetID(), It->GetEntityHandle().ID);
 
 		_i++;
 	}
