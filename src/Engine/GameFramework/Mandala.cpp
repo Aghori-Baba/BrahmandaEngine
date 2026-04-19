@@ -89,23 +89,14 @@ namespace Brahmanda
 					_e->Cycle(DeltaTime);
 				}
 
-				for (auto& _renderIt : It->GetRenderables())
+				for (auto& _bucketIt : It->GetRenderBucket())
 				{
-					GlobalData.push_back(&_renderIt);
-					//GlobalRenderable2DList.Add(_renderIt.Transform, _renderIt.Proxy.Tex, _renderIt.Proxy.UV, _renderIt.SortKey);
+					for (auto& _itemIt : _bucketIt)
+					{
+						InContext.PrimaryQueue.Submit(_itemIt.Transform, _itemIt.Proxy.Tex, _itemIt.Proxy.UV);
+					}
 				}
 			}
-		}
-
-		std::sort(GlobalData.begin(), GlobalData.end(),
-		[](const RenderItem2D* a, const RenderItem2D* b)
-		{
-			return a->SortKey > b->SortKey;
-		});
-
-		for (auto& It : GlobalData)
-		{
-			InContext.PrimaryQueue.Submit(It->Transform, It->Proxy.Tex, It->Proxy.UV);
 		}
 	}
 

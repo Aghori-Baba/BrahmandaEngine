@@ -66,6 +66,7 @@ namespace Brahmanda
 	protected:
 
 		bool bCanRunCycle = true;
+		//uint64_t SortKey = 0u;
 
 		ComponentHandle<ObjectTransform> TransformComp;
 

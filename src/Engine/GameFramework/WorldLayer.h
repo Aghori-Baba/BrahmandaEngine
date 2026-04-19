@@ -87,6 +87,7 @@ namespace Brahmanda
 		void SubmitForRender(RenderQueue& InQueue);
 
 		std::vector<RenderItem2D>& GetRenderables();
+		std::array<std::vector<RenderItem2D>, static_cast<size_t>(WorldLayer::RenderGroup::COUNT)>& GetRenderBucket();
 
 		bool GetIsLoaded() const;
 		bool GetIsVisible() const;

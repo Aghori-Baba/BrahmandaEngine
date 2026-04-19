@@ -90,7 +90,13 @@ namespace Brahmanda
 
 				auto& _sprite = _texDense[i];
 				auto& _transform = TransformContainer->GetComponent(_e);
-				Renderables.Add(&_transform, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
+
+				uint8_t _layer = (uint8_t)(_sprite.SortKey >> 56);
+				_layer = (static_cast<uint8_t>(RenderGroup::COUNT) - 1u) - _layer;
+				if (_layer < static_cast<uint8_t>(RenderGroup::COUNT))
+				{
+					RenderBucket[_layer].emplace_back(&_transform, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
+				}
 			}
 
 			//std::sort(Renderables.Items.begin(), Renderables.Items.end(), 
@@ -160,6 +166,11 @@ namespace Brahmanda
 	std::vector<RenderItem2D>& WorldLayer::GetRenderables()
 	{
 		return Renderables.Items;
+	}
+
+	std::array<std::vector<RenderItem2D>, static_cast<size_t>(WorldLayer::RenderGroup::COUNT)>& WorldLayer::GetRenderBucket()
+	{
+		return RenderBucket;
 	}
 
 	bool WorldLayer::GetIsLoaded() const
