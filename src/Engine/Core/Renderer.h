@@ -20,10 +20,12 @@ namespace Brahmanda
 		void InitRenderer(AssetManager* InRef);
 
 		void BeginRenderFrame();
-		void RenderFrame(const FrameContextData& InContext);
+		void RenderPass2D(GameCamera* InCam, const SceneProxy2D* InSceneProxy);
+		void RenderPass3D(GameCamera* InCam, const SceneProxy* InSceneProxy);
 		void EndRenderFrame();
 
 		void ShutdownRenderer();
+
 
 	private:
 

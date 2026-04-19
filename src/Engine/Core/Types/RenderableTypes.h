@@ -11,6 +11,8 @@
 namespace Brahmanda
 {
 	class GameCamera;
+	class SceneProxy;
+	class SceneProxy2D;
 
 	struct RenderData
 	{
@@ -80,6 +82,9 @@ namespace Brahmanda
 
 		RenderQueue& PrimaryQueue;
 		GameCamera* ActiveCamera = nullptr;
+
+		SceneProxy* ScenePrx3D = nullptr;
+		SceneProxy2D* ScenePrx2D = nullptr;
 
 		//To be expanded further as per requirement
 	};

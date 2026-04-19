@@ -12,6 +12,7 @@
 #include "WorldLayerCollection.h"
 #include "LayerContextData.h"
 #include "SessionMaster.h"
+#include "SceneProxy.h"
 
 //...
 
@@ -135,6 +136,9 @@ namespace Brahmanda
 
 		RenderGroup2D GlobalRenderable2DList;
 		std::vector<RenderItem2D*> GlobalData;
+
+		SceneProxy ScenePrx;
+		SceneProxy2D ScenePrx2D;
 
 		//TEST CODE:
 		//std::unique_ptr<WorldCamera> TEST_Cam = nullptr;

@@ -43,9 +43,9 @@ namespace Brahmanda
 		rlImGuiBegin();
 	}
 
-	void Renderer::RenderFrame(const FrameContextData& InContext)
+	void Renderer::RenderPass2D(GameCamera* InCam, const SceneProxy2D* InSceneProxy)
 	{
-		auto* Cam = InContext.ActiveCamera;
+		auto* Cam = InCam;
 		bool bIsOrtho = false;
 		bool bHasActiveCam = Cam != nullptr;
 
@@ -65,23 +65,23 @@ namespace Brahmanda
 			}
 		}
 
-		auto& _items = InContext.PrimaryQueue.GetRenderItems();
-		auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
-		TextureHandle _current = {};
-		Texture* _t = &_texList[0];
-		Vector4 _uv = {};
-		for (auto& It : _items)
-		{
-			uint32_t _id = It.Tex.GetID();
-			if (_current.GetID() != _id)
-			{
-				_current = It.Tex;
-				_t = &_texList[_id];
-			}
-			_uv = It.UV;
-			const ObjectTransform& Transform = *It.Transform;
-			DrawTexturePro(*_t, { _uv.X, _uv.Y, _uv.Z, _uv.W }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
-		}
+		//auto& _items = InContext.PrimaryQueue.GetRenderItems();
+		//auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
+		//TextureHandle _current = {};
+		//Texture* _t = &_texList[0];
+		//Vector4 _uv = {};
+		//for (auto& It : _items)
+		//{
+		//	uint32_t _id = It.Tex.GetID();
+		//	if (_current.GetID() != _id)
+		//	{
+		//		_current = It.Tex;
+		//		_t = &_texList[_id];
+		//	}
+		//	_uv = It.UV;
+		//	const ObjectTransform& Transform = *It.Transform;
+		//	DrawTexturePro(*_t, { _uv.X, _uv.Y, _uv.Z, _uv.W }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
+		//}
 
 		if (bHasActiveCam)
 		{
@@ -95,6 +95,11 @@ namespace Brahmanda
 				//EndMode3D();
 			}
 		}
+	}
+
+	void Renderer::RenderPass3D(GameCamera* InCam, const SceneProxy* InSceneProxy)
+	{
+
 	}
 
 	void Brahmanda::Renderer::EndRenderFrame()

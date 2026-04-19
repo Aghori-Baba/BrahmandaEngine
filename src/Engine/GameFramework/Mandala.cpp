@@ -92,7 +92,6 @@ namespace Brahmanda
 				for (auto& _renderIt : It->GetRenderables())
 				{
 					GlobalData.push_back(&_renderIt);
-					//GlobalRenderable2DList.Add(_renderIt.Transform, _renderIt.Proxy.Tex, _renderIt.Proxy.UV, _renderIt.SortKey);
 				}
 			}
 		}

@@ -59,7 +59,8 @@ namespace Brahmanda
 		FrameContextData FrameContext(Queue);
 		GameRef->Cycle(DeltaTime, FrameContext);
 
-		RendererRef->RenderFrame(FrameContext);
+		RendererRef->RenderPass2D(FrameContext.ActiveCamera, FrameContext.ScenePrx2D);
+		RendererRef->RenderPass3D(FrameContext.ActiveCamera, FrameContext.ScenePrx3D);
 
 		RendererRef->EndRenderFrame();
 	}
