@@ -10,6 +10,7 @@ namespace Brahmanda
 	class InputManager;
 	class CameraManager;
 	class SessionMaster;
+	class Mandala;
 
 	struct LayerContextData
 	{
@@ -17,5 +18,6 @@ namespace Brahmanda
 		InputManager* InputMgr = nullptr;
 		CameraManager* CameraMgr = nullptr;
 		SessionMaster* CurrentSession = nullptr;
+		Mandala* MandalaRef = nullptr;
 	};
 }

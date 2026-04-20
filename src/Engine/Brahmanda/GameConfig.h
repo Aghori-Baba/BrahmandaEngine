@@ -15,6 +15,18 @@ namespace Brahmanda::Config
 	namespace World
 	{
 		//Change this value to modify max number of World Layers Mandala can contain
-		constexpr size_t MAX_WORLD_LAYER_COUNT = 8U;
+		constexpr size_t MAX_WORLD_LAYER_COUNT = 8u;
+
+		enum ERenderLayer
+		{
+			ERL_Screen = 0,
+			ERL_UI,
+			ERL_Foreground,
+			ERL_Midground,
+			ERL_Background,
+			ERL_COUNT
+		};
+
+		//uint8_t EnumToBytes()
 	}
 }

@@ -30,6 +30,8 @@ void MyMandala::PostInit()
 	//Brahmanda::LayerInitData LayerData;
 	Brahmanda::WorldLayer& Map = Collection.AddLayerAt<GameMap01>(0, LayerData);
 	Map.Load();
+
+	GatherRenderables();
 }
 
 void MyMandala::OnCycle(float DeltaTime)

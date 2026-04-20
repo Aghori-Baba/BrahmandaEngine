@@ -7,7 +7,7 @@
 #include <type_traits>
 #include <cassert>
 
-#include "GameConfig.h"
+#include "Brahmanda/GameConfig.h"
 #include "WorldLayer.h"
 #include "WorldLayerCollection.h"
 #include "LayerContextData.h"
@@ -107,6 +107,11 @@ namespace Brahmanda
 			LayerData.InputMgr = InputManagerRef.get();
 		}
 
+	protected:
+
+		void GatherRenderables();
+		void CheckUpdatedRenderables();
+
 	private:
 
 		template<typename T>
@@ -134,13 +139,12 @@ namespace Brahmanda
 		std::unique_ptr<CameraManager> CameraManagerRef;
 		std::unique_ptr<InputManager> InputManagerRef;
 
-		RenderGroup2D GlobalRenderable2DList;
-		std::vector<RenderItem2D*> GlobalData;
-
-		SceneProxy ScenePrx;
-		SceneProxy2D ScenePrx2D;
+		SceneProxy SceneProx;
+		SceneProxy2D SceneProx2D;
 
 		//TEST CODE:
-		//std::unique_ptr<WorldCamera> TEST_Cam = nullptr;
+		//RenderGroup2D GlobalRenderable2DList;
+		//std::vector<RenderItem2D*> GlobalData;
+		//std::array<std::vector<RenderItem2D>, static_cast<size_t>(WorldLayer::RenderGroup::COUNT)> RenderBucket;
 	};
 }

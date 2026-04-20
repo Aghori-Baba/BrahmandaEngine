@@ -4,21 +4,14 @@
 
 #include <array>
 
+#include "Brahmanda/GameConfig.h"
 #include "Engine/Core/Types/RenderableTypes.h"
 
 //...
 
 namespace Brahmanda
 {
-	enum ERenderLayer
-	{
-		ERL_Screen = 0,
-		ERL_UI,
-		ERL_Foreground,
-		ERL_Midground,
-		ERL_Background,
-		ERL_COUNT
-	};
+	using namespace Config;
 
 	class SceneProxy
 	{
@@ -43,10 +36,14 @@ namespace Brahmanda
 		void Init();
 		void Shutdown();
 
-		//void AddCommand();
+		const std::array<std::vector<ItemProxy2D>, World::ERenderLayer::ERL_COUNT>& GetProxyData() const;
+		void AddProxy(ObjectTransform& InTransform, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey);
+		void SortAll();
+		void SortLayer(World::ERenderLayer InLayer);
+		void ClearAllLayers();
 
 	private:
 
-		std::vector<RenderCommand2D> CommandQueue;
+		std::array<std::vector<ItemProxy2D>, World::ERenderLayer::ERL_COUNT> ProxyData;
 	};
 }

@@ -41,8 +41,8 @@ namespace Brahmanda
 		bIsLoaded = true;
 		Entities.reserve(5000);
 		SortedItems.reserve(10000u);
-		RenderCommands.clear();
-		RenderCommands.reserve(Renderables.Items.size());
+		//RenderCommands.clear();
+		//RenderCommands.reserve(Renderables.Items.size());
 
 		ComponentContainer<Sprite2D>* TextureContainer = EntityMgr.GetContainerByType<Sprite2D>();
 		ComponentContainer<ObjectTransform>* TransformContainer = EntityMgr.GetContainerByType<ObjectTransform>();
@@ -74,31 +74,31 @@ namespace Brahmanda
 
 	void WorldLayer::RegisterRenderables()
 	{
-		Renderables.Items.clear();
+		//Renderables.Items.clear();
 
-		TextureContainer = EntityMgr.GetContainerByType<Sprite2D>();
-		TransformContainer = EntityMgr.GetContainerByType<ObjectTransform>();
+		//TextureContainer = EntityMgr.GetContainerByType<Sprite2D>();
+		//TransformContainer = EntityMgr.GetContainerByType<ObjectTransform>();
 
-		if (TextureContainer && TransformContainer)
-		{
-			auto& _texDense = TextureContainer->GetAllComponents();
-			auto& _texEntities = TextureContainer->GetAllEntities();
+		//if (TextureContainer && TransformContainer)
+		//{
+		//	auto& _texDense = TextureContainer->GetAllComponents();
+		//	auto& _texEntities = TextureContainer->GetAllEntities();
 
-			for (uint32_t i = 0; i < _texDense.size(); i++)
-			{
-				Entity _e = _texEntities[i];
+		//	for (uint32_t i = 0; i < _texDense.size(); i++)
+		//	{
+		//		Entity _e = _texEntities[i];
 
-				auto& _sprite = _texDense[i];
-				auto& _transform = TransformContainer->GetComponent(_e);
-				Renderables.Add(&_transform, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
-			}
+		//		auto& _sprite = _texDense[i];
+		//		auto& _transform = TransformContainer->GetComponent(_e);
+		//		Renderables.Add(&_transform, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
+		//	}
 
-			//std::sort(Renderables.Items.begin(), Renderables.Items.end(), 
-			//	[](const RenderItem2D& a, const RenderItem2D& b) 
-			//	{ 
-			//		return a.Proxy.Tex.GetID() < b.Proxy.Tex.GetID(); 
-			//	});
-		}
+		//	//std::sort(Renderables.Items.begin(), Renderables.Items.end(),
+		//	//	[](const RenderItem2D& a, const RenderItem2D& b)
+		//	//{
+		//	//	return a.SortKey < b.SortKey;
+		//	//});
+		//}
 	}
 
 	void WorldLayer::RegisterEntity(WorldEntity& InEntity)
@@ -121,7 +121,7 @@ namespace Brahmanda
 		return CycleEnabledEntities;
 	}
 
-	void WorldLayer::SubmitForRender(RenderQueue& InQueue)
+	void WorldLayer::UpdateForRender()
 	{
 		//SortedItems.clear();
 
@@ -155,6 +155,11 @@ namespace Brahmanda
 		//		InQueue.Submit(RenderData(_tex, &_transform));
 		//	}
 		//}
+	}
+
+	inline uint8_t WorldLayer::GetDirtyFlag() const
+	{
+		return DirtyFlag;
 	}
 
 	std::vector<RenderItem2D>& WorldLayer::GetRenderables()

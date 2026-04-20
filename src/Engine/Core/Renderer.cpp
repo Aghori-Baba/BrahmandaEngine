@@ -9,6 +9,7 @@
 #include "Engine/Systems/Logger.h"
 #include "Engine/Systems/AssetManager.h"
 #include "Engine/GameFramework/Scene/Camera.h"
+#include "Engine/GameFramework/SceneProxy.h"
 
 //...
 
@@ -65,23 +66,25 @@ namespace Brahmanda
 			}
 		}
 
-		//auto& _items = InContext.PrimaryQueue.GetRenderItems();
-		//auto& _texList = AssetManagerRef->GetLoadedTextureList(); //HACK: Dangerous array use. Not protected against deletion.
-		//TextureHandle _current = {};
-		//Texture* _t = &_texList[0];
-		//Vector4 _uv = {};
-		//for (auto& It : _items)
-		//{
-		//	uint32_t _id = It.Tex.GetID();
-		//	if (_current.GetID() != _id)
-		//	{
-		//		_current = It.Tex;
-		//		_t = &_texList[_id];
-		//	}
-		//	_uv = It.UV;
-		//	const ObjectTransform& Transform = *It.Transform;
-		//	DrawTexturePro(*_t, { _uv.X, _uv.Y, _uv.Z, _uv.W }, { Transform.Pos[0], Transform.Pos[1], Transform.Scale[0], Transform.Scale[1] }, {0, 0}, Transform.Rot[0], WHITE);
-		//}
+		auto& _itemsList = InSceneProxy->GetProxyData();
+		auto& _texList = AssetManagerRef->GetLoadedTextureList();
+		TextureHandle _current = {};
+		Texture* _t = &_texList[0];
+		Vector4 _uv = {};
+		for (auto& _items : _itemsList)
+		{
+			for (auto& _item : _items)
+			{
+				uint32_t _id = _item.tex.GetID();
+				if (_current.GetID() != _id)
+				{
+					_current = _item.tex;
+					_t = &_texList[_id];
+				}
+				_uv = _item.uv;
+				DrawTexturePro(*_t, { _uv.X, _uv.Y, _uv.Z, _uv.W }, { _item.x, _item.y, _item.sx, _item.sy }, { 0, 0 }, _item.r, WHITE);
+			}
+		}
 
 		if (bHasActiveCam)
 		{

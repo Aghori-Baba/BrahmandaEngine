@@ -95,20 +95,20 @@ void GameMap01::Create(int InW, int InH)
 			if (_i % 3 == 0)
 			{
 				It->Type = Block::leaves;
-				It->SpriteComp.Get().SpriteTex = _ts;
+				It->SpriteComp.Get().SpriteTex = _t;
 				It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 			}
 			else
 			{
 				It->Type = Block::glass;
-				It->SpriteComp.Get().SpriteTex = _ts;
+				It->SpriteComp.Get().SpriteTex = _t1;
 				It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 			}
 		}
 		else
 		{
 			It->Type = Block::bricks;
-			It->SpriteComp.Get().SpriteTex = _ts;
+			It->SpriteComp.Get().SpriteTex = _t2;
 			It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 		}
 

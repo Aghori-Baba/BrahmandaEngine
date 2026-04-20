@@ -74,6 +74,7 @@ namespace Brahmanda
 			T* EntityPtr = NewEntity.get();
 			EntityPtr->Construct(InTransform);
 			WorldEntities.emplace_back(std::move(NewEntity));
+			DirtyFlag |= 1 << 0;
 
 			return EntityPtr;
 		}
@@ -84,8 +85,9 @@ namespace Brahmanda
 		void UpdateEntityCache();
 		void RegisterForCycle(WorldEntity* InEntity);
 		std::vector<WorldEntity*>& GetCycleEnabledEntities();
-		void SubmitForRender(RenderQueue& InQueue);
+		void UpdateForRender();
 
+		inline uint8_t GetDirtyFlag() const;
 		std::vector<RenderItem2D>& GetRenderables();
 
 		bool GetIsLoaded() const;
@@ -94,26 +96,30 @@ namespace Brahmanda
 		void SetAssetManager(AssetManager* InRef);
 		CameraManager* GetCameraManager() const;
 
+	public:
+
+		EntityManager EntityMgr;
+
 	protected:
 
 		AssetManager* AssetManagerRef = nullptr;
 		InputManager* InputMgr = nullptr;
 		CameraManager* CameraMgr = nullptr;
-		EntityManager EntityMgr;
 		EntityInitializer EntityInitData;
 
 	private:
-		const size_t BUCKET_COUNT = static_cast<size_t>(RenderGroup::COUNT);
+
 		bool bIsLoaded = false;
 		bool bIsVisible = false;
-		uint32_t EntityCount = 0;
+		uint32_t EntityCount = 0u;
+		uint8_t DirtyFlag = 0u;
 
 		std::vector<std::unique_ptr<WorldEntity>> WorldEntities;
 		std::vector<WorldEntity*> CycleEnabledEntities;
 		std::vector<Entity> Entities;
 		RenderGroup2D Renderables;
 		std::vector<RenderItem2D*> SortedItems;
-		std::vector<RenderCommand2D> RenderCommands;
+		//std::vector<ItemProxy2D> RenderCommands;
 		std::array<std::vector<RenderItem2D>, static_cast<size_t>(WorldLayer::RenderGroup::COUNT)> RenderBucket;
 
 		ComponentContainer<Sprite2D>* TextureContainer = nullptr;

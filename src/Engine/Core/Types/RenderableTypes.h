@@ -83,8 +83,8 @@ namespace Brahmanda
 		RenderQueue& PrimaryQueue;
 		GameCamera* ActiveCamera = nullptr;
 
-		SceneProxy* ScenePrx3D = nullptr;
-		SceneProxy2D* ScenePrx2D = nullptr;
+		SceneProxy* SceneProx3D = nullptr;
+		SceneProxy2D* SceneProx2D = nullptr;
 
 		//To be expanded further as per requirement
 	};
@@ -108,10 +108,21 @@ namespace Brahmanda
 		uint64_t SortKey = 0u;
 	};
 
-	struct RenderCommand2D
+	struct ItemProxy2D
 	{
+		ItemProxy2D(ObjectTransform& InTransform, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey)
+			: tex(InTex), uv(InUV), sortKey(InSortKey)
+		{
+			x = InTransform.Pos[0];
+			y = InTransform.Pos[1];
+			sx = InTransform.Scale[0];
+			sy = InTransform.Scale[1];
+			r = InTransform.Rot[0];
+		}
+
 		float x, y;
 		float sx, sy;
+		float r;
 		TextureHandle tex;
 		Vector4 uv;
 		uint64_t sortKey;

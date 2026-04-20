@@ -7,6 +7,7 @@
 #include "Engine/Core/Types/RenderableTypes.h"
 #include "Engine/GameFramework/Scene/Camera.h"
 #include "Engine/GameFramework/Scene/WorldEntity.h"
+#include "Engine/Core/Types/AssetTypes.h"
 #include "Engine/Systems/Logger.h"
 #include "Engine/Systems/CameraManager.h"
 #include "Engine/Systems/InputManager.h"
@@ -40,7 +41,7 @@ namespace Brahmanda
 		CameraManagerRef = std::make_unique<CameraManager>(ViewData);
 		CameraManagerRef->Init();
 
-		GlobalData.reserve(15000u);
+		//GlobalData.reserve(15000u);
 
 		OnInit();
 
@@ -72,7 +73,7 @@ namespace Brahmanda
 	{
 		OnCycle(DeltaTime);
 
-		GlobalData.clear();
+		//GlobalData.clear();
 
 		InputManagerRef->HandleInput(DeltaTime);
 		CameraManagerRef->Cycle(DeltaTime);
@@ -89,28 +90,74 @@ namespace Brahmanda
 					_e->Cycle(DeltaTime);
 				}
 
-				for (auto& _renderIt : It->GetRenderables())
-				{
-					GlobalData.push_back(&_renderIt);
-				}
+				InContext.SceneProx2D = &SceneProx2D;
+				//for (auto& _renderIt : It->GetRenderables())
+				//{
+				//	GlobalData.push_back(&_renderIt);
+				//}
 			}
 		}
 
-		std::sort(GlobalData.begin(), GlobalData.end(),
-		[](const RenderItem2D* a, const RenderItem2D* b)
-		{
-			return a->SortKey > b->SortKey;
-		});
+		//std::sort(GlobalData.begin(), GlobalData.end(),
+		//[](const RenderItem2D* a, const RenderItem2D* b)
+		//{
+		//	return a->SortKey > b->SortKey;
+		//});
 
-		for (auto& It : GlobalData)
-		{
-			InContext.PrimaryQueue.Submit(It->Transform, It->Proxy.Tex, It->Proxy.UV);
-		}
+		//for (auto& It : GlobalData)
+		//{
+		//	InContext.PrimaryQueue.Submit(It->Transform, It->Proxy.Tex, It->Proxy.UV);
+		//}
 	}
 
 	void Mandala::OnCycle(float DeltaTime)
 	{
 
+	}
+
+	void Mandala::GatherRenderables()
+	{
+		SceneProx2D.ClearAllLayers();
+
+		for (auto& It : Collection.GetLayerList())
+		{
+			if (It && It->GetIsLoaded())
+			{
+				const auto& _sprList = It->EntityMgr.GetContainerByType<Sprite2D>();
+				const auto& _transformList = It->EntityMgr.GetContainerByType<ObjectTransform>();
+
+				auto& _texDense = _sprList->GetAllComponents();
+				auto& _texEntities = _sprList->GetAllEntities();
+
+				for (int i = 0; i < _texDense.size(); i++)
+				{
+					Entity _e = _texEntities[i];
+
+					auto& _sprite = _texDense[i];
+					auto& _transform = _transformList->GetComponent(_e);
+
+					SceneProx2D.AddProxy(_transform, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
+				}
+			}
+		}
+
+		SceneProx2D.SortAll();
+	}
+
+	void Mandala::CheckUpdatedRenderables()
+	{
+		for (auto& It : Collection.GetLayerList())
+		{
+			if (It && It->GetIsLoaded())
+			{
+				const auto& _transCont = It->EntityMgr.GetContainerByType<Transform>();
+				const auto& _transforms = _transCont->GetAllComponents();
+				for (auto& _t : _transforms)
+				{
+					//_t.
+				}
+			}
+		}
 	}
 
 	void Mandala::Shutdown()
