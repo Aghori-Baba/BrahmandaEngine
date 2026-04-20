@@ -46,8 +46,6 @@ namespace Brahmanda
 
 	void Pawn::AddMovement(const Vector3&& InValue)
 	{
-		TransformComp.Get().Pos[0] = InValue.X;
-		TransformComp.Get().Pos[1] = InValue.Y;
-		TransformComp.Get().Pos[2] = InValue.Z;
+		TransformComp->Translate(InValue);
 	}
 }

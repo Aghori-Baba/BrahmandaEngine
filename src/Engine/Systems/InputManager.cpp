@@ -25,9 +25,9 @@ namespace Brahmanda
 
 	void InputManager::HandleInput(float DeltaTime)
 	{
-		static float PosX = 0.f;
-		static float PosY = 0.f;
-		static float Mul = 5.f;
+		float PosX = 0.f;
+		float PosY = 0.f;
+		float Mul = 5.f;
 
 		if (IsKeyDown(KEY_LEFT_SHIFT))
 		{

@@ -110,8 +110,8 @@ namespace Brahmanda
 
 	struct ItemProxy2D
 	{
-		ItemProxy2D(ObjectTransform& InTransform, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey)
-			: tex(InTex), uv(InUV), sortKey(InSortKey)
+		ItemProxy2D(ObjectTransform& InTransform, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey, uint32_t InID)
+			: tex(InTex), uv(InUV), sortKey(InSortKey), id(InID)
 		{
 			x = InTransform.Pos[0];
 			y = InTransform.Pos[1];
@@ -126,6 +126,7 @@ namespace Brahmanda
 		TextureHandle tex;
 		Vector4 uv;
 		uint64_t sortKey;
+		uint32_t id;
 	};
 
 	struct RenderGroup2D

@@ -8,6 +8,7 @@
 #include "Engine/GameFramework/Scene/Camera.h"
 #include "Engine/GameFramework/Scene/WorldEntity.h"
 #include "Engine/Core/Types/AssetTypes.h"
+#include "Engine/Core/Types/CustomTypes.h"
 #include "Engine/Systems/Logger.h"
 #include "Engine/Systems/CameraManager.h"
 #include "Engine/Systems/InputManager.h"
@@ -90,13 +91,16 @@ namespace Brahmanda
 					_e->Cycle(DeltaTime);
 				}
 
-				InContext.SceneProx2D = &SceneProx2D;
 				//for (auto& _renderIt : It->GetRenderables())
 				//{
 				//	GlobalData.push_back(&_renderIt);
 				//}
 			}
 		}
+		
+		InContext.SceneProx2D = &SceneProx2D;
+
+		CheckUpdatedRenderables();
 
 		//std::sort(GlobalData.begin(), GlobalData.end(),
 		//[](const RenderItem2D* a, const RenderItem2D* b)
@@ -136,7 +140,7 @@ namespace Brahmanda
 					auto& _sprite = _texDense[i];
 					auto& _transform = _transformList->GetComponent(_e);
 
-					SceneProx2D.AddProxy(_transform, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
+					SceneProx2D.AddProxy(_transform, _e.ID, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
 				}
 			}
 		}
@@ -150,11 +154,22 @@ namespace Brahmanda
 		{
 			if (It && It->GetIsLoaded())
 			{
-				const auto& _transCont = It->EntityMgr.GetContainerByType<Transform>();
+				const auto& _transCont = It->EntityMgr.GetContainerByType<ObjectTransform>();
 				const auto& _transforms = _transCont->GetAllComponents();
+				const auto& _entities = _transCont->GetAllEntities();
+
+				uint32_t _index = 0u;
 				for (auto& _t : _transforms)
 				{
-					//_t.
+					if (_t.DirtyFlag != 0u)
+					{
+						//World::ERenderLayer _l = 
+						uint32_t _id = _entities[_index].ID;
+
+						//SceneProx2D.UpdateProxy();
+					}
+
+					_index++;
 				}
 			}
 		}

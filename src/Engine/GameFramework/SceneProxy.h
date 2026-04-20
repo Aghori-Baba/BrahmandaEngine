@@ -3,6 +3,8 @@
 #pragma once
 
 #include <array>
+#include <unordered_map>
+#include <cstdint>
 
 #include "Brahmanda/GameConfig.h"
 #include "Engine/Core/Types/RenderableTypes.h"
@@ -37,7 +39,8 @@ namespace Brahmanda
 		void Shutdown();
 
 		const std::array<std::vector<ItemProxy2D>, World::ERenderLayer::ERL_COUNT>& GetProxyData() const;
-		void AddProxy(ObjectTransform& InTransform, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey);
+		void AddProxy(ObjectTransform& InTransform, uint32_t InID, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey);
+		void UpdateProxy(World::ERenderLayer InLayer, uint32_t InID);
 		void SortAll();
 		void SortLayer(World::ERenderLayer InLayer);
 		void ClearAllLayers();
@@ -45,5 +48,6 @@ namespace Brahmanda
 	private:
 
 		std::array<std::vector<ItemProxy2D>, World::ERenderLayer::ERL_COUNT> ProxyData;
+		std::array<std::vector<uint32_t>, World::ERenderLayer::ERL_COUNT> Mapping;
 	};
 }
