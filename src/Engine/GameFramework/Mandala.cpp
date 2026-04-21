@@ -97,10 +97,9 @@ namespace Brahmanda
 				//}
 			}
 		}
-		
-		InContext.SceneProx2D = &SceneProx2D;
-
 		CheckUpdatedRenderables();
+
+		InContext.SceneProx2D = &SceneProx2D;
 
 		//std::sort(GlobalData.begin(), GlobalData.end(),
 		//[](const RenderItem2D* a, const RenderItem2D* b)
@@ -141,6 +140,8 @@ namespace Brahmanda
 					auto& _transform = _transformList->GetComponent(_e);
 
 					SceneProx2D.AddProxy(_transform, _e.ID, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
+					_transform.ClearDirtyFlag();
+					//_sprite
 				}
 			}
 		}
@@ -155,8 +156,8 @@ namespace Brahmanda
 			if (It && It->GetIsLoaded())
 			{
 				const auto& _transCont = It->EntityMgr.GetContainerByType<ObjectTransform>();
-				const auto& _transforms = _transCont->GetAllComponents();
-				const auto& _entities = _transCont->GetAllEntities();
+				auto& _transforms = _transCont->GetAllComponents();
+				auto& _entities = _transCont->GetAllEntities();
 
 				uint32_t _index = 0u;
 				for (auto& _t : _transforms)
@@ -166,7 +167,8 @@ namespace Brahmanda
 						//World::ERenderLayer _l = 
 						uint32_t _id = _entities[_index].ID;
 
-						//SceneProx2D.UpdateProxy();
+						SceneProx2D.UpdateProxyTransform(_id, _t);
+						_t.ClearDirtyFlag();
 					}
 
 					_index++;

@@ -20,8 +20,9 @@ namespace Brahmanda
 		SetTraceLogLevel(LOG_NONE);
 #endif
 
+		std::string Title = std::string(Config::Engine::NAME) + std::string("-") + std::string(Config::Engine::VERSION);
 		SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-		InitWindow(1280, 720, "Brahmanda Engine 0.001a");
+		InitWindow(1600, 900, Title.c_str());
 		SetTargetFPS(240);
 
 		rlImGuiSetup(true);

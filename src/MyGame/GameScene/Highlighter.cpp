@@ -19,6 +19,5 @@ void Highlighter::Cycle(float DeltaTime)
 
 void Highlighter::UpdateLocation(float InX, float InY)
 {
-	TransformComp.Get().Pos[0] = (int)floor(InX);
-	TransformComp.Get().Pos[1] = (int)floor(InY);
+	TransformComp.Set(brm::Vector3((int)floor(InX), (int)floor(InY), 0.f));
 }

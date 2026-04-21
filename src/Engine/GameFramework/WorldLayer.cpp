@@ -40,7 +40,7 @@ namespace Brahmanda
 	{
 		bIsLoaded = true;
 		Entities.reserve(5000);
-		SortedItems.reserve(10000u);
+		//SortedItems.reserve(10000u);
 		//RenderCommands.clear();
 		//RenderCommands.reserve(Renderables.Items.size());
 
@@ -69,7 +69,7 @@ namespace Brahmanda
 
 	void WorldLayer::ReserveWorldSize(size_t InSize)
 	{
-		TransformContainer->ReserveSize(InSize);
+		//TransformContainer->ReserveSize(InSize);
 	}
 
 	void WorldLayer::RegisterRenderables()
@@ -162,10 +162,15 @@ namespace Brahmanda
 		return DirtyFlag;
 	}
 
-	std::vector<RenderItem2D>& WorldLayer::GetRenderables()
+	void WorldLayer::MarkWorldDirty()
 	{
-		return Renderables.Items;
+		DirtyFlag = 1u;
 	}
+
+	//std::vector<RenderItem2D>& WorldLayer::GetRenderables()
+	//{
+	//	return Renderables.Items;
+	//}
 
 	bool WorldLayer::GetIsLoaded() const
 	{

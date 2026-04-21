@@ -67,7 +67,7 @@ namespace Brahmanda
 		//Scales
 		float Scale[3] = { 1.f, 1.f, 1.f };
 
-		uint8_t DirtyFlag = 0u;
+		mutable uint8_t DirtyFlag = 0u;
 
 		Vector3 GetLocation() const
 		{
@@ -140,6 +140,30 @@ namespace Brahmanda
 			DirtyFlag |= 1 << 2;
 		}
 
+		void Update(const Vector3& InLoc, const Vector3& InRot, const Vector3& InScale)
+		{
+			SetLocation(InLoc);
+			SetRotation(InRot);
+			SetScale(InScale);
+		}
+
+		void Update(const Vector3& InLoc)
+		{
+			SetLocation(InLoc);
+		}
+
+		void UpdateDelta(const Vector3& InLoc, const Vector3& InRot, const Vector3& InScale)
+		{
+			Translate(InLoc);
+			Rotate(InRot);
+			SetScale(InScale);
+		}
+
+		void UpdateDelta(const Vector3& InLoc)
+		{
+			Translate(InLoc);
+		}
+
 		void SetLocation(Vector3 InValue)
 		{
 			Pos[0] = InValue.X;
@@ -175,7 +199,7 @@ namespace Brahmanda
 			DirtyFlag |= 1 << 2;
 		}
 
-		void ClearDirtyFlag()
+		void ClearDirtyFlag() const
 		{
 			DirtyFlag = 0u;
 		}

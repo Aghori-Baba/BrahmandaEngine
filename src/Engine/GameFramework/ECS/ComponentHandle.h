@@ -4,13 +4,13 @@
 
 #include <assert.h>
 #include "Component.h"
+#include "Engine/GameFramework/WorldLayer.h"
 
 //...
 
 namespace Brahmanda
 {
 	struct Entity;
-	class WorldLayer;
 
 	template<typename T>
 	class ComponentHandle
@@ -46,6 +46,22 @@ namespace Brahmanda
 		{
 			assert(Container->HasComponent(Owner) && "Owner does not have requested Component");
 			return Container->GetComponent(Owner);
+		}
+
+		template<typename... Args>
+		void Modify(Args&&... InArgs)
+		{
+			auto& _comp = Get();
+			_comp.UpdateDelta(std::forward<Args>(InArgs)...);
+			OwningWorld->MarkWorldDirty();
+		}
+
+		template<typename... Args>
+		void Set(Args&&... InArgs)
+		{
+			auto& _comp = Get();
+			_comp.Update(std::forward<Args>(InArgs)...);
+			OwningWorld->MarkWorldDirty();
 		}
 
 		T* operator->()

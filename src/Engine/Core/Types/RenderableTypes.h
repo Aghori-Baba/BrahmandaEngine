@@ -120,6 +120,15 @@ namespace Brahmanda
 			r = InTransform.Rot[0];
 		}
 
+		void Update(const ObjectTransform& InTransform)
+		{
+			x = InTransform.Pos[0];
+			y = InTransform.Pos[1];
+			sx = InTransform.Scale[0];
+			sy = InTransform.Scale[1];
+			r = InTransform.Rot[0];
+		}
+
 		float x, y;
 		float sx, sy;
 		float r;

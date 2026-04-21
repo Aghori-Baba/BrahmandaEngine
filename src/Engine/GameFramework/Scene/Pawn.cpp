@@ -26,8 +26,7 @@ namespace Brahmanda
 	void Pawn::Cycle(float DeltaTime)
 	{
 		Vector3 _loc;
-		_loc.X = TransformComp.Get().Pos[0];
-		_loc.Y = TransformComp.Get().Pos[1];
+		_loc = TransformComp->GetLocation();
 
 		PawnCamera->UpdateCameraLocation(_loc);
 	}
@@ -39,13 +38,15 @@ namespace Brahmanda
 
 	void Pawn::AddMovement(const Vector3& InValue)
 	{
-		TransformComp.Get().Pos[0] = InValue.X;
-		TransformComp.Get().Pos[1] = InValue.Y;
-		TransformComp.Get().Pos[2] = InValue.Z;
+		float _sum = InValue.X + InValue.Y + InValue.Z;
+		if (_sum > 0.f)
+		{
+			TransformComp.Modify(InValue);
+		}
 	}
 
 	void Pawn::AddMovement(const Vector3&& InValue)
 	{
-		TransformComp->Translate(InValue);
+		TransformComp.Modify(InValue);
 	}
 }

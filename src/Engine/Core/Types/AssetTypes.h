@@ -24,5 +24,19 @@ namespace Brahmanda
 			SortKey |= (uint64_t)InTexID << 16;
 			SortKey |= (uint64_t)InEntityID;
 		}
+
+		inline uint8_t GetDirtyFlag() const
+		{
+			return DirtyFlag;
+		}
+
+		void ClearDirtyFlag() const
+		{
+			DirtyFlag = 0;
+		}
+
+	private:
+
+		mutable uint8_t DirtyFlag = 0u;
 	};
 }

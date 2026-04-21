@@ -42,6 +42,19 @@ namespace Brahmanda
 			COUNT
 		};
 
+		enum DirtyBytes : uint8_t
+		{
+			Transform = 1 << 0,		// position/rotation/scale
+			Visibility = 1 << 1,	// generic visible/hidden toggle
+			Material = 1 << 2,
+			Texture = 1 << 3,
+			Light = 1 << 4,
+
+			RenderState = 1 << 5,	// batching/sort related
+			Geometry = 1 << 6,		// mesh changed (3D)
+			Reserved = 1 << 7
+		};
+
 		WorldLayer(const LayerContextData& InData);
 
 		~WorldLayer();
@@ -88,7 +101,8 @@ namespace Brahmanda
 		void UpdateForRender();
 
 		inline uint8_t GetDirtyFlag() const;
-		std::vector<RenderItem2D>& GetRenderables();
+		void MarkWorldDirty();
+		//std::vector<RenderItem2D>& GetRenderables();
 
 		bool GetIsLoaded() const;
 		bool GetIsVisible() const;
@@ -117,12 +131,12 @@ namespace Brahmanda
 		std::vector<std::unique_ptr<WorldEntity>> WorldEntities;
 		std::vector<WorldEntity*> CycleEnabledEntities;
 		std::vector<Entity> Entities;
-		RenderGroup2D Renderables;
-		std::vector<RenderItem2D*> SortedItems;
+		//RenderGroup2D Renderables;
+		//std::vector<RenderItem2D*> SortedItems;
 		//std::vector<ItemProxy2D> RenderCommands;
-		std::array<std::vector<RenderItem2D>, static_cast<size_t>(WorldLayer::RenderGroup::COUNT)> RenderBucket;
+		//std::array<std::vector<RenderItem2D>, static_cast<size_t>(WorldLayer::RenderGroup::COUNT)> RenderBucket;
 
-		ComponentContainer<Sprite2D>* TextureContainer = nullptr;
-		ComponentContainer<ObjectTransform>* TransformContainer = nullptr;
+		//ComponentContainer<Sprite2D>* TextureContainer = nullptr;
+		//ComponentContainer<ObjectTransform>* TransformContainer = nullptr;
 	};
 }
