@@ -53,7 +53,7 @@ namespace Brahmanda
 		{
 			auto& _comp = Get();
 			_comp.UpdateDelta(std::forward<Args>(InArgs)...);
-			OwningWorld->MarkWorldDirty();
+			OwningWorld->MarkWorldDirty(Owner);
 		}
 
 		template<typename... Args>
@@ -61,7 +61,7 @@ namespace Brahmanda
 		{
 			auto& _comp = Get();
 			_comp.Update(std::forward<Args>(InArgs)...);
-			OwningWorld->MarkWorldDirty();
+			OwningWorld->MarkWorldDirty(Owner);
 		}
 
 		T* operator->()

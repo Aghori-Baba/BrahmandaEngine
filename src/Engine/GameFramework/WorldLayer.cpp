@@ -162,9 +162,20 @@ namespace Brahmanda
 		return DirtyFlag;
 	}
 
-	void WorldLayer::MarkWorldDirty()
+	void WorldLayer::ClearDirtyFlag()
+	{
+		DirtyFlag = 0u;
+	}
+
+	void WorldLayer::MarkWorldDirty(Entity InEntity)
 	{
 		DirtyFlag = 1u;
+		DirtyEntities.push_back(InEntity);
+	}
+
+	std::vector<Entity>& WorldLayer::GetDirtyEntities()
+	{
+		return DirtyEntities;
 	}
 
 	//std::vector<RenderItem2D>& WorldLayer::GetRenderables()

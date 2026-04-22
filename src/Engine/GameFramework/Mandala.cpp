@@ -157,22 +157,30 @@ namespace Brahmanda
 			{
 				const auto& _transCont = It->EntityMgr.GetContainerByType<ObjectTransform>();
 				auto& _transforms = _transCont->GetAllComponents();
-				auto& _entities = _transCont->GetAllEntities();
+				auto& _sparse = _transCont->GetAllSparse();
+				auto& _entities = It->GetDirtyEntities();
 
-				uint32_t _index = 0u;
-				for (auto& _t : _transforms)
+				uint32_t _size = _entities.size();
+				for (int i = 0; i < _size; i++)
 				{
-					if (_t.DirtyFlag != 0u)
-					{
-						//World::ERenderLayer _l = 
-						uint32_t _id = _entities[_index].ID;
+					uint32_t _id = _entities.back().ID;
+					auto& _t = _transforms[_sparse[_id]];
+					SceneProx2D.UpdateProxyTransform(_id, _t);
+					_t.ClearDirtyFlag();
+					_entities.pop_back();
+					//if (_t.DirtyFlag != 0u)
+					//{
+					//	//World::ERenderLayer _l = 
+					//	uint32_t _id = _entities[_index].ID;
 
-						SceneProx2D.UpdateProxyTransform(_id, _t);
-						_t.ClearDirtyFlag();
-					}
+					//	SceneProx2D.UpdateProxyTransform(_id, _t);
+					//	_t.ClearDirtyFlag();
+					//}
 
-					_index++;
+					//_index++;
 				}
+
+				It->ClearDirtyFlag();
 			}
 		}
 	}

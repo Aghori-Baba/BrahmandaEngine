@@ -139,6 +139,11 @@ namespace Brahmanda
 			return Entities;
 		}
 
+		const std::vector<uint32_t>& GetAllSparse() const
+		{
+			return Sparse;
+		}
+
 		void ReserveSize(size_t InSize)
 		{
 			Dense.reserve(InSize);

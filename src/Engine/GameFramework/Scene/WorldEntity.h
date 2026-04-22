@@ -53,6 +53,11 @@ namespace Brahmanda
 			return ComponentHandle<T>(Entity::InvalidEntity(), nullptr, nullptr);
 		}
 
+		void AttachChild(WorldEntity* InChild)
+		{
+
+		}
+
 	protected:
 
 		template<typename T, typename... Args>
@@ -75,5 +80,6 @@ namespace Brahmanda
 
 	private:
 
+		std::vector<WorldEntity*> Children;
 	};
 }

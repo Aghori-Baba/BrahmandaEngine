@@ -50,7 +50,7 @@ namespace Brahmanda
 			Texture = 1 << 3,
 			Light = 1 << 4,
 
-			RenderState = 1 << 5,	// batching/sort related
+			NewSpawn = 1 << 5,	// batching/sort related
 			Geometry = 1 << 6,		// mesh changed (3D)
 			Reserved = 1 << 7
 		};
@@ -101,7 +101,9 @@ namespace Brahmanda
 		void UpdateForRender();
 
 		inline uint8_t GetDirtyFlag() const;
-		void MarkWorldDirty();
+		void ClearDirtyFlag();
+		void MarkWorldDirty(Entity InEntity); 
+		std::vector<Entity>& GetDirtyEntities();
 		//std::vector<RenderItem2D>& GetRenderables();
 
 		bool GetIsLoaded() const;
@@ -131,6 +133,7 @@ namespace Brahmanda
 		std::vector<std::unique_ptr<WorldEntity>> WorldEntities;
 		std::vector<WorldEntity*> CycleEnabledEntities;
 		std::vector<Entity> Entities;
+		std::vector<Entity> DirtyEntities;
 		//RenderGroup2D Renderables;
 		//std::vector<RenderItem2D*> SortedItems;
 		//std::vector<ItemProxy2D> RenderCommands;

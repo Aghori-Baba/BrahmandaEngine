@@ -16,6 +16,12 @@ namespace Brahmanda
 {
 	using namespace Config;
 
+	struct ProxyIndex
+	{
+		World::ERenderLayer Layer;
+		uint32_t Index;
+	};
+
 	class SceneProxy
 	{
 	public:
@@ -51,5 +57,6 @@ namespace Brahmanda
 		std::array<std::vector<ItemProxy2D>, World::ERenderLayer::ERL_COUNT> ProxyData;
 		//std::array<std::vector<uint32_t>, World::ERenderLayer::ERL_COUNT> Mapping;
 		std::unordered_map<uint32_t, std::tuple<World::ERenderLayer, uint32_t>> Lookup;
+		std::unordered_map<uint32_t, std::vector<ProxyIndex>> Mapping;
 	};
 }

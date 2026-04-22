@@ -46,23 +46,16 @@ namespace Brahmanda
 
 	void Renderer::RenderPass2D(GameCamera* InCam, const SceneProxy2D* InSceneProxy)
 	{
-		auto* Cam = InCam;
 		bool bIsOrtho = false;
-		bool bHasActiveCam = Cam != nullptr;
 
-		if (bHasActiveCam)
+		if (InCam)
 		{
-			Cam->SetOffset({ GetScreenWidth() / 2.f, GetScreenHeight() / 2.f });
-			bIsOrtho = Cam->GetCameraType() == ORTHOGRAPHIC_CAM;
+			InCam->SetOffset({ GetScreenWidth() / 2.f, GetScreenHeight() / 2.f });
+			bIsOrtho = InCam->GetCameraType() == ORTHOGRAPHIC_CAM;
 
 			if (bIsOrtho)
 			{
-				BeginMode2D(*(Cam->Get2DCamera()));
-			}
-			else
-			{
-				//TODO: 3D Mode not supported yet.
-				//BeginMode3D(*(Cam->Get3DCamera()));
+				BeginMode2D(*(InCam->Get2DCamera()));
 			}
 		}
 
@@ -86,17 +79,9 @@ namespace Brahmanda
 			}
 		}
 
-		if (bHasActiveCam)
+		if (bIsOrtho)
 		{
-			if (bIsOrtho)
-			{
-				EndMode2D();
-			}
-			else
-			{
-				//TODO: 3D Mode not supported yet.
-				//EndMode3D();
-			}
+			EndMode2D();
 		}
 	}
 
