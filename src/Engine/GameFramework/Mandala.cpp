@@ -141,7 +141,7 @@ namespace Brahmanda
 
 					SceneProx2D.AddProxy(_transform, _e.ID, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
 					_transform.ClearDirtyFlag();
-					//_sprite
+					_sprList->RemoveDirtyItemAtEnd();
 				}
 			}
 		}
@@ -156,29 +156,30 @@ namespace Brahmanda
 			if (It && It->GetIsLoaded())
 			{
 				const auto& _transCont = It->EntityMgr.GetContainerByType<ObjectTransform>();
+				auto& _dirtyList = _transCont->GetAllDirty();
 				auto& _transforms = _transCont->GetAllComponents();
-				auto& _sparse = _transCont->GetAllSparse();
-				auto& _entities = It->GetDirtyEntities();
-
-				uint32_t _size = _entities.size();
-				for (int i = 0; i < _size; i++)
+				while (!_dirtyList.empty())
 				{
-					uint32_t _id = _entities.back().ID;
-					auto& _t = _transforms[_sparse[_id]];
-					SceneProx2D.UpdateProxyTransform(_id, _t);
-					_t.ClearDirtyFlag();
-					_entities.pop_back();
-					//if (_t.DirtyFlag != 0u)
-					//{
-					//	//World::ERenderLayer _l = 
-					//	uint32_t _id = _entities[_index].ID;
-
-					//	SceneProx2D.UpdateProxyTransform(_id, _t);
-					//	_t.ClearDirtyFlag();
-					//}
-
-					//_index++;
+					Entry _dirtyIt = _dirtyList.back();
+					auto& _transform = _transforms[_dirtyIt.Index];
+					SceneProx2D.UpdateProxyTransform(_dirtyIt.ID, _transform);
+					_transCont->RemoveDirtyItemAtEnd();
 				}
+
+				//const auto& _transCont = It->EntityMgr.GetContainerByType<ObjectTransform>();
+				//auto& _transforms = _transCont->GetAllComponents();
+				//auto& _sparse = _transCont->GetAllSparse();
+				//auto& _entities = It->GetDirtyEntities();
+
+				//uint32_t _size = _entities.size();
+				//for (int i = 0; i < _size; i++)
+				//{
+				//	uint32_t _id = _entities.back().ID;
+				//	auto& _t = _transforms[_sparse[_id]];
+				//	SceneProx2D.UpdateProxyTransform(_id, _t);
+				//	_t.ClearDirtyFlag();
+				//	_entities.pop_back();
+				//}
 
 				It->ClearDirtyFlag();
 			}

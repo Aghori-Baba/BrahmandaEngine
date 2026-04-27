@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <cassert>
+#include <unordered_map>
 
 #include "Entity.h"
 #include "TypeID.h"
@@ -12,12 +13,27 @@
 
 namespace Brahmanda
 {
+	using ENTITY_ID = uint32_t;
+	using DIRTY_INDEX = uint32_t;
+
 	class Component
 	{
 	public:
 
 		Component() = default;
 		~Component() = default;
+	};
+
+	struct Entry
+	{
+		Entry(ENTITY_ID InID, DIRTY_INDEX InIndex)
+			: ID(InID), Index(InIndex)
+		{
+
+		}
+
+		uint32_t ID;
+		uint32_t Index;
 	};
 
 	class IContainerBridge
@@ -115,7 +131,7 @@ namespace Brahmanda
 			{
 				return;
 			}
-			
+
 			uint32_t _last = static_cast<uint32_t>(Dense.size() - 1);
 			Entity _back = Entities[_last];
 
@@ -127,6 +143,35 @@ namespace Brahmanda
 			Dense.pop_back();
 			Entities.pop_back();
 			Sparse[_i] = INVALID_INDEX;
+
+			//Updating Dirty List:
+			auto It1 = DirtyMapping.find(_i);
+			if (It1 != DirtyMapping.end())
+			{
+				uint32_t _idx = It1->second;
+				uint32_t _lastIdx = DirtyList.size() - 1;
+
+				if (_idx != _lastIdx)
+				{
+					DirtyList[_idx] = DirtyList[_lastIdx];
+					DirtyMapping[DirtyList[_idx].ID] = _idx;
+				}
+
+				DirtyList.pop_back();
+				DirtyMapping.erase(It1);
+			}
+
+			if (_dense != _last)
+			{
+				auto It2 = DirtyMapping.find(_back.ID);
+				if (It2 != DirtyMapping.end())
+				{
+					uint32_t _idx = It2->second;
+
+					DirtyList[_idx].Index = _dense;
+					DirtyMapping[DirtyList[_idx].ID] = _idx;
+				}
+			}
 		}
 
 		const std::vector<T>& GetAllComponents() const
@@ -144,6 +189,31 @@ namespace Brahmanda
 			return Sparse;
 		}
 
+		const std::vector<Entry>& GetAllDirty()
+		{
+			return DirtyList;
+		}
+
+		void MarkComponentDirty(ENTITY_ID InID)
+		{
+			ENTITY_ID _idx = Sparse[InID];
+
+			DirtyList.emplace_back(InID, _idx);
+			DirtyMapping[InID] = _idx;
+		}
+
+		void RemoveDirtyItemAtEnd()
+		{
+			if (DirtyList.size() == 0)
+			{
+				return;
+			}
+
+			Entry _entry = DirtyList.back();
+			DirtyMapping.erase(_entry.ID);
+			DirtyList.pop_back();
+		}
+
 		void ReserveSize(size_t InSize)
 		{
 			Dense.reserve(InSize);
@@ -155,6 +225,8 @@ namespace Brahmanda
 
 		std::vector<T> Dense;
 		std::vector<Entity> Entities;
-		std::vector<uint32_t> Sparse;
+		std::vector<ENTITY_ID> Sparse;
+		std::vector<Entry> DirtyList;
+		std::unordered_map<ENTITY_ID, DIRTY_INDEX> DirtyMapping;
 	};
 }

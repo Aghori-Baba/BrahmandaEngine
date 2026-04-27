@@ -5,8 +5,8 @@
 #include "raylib.h"
 
 #include "Engine/Systems/Logger.h"
-#include "Engine/GameFramework/Scene/Camera.h"
 #include "Engine/Systems/CameraManager.h"
+#include "Engine/GameFramework/Scene/Camera.h"
 
 #include "MyGame/Maps/GameMap01.h"
 #include "MyGame/GameScene/Highlighter.h"
@@ -24,7 +24,7 @@ void MyPlayer::Construct(const brm::ObjectTransform& InTransform)
 	PARENT::Construct(InTransform);
 
 	SpriteTex = CreateSubobject<brm::Sprite2D>();
-	PawnCamera.Get().SetCameraZoom(100.f);
+	PawnCamera.Edit().SetCameraZoom(100.f);
 
 	GameCam = OwningWorld->GetCameraManager()->GetPrimaryCamera();
 }
@@ -33,15 +33,19 @@ void MyPlayer::Cycle(float DeltaTime)
 {
 	PARENT::Cycle(DeltaTime);
 
-	if (HighlighterRef)
+	if (HighlighterTrans.IsValid())
 	{
 		Vector2 WorldPos = GetScreenToWorld2D(GetMousePosition(), *GameCam->Get2DCamera());
-
-		HighlighterRef->UpdateLocation(WorldPos.x, WorldPos.y);
+		HighlighterTrans.Set(brm::Vector3((int)floor(WorldPos.x), (int)floor(WorldPos.y), 0.f));
 	}
 }
 
 void MyPlayer::SetupInput(brm::InputManager* InputMgr)
 {
 	Logger::Info("Possessed MyPlayer!");
+}
+
+void MyPlayer::SetHighlighterRef(Highlighter* InRef)
+{
+	HighlighterTrans = InRef->GetComponentHandleByClass<brm::ObjectTransform>();
 }

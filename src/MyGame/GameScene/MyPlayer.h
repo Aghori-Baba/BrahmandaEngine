@@ -28,6 +28,8 @@ public:
 	void Cycle(float DeltaTime) override;
 	void SetupInput(brm::InputManager* InputMgr) override;
 
+	void SetHighlighterRef(Highlighter* InRef);
+
 public:
 
 	Highlighter* HighlighterRef = nullptr;
@@ -36,5 +38,9 @@ protected:
 
 	brm::ComponentHandle<brm::Sprite2D> SpriteTex;
 	brm::GameCamera* GameCam = nullptr;
+
+private:
+
+	brm::ComponentHandle<brm::ObjectTransform> HighlighterTrans;
 
 };

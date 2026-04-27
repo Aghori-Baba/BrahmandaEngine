@@ -11,7 +11,7 @@ namespace Brahmanda
 	void WorldEntity::Construct(const ObjectTransform& InTransform)
 	{
 		TransformComp = CreateSubobject<ObjectTransform>();
-		TransformComp.Get() = InTransform;
+		TransformComp.Edit() = InTransform;
 
 	}
 

@@ -36,7 +36,7 @@ namespace Brahmanda
 			return Container && Container->HasComponent(Owner);
 		}
 
-		T& Get()
+		T& ReadOnly() const
 		{
 			assert(Container->HasComponent(Owner) && "Owner does not have requested Component");
 			return Container->GetComponent(Owner);
@@ -53,6 +53,7 @@ namespace Brahmanda
 		{
 			auto& _comp = Get();
 			_comp.UpdateDelta(std::forward<Args>(InArgs)...);
+			Container->MarkComponentDirty(Owner.ID);
 			OwningWorld->MarkWorldDirty(Owner);
 		}
 
@@ -61,13 +62,22 @@ namespace Brahmanda
 		{
 			auto& _comp = Get();
 			_comp.Update(std::forward<Args>(InArgs)...);
+			Container->MarkComponentDirty(Owner.ID);
 			OwningWorld->MarkWorldDirty(Owner);
 		}
 
-		T* operator->()
+		T& Edit()
 		{
-			return &Get();
+			OwningWorld->MarkWorldDirty(Owner);
+			Container->MarkComponentDirty(Owner.ID);
+
+			return Get();
 		}
+
+		//T* operator->()
+		//{
+		//	return &Get();
+		//}
 
 		const T* operator->() const
 		{
@@ -90,6 +100,14 @@ namespace Brahmanda
 		void UnregisterHandle()
 		{
 
+		}
+
+	private:
+
+		T& Get()
+		{
+			assert(Container->HasComponent(Owner) && "Owner does not have requested Component");
+			return Container->GetComponent(Owner);
 		}
 
 	private:

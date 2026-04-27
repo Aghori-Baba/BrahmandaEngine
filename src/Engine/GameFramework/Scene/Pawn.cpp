@@ -28,7 +28,7 @@ namespace Brahmanda
 		Vector3 _loc;
 		_loc = TransformComp->GetLocation();
 
-		PawnCamera->UpdateCameraLocation(_loc);
+		PawnCamera.Edit().UpdateCameraLocation(_loc);
 	}
 
 	void Pawn::SetupInput(InputManager* InputMgr)

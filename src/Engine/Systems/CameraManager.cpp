@@ -30,7 +30,7 @@ namespace Brahmanda
 	{
 		if (ActiveCamera.IsValid())
 		{
-			PrimaryCamera->UpdateView(ActiveCamera->GetViewData());
+			PrimaryCamera->UpdateView(ActiveCamera.ReadOnly().GetViewData());
 		}
 	}
 

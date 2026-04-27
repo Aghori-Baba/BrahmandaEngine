@@ -55,10 +55,12 @@ namespace Brahmanda
 			PosX += -1.f * Mul *DeltaTime;
 		}
 
-		if (PrimaryPawn)
-		{
-			PrimaryPawn->AddMovement(Vector3(PosX, PosY, 0.f));
-		}
+		PawnTransformHandle.Edit().Translate(Vector3(PosX, PosY, 0.f));
+		//if (PrimaryPawn)
+		//{
+		//	//PrimaryPawn->AddMovement(Vector3(PosX, PosY, 0.f));
+		//	//PawnTransformHandle.Modify(Vector3(PosX, PosY, 0.f));
+		//}
 	}
 
 	void InputManager::PossessPawn(Pawn* InTarget)
@@ -69,6 +71,7 @@ namespace Brahmanda
 			PrimaryPawn->SetupInput(this);
 
 			CamMgr->SetActiveCamera(PrimaryPawn->GetComponentHandleByClass<WorldCamera>());
+			PawnTransformHandle = PrimaryPawn->GetComponentHandleByClass<ObjectTransform>();
 		}
 	}
 

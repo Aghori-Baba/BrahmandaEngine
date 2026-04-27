@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 
+#include "Engine/GameFramework/ECS/ComponentHandle.h"
+
 //...
 
 namespace Brahmanda
@@ -12,6 +14,7 @@ namespace Brahmanda
 	class WorldEntity;
 	class CameraManager;
 	class Pawn;
+	struct ObjectTransform;
 
 	class InputManager
 	{
@@ -35,6 +38,7 @@ namespace Brahmanda
 		Pawn* PrimaryPawn = nullptr;
 		Pawn* DefaultPawn = nullptr;
 		std::vector<WorldEntity*> ControlledEntities;
+		ComponentHandle<ObjectTransform> PawnTransformHandle;
 
 		CameraManager* CamMgr = nullptr;
 	};

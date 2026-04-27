@@ -38,18 +38,18 @@ void GameMap01::OnLoad()
 	if (_playerSprite.IsValid())
 	{
 		brm::TextureHandle _t = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "textures.png");
-		_playerSprite.Get().SpriteTex = _t;
-		_playerSprite.Get().UV = {32.f * 28.f, 0.f, 32.f, 32.f};
-		_playerSprite.Get().SetSortKey(static_cast<uint32_t>(RenderGroup::Midground), 1u, _t.GetID(), Player->GetEntityHandle().ID);
+		_playerSprite.Edit().SpriteTex = _t;
+		_playerSprite.Edit().UV = {32.f * 28.f, 0.f, 32.f, 32.f};
+		_playerSprite.Edit().SetSortKey(static_cast<uint32_t>(RenderGroup::Midground), 1u, _t.GetID(), Player->GetEntityHandle().ID);
 	}
 	RegisterForCycle(Player);
 	InputMgr->PossessPawn(Player);
 
 	auto* _e = SpawnEntity<Highlighter>(Transform);
-	_e->SpriteComp.Get().SpriteTex = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "frame.png");
-	_e->SpriteComp.Get().UV = { 32.f, 0.f, 32.f, 32.f };
+	_e->SpriteComp.Edit().SpriteTex = AssetManagerRef->GetOrLoadTexture(RESOURCE_DIR "frame.png");
+	_e->SpriteComp.Edit().UV = { 32.f, 0.f, 32.f, 32.f };
 
-	Player->HighlighterRef = _e;
+	Player->SetHighlighterRef(_e);
 
 	//RegisterRenderables();
 }
@@ -95,24 +95,24 @@ void GameMap01::Create(int InW, int InH)
 			if (_i % 3 == 0)
 			{
 				It->Type = Block::leaves;
-				It->SpriteComp.Get().SpriteTex = _ts;
-				It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
+				It->SpriteComp.Edit().SpriteTex = _ts;
+				It->SpriteComp.Edit().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 			}
 			else
 			{
 				It->Type = Block::glass;
-				It->SpriteComp.Get().SpriteTex = _ts;
-				It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
+				It->SpriteComp.Edit().SpriteTex = _ts;
+				It->SpriteComp.Edit().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 			}
 		}
 		else
 		{
 			It->Type = Block::bricks;
-			It->SpriteComp.Get().SpriteTex = _ts;
-			It->SpriteComp.Get().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
+			It->SpriteComp.Edit().SpriteTex = _ts;
+			It->SpriteComp.Edit().UV = { _cellSize * (float)It->Type, 0.f, _cellSize, _cellSize };
 		}
 
-		It->SpriteComp.Get().SetSortKey(static_cast<uint32_t>(RenderGroup::Foreground), 1u, _ts.GetID(), It->GetEntityHandle().ID);
+		It->SpriteComp.Edit().SetSortKey(static_cast<uint32_t>(RenderGroup::Foreground), 1u, _ts.GetID(), It->GetEntityHandle().ID);
 
 		_i++;
 	}

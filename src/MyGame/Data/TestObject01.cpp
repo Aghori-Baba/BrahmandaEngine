@@ -13,7 +13,7 @@ void TestObject01::Construct(const brm::ObjectTransform& InTransform)
 	PARENT::Construct(InTransform);
 
 	brm::ComponentHandle<brm::ObjectTransform> Comp = CreateSubobject<Brahmanda::ObjectTransform>();
-	Comp->Rot[1] = 45.f;
+	Comp.Edit().Rot[1] = 45.f;
 	Logger::Info("TEST INFO: {}, {}, {}", Comp->Pos[0], Comp->Rot[1], Comp->Scale[2]);
 }
 
