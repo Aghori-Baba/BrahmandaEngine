@@ -41,7 +41,6 @@ namespace Brahmanda
 		{
 			ProxyData[_layer].emplace_back(InTransform, InTex, InUV, InSortKey, InID);
 			Lookup.try_emplace(InID, static_cast<World::ERenderLayer>(_layer), static_cast<uint32_t>(ProxyData[_layer].size() - 1));
-			//Mapping[_layer].push_back(InID);
 		}
 	}
 
@@ -54,6 +53,11 @@ namespace Brahmanda
 			auto& _item = ProxyData[_layer][_index];
 			_item.Update(InTransform);
 		}
+	}
+
+	void SceneProxy2D::AddOrUpdateProxy(ObjectTransform& InTransform, uint32_t InID, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey)
+	{
+
 	}
 
 	void SceneProxy2D::SortAll()

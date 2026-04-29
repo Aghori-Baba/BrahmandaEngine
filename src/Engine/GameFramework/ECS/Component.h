@@ -16,6 +16,13 @@ namespace Brahmanda
 	using ENTITY_ID = uint32_t;
 	using DIRTY_INDEX = uint32_t;
 
+	enum EComponentState : uint8_t
+	{
+		ECS_NONE = 0u,
+		ECS_Created = 1 << 0,
+		ECS_Updated = 1 << 1,
+	};
+
 	class Component
 	{
 	public:

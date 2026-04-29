@@ -65,6 +65,8 @@ namespace Brahmanda
 		{
 			auto* _container = EntityMgr->GetContainerByType<T>();
 			T& _comp = _container->CreateNewComponent(EntityHandle, std::forward<Args>(InArgs)...);
+			_container->MarkComponentDirty(EntityHandle.ID);
+			OwningWorld->MarkWorldDirty(EntityHandle);
 			return ComponentHandle<T>(EntityHandle, _container, OwningWorld);
 		}
 

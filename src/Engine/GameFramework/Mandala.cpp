@@ -140,7 +140,6 @@ namespace Brahmanda
 					auto& _transform = _transformList->GetComponent(_e);
 
 					SceneProx2D.AddProxy(_transform, _e.ID, _sprite.SpriteTex, _sprite.UV, _sprite.SortKey);
-					_transform.ClearDirtyFlag();
 					_sprList->RemoveDirtyItemAtEnd();
 				}
 			}
@@ -156,30 +155,32 @@ namespace Brahmanda
 			if (It && It->GetIsLoaded())
 			{
 				const auto& _transCont = It->EntityMgr.GetContainerByType<ObjectTransform>();
-				auto& _dirtyList = _transCont->GetAllDirty();
+
+				auto& _dirtyListTrans = _transCont->GetAllDirty();
 				auto& _transforms = _transCont->GetAllComponents();
-				while (!_dirtyList.empty())
+
+				while (!_dirtyListTrans.empty())
 				{
-					Entry _dirtyIt = _dirtyList.back();
-					auto& _transform = _transforms[_dirtyIt.Index];
+					Entry _dirtyIt = _dirtyListTrans.back();
+					const ObjectTransform& _transform = _transforms[_dirtyIt.Index];
 					SceneProx2D.UpdateProxyTransform(_dirtyIt.ID, _transform);
 					_transCont->RemoveDirtyItemAtEnd();
 				}
 
-				//const auto& _transCont = It->EntityMgr.GetContainerByType<ObjectTransform>();
-				//auto& _transforms = _transCont->GetAllComponents();
-				//auto& _sparse = _transCont->GetAllSparse();
-				//auto& _entities = It->GetDirtyEntities();
+				const auto& _texCont = It->EntityMgr.GetContainerByType<Sprite2D>();
 
-				//uint32_t _size = _entities.size();
-				//for (int i = 0; i < _size; i++)
-				//{
-				//	uint32_t _id = _entities.back().ID;
-				//	auto& _t = _transforms[_sparse[_id]];
-				//	SceneProx2D.UpdateProxyTransform(_id, _t);
-				//	_t.ClearDirtyFlag();
-				//	_entities.pop_back();
-				//}
+				auto& _dirtyListTex = _texCont->GetAllDirty();
+				auto& _textures = _texCont->GetAllComponents();
+				auto& _transSparse = _transCont->GetAllSparse();
+
+				while (!_dirtyListTex.empty())
+				{
+					Entry _dirtyIt = _dirtyListTex.back();
+					const ObjectTransform& _transform = _transforms[_transSparse[_dirtyIt.ID]];
+					const Sprite2D& _spr = _textures[_dirtyIt.Index];
+					//SceneProx2D.
+					_texCont->RemoveDirtyItemAtEnd();
+				}
 
 				It->ClearDirtyFlag();
 			}

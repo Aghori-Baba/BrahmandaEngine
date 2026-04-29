@@ -48,6 +48,7 @@ namespace Brahmanda
 		const std::array<std::vector<ItemProxy2D>, World::ERenderLayer::ERL_COUNT>& GetProxyData() const;
 		void AddProxy(ObjectTransform& InTransform, uint32_t InID, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey);
 		void UpdateProxyTransform(uint32_t InID, const ObjectTransform& InTransform);
+		void AddOrUpdateProxy(ObjectTransform& InTransform, uint32_t InID, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey);
 		void SortAll();
 		void SortLayer(World::ERenderLayer InLayer);
 		void ClearAllLayers();

@@ -21,9 +21,13 @@ namespace Brahmanda::Config
 		{
 			ERL_Screen = 0,
 			ERL_UI,
+			ERL_ForegroundTop,
 			ERL_Foreground,
+			ERL_ForegroundBot,
 			ERL_Midground,
+			ERL_BackgroundTop,
 			ERL_Background,
+			ERL_BackgroundBot,
 			ERL_COUNT
 		};
 
