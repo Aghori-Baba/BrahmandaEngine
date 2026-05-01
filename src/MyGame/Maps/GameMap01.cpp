@@ -50,8 +50,6 @@ void GameMap01::OnLoad()
 	_e->SpriteComp.Edit().UV = { 32.f, 0.f, 32.f, 32.f };
 
 	Player->SetHighlighterRef(_e);
-
-	//RegisterRenderables();
 }
 
 void GameMap01::OnUnload()

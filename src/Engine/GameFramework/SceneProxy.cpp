@@ -49,15 +49,32 @@ namespace Brahmanda
 		auto It = Lookup.find(InID);
 		if (It != Lookup.end())
 		{
-			auto& [_layer, _index] = It->second;
-			auto& _item = ProxyData[_layer][_index];
-			_item.Update(InTransform);
+			auto& [_layer, _idx] = It->second;
+			auto& _itm = ProxyData[_layer][_idx];
+			_itm.Update(InTransform);
 		}
 	}
 
-	void SceneProxy2D::AddOrUpdateProxy(ObjectTransform& InTransform, uint32_t InID, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey)
+	void SceneProxy2D::UpdateProxySprite(uint32_t InID, const TextureHandle& InTex, const Vector4& InUV)
 	{
+		auto It = Lookup.find(InID);
+		if (It != Lookup.end())
+		{
+			auto& [_layer, _idx] = It->second;
+			auto& _itm = ProxyData[_layer][_idx];
+			_itm.Update(InTex, InUV);
+		}
+	}
 
+	void SceneProxy2D::TryAddProxy(ObjectTransform& InTransform, uint32_t InID, TextureHandle InTex, Vector4 InUV, uint64_t InSortKey)
+	{
+		auto It = Lookup.find(InID);
+		if (It != Lookup.end())
+		{
+			return;
+		}
+
+		AddProxy(InTransform, InID, InTex, InUV, InSortKey);
 	}
 
 	void SceneProxy2D::SortAll()
@@ -73,14 +90,9 @@ namespace Brahmanda
 		Lookup.clear();
 		for (uint8_t i = 0u; i < World::ERenderLayer::ERL_COUNT; i++)
 		{
-			//Mapping[i].clear();
-			//Mapping[i].reserve(ProxyData[i].size());
-
 			uint32_t _index = 0;
 			for (auto& _item : ProxyData[i])
 			{
-				//Mapping[i].push_back(_item.id);
-				//Lookup[_item.id] = std::make_tuple(static_cast<World::ERenderLayer>(i), _index);
 				Lookup.try_emplace(_item.id, static_cast<World::ERenderLayer>(i), _index);
 				_index++;
 			}
@@ -99,13 +111,10 @@ namespace Brahmanda
 				});
 		}
 
-		//Mapping[InLayer].clear();
-		//Mapping[InLayer].reserve(ProxyData[InLayer].size());
 		uint32_t _index = 0u;
 		for (auto& _item : ProxyData[InLayer])
 		{
 			Lookup[_item.id] = { InLayer, _index };
-			//Mapping[InLayer].push_back(_item.id);
 		}
 	}
 

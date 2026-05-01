@@ -129,6 +129,12 @@ namespace Brahmanda
 			r = InTransform.Rot[0];
 		}
 
+		void Update(const TextureHandle& InTex, const Vector4& InUV)
+		{
+			tex = InTex;
+			uv = InUV;
+		}
+
 		float x, y;
 		float sx, sy;
 		float r;

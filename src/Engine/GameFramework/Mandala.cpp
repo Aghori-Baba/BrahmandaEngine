@@ -97,6 +97,7 @@ namespace Brahmanda
 				//}
 			}
 		}
+
 		CheckUpdatedRenderables();
 
 		InContext.SceneProx2D = &SceneProx2D;
@@ -171,14 +172,12 @@ namespace Brahmanda
 
 				auto& _dirtyListTex = _texCont->GetAllDirty();
 				auto& _textures = _texCont->GetAllComponents();
-				auto& _transSparse = _transCont->GetAllSparse();
 
 				while (!_dirtyListTex.empty())
 				{
 					Entry _dirtyIt = _dirtyListTex.back();
-					const ObjectTransform& _transform = _transforms[_transSparse[_dirtyIt.ID]];
 					const Sprite2D& _spr = _textures[_dirtyIt.Index];
-					//SceneProx2D.
+					SceneProx2D.UpdateProxySprite(_dirtyIt.ID, _spr.SpriteTex, _spr.UV);
 					_texCont->RemoveDirtyItemAtEnd();
 				}
 
